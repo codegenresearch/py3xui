@@ -1,11 +1,12 @@
 """This module contains the AsyncInboundApi class which provides methods to interact with the
 clients in the XUI API asynchronously."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields
 from py3xui.async_api.async_api_base import AsyncBaseApi
 from py3xui.inbound import Inbound
+from py3xui.exceptions import InboundNotFound
 
 
 class AsyncInboundApi(AsyncBaseApi):
@@ -34,6 +35,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
     Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -54,13 +56,14 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
             await api.login()
             inbounds: list[py3xui.Inbound] = await api.inbound.get_list()
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/list"
         headers = {"Accept": "application/json"}
 
@@ -73,11 +76,11 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """This route is used to retrieve statistics and details for a specific inbound connection
         identified by specified ID. This includes information about the inbound itself, its
         statistics, and the clients connected to it.
-        If the inbound is not found, the method will return None.
+        If the inbound is not found, the method will raise an InboundNotFound exception.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -85,9 +88,13 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Optional[Inbound]: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
+
+        Raises:
+            InboundNotFound: If the inbound with the specified ID is not found.
 
         Examples:
+            
             
             import py3xui
 
@@ -98,7 +105,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
             inbound = await api.inbound.get_by_id(inbound_id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/get/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -111,7 +118,7 @@ class AsyncInboundApi(AsyncBaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        return None
+        raise InboundNotFound(f"Inbound with ID {inbound_id} not found.")
 
     async def add(self, inbound: Inbound) -> None:
         """This route is used to add a new inbound configuration.
@@ -122,6 +129,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
+            
             
             import py3xui
 
@@ -148,7 +156,7 @@ class AsyncInboundApi(AsyncBaseApi):
             )
             await api.inbound.add(inbound)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/add"
         headers = {"Accept": "application/json"}
 
@@ -169,6 +177,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -178,7 +187,7 @@ class AsyncInboundApi(AsyncBaseApi):
             for inbound in inbounds:
                 await api.inbound.delete(inbound.id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/del/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -200,6 +209,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -211,7 +221,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
             await api.inbound.update(inbound.id, inbound)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/update/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -229,13 +239,14 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
             await api.login()
             await api.inbound.reset_stats()
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/resetAllTraffics"
         headers = {"Accept": "application/json"}
 
@@ -257,6 +268,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -266,7 +278,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
             await api.inbound.reset_client_stats(inbound.id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/resetAllClientTraffics/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -278,12 +290,13 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbound client stats reset successfully.")
 
     async def enable(self, inbound_id: int) -> None:
-        """This route is used to enable an existing inbound identified by its ID.
+        """Enables an existing inbound identified by its ID.
 
         Arguments:
             inbound_id (int): The ID of the inbound to enable.
 
         Examples:
+            
             
             import py3xui
 
@@ -306,12 +319,13 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbound enabled successfully.")
 
     async def disable(self, inbound_id: int) -> None:
-        """This route is used to disable an existing inbound identified by its ID.
+        """Disables an existing inbound identified by its ID.
 
         Arguments:
             inbound_id (int): The ID of the inbound to disable.
 
         Examples:
+            
             
             import py3xui
 

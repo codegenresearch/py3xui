@@ -9,7 +9,7 @@ from pydantic import BaseModel, model_validator
 
 class JsonStringModel(BaseModel):
     """
-    Model that can parse JSON strings.
+    A Pydantic model that can parse JSON strings into dictionaries.
     """
 
     @model_validator(mode="before")
@@ -18,10 +18,10 @@ class JsonStringModel(BaseModel):
         Validate and convert JSON string to dictionary if necessary.
 
         Args:
-            values: The input data to validate.
+            values (Any): The input data to validate.
 
         Returns:
-            dict: A dictionary if the input is a valid JSON string, otherwise the original input.
+            Any: A dictionary if the input is a valid JSON string, otherwise the original input.
         """
         if isinstance(values, str):
             try:

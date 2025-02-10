@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, List
+from typing import Any, Optional
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -59,7 +59,7 @@ class InboundApi(BaseApi):
 
         inbounds: list[py3xui.Inbound] = api.inbound.get_list()
         
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/list"
         headers = {"Accept": "application/json"}
 
@@ -72,7 +72,7 @@ class InboundApi(BaseApi):
         self.logger.info("Inbounds retrieved successfully.")
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Inbound:
+    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
         """Retrieves an inbound by its ID.
 
         This route is used to retrieve statistics and details for a specific inbound connection
@@ -85,10 +85,7 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound: The inbound object.
-
-        Raises:
-            ValueError: If the inbound is not found.
+            Inbound | None: The inbound object if found, otherwise None.
 
         Examples:
         
@@ -101,7 +98,7 @@ class InboundApi(BaseApi):
 
         inbound = api.inbound.get_by_id(inbound_id)
         
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/get/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -115,8 +112,8 @@ class InboundApi(BaseApi):
             self.logger.info("Inbound retrieved successfully.")
             return inbound
         else:
-            self.logger.error("Inbound not found.")
-            raise ValueError(f"Inbound with ID {inbound_id} not found.")
+            self.logger.info("Inbound not found.")
+            return None
 
     def add(self, inbound: Inbound) -> None:
         """Adds a new inbound.
@@ -157,7 +154,7 @@ class InboundApi(BaseApi):
 
         api.inbound.add(inbound)
         
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/add"
         headers = {"Accept": "application/json"}
 
@@ -188,7 +185,7 @@ class InboundApi(BaseApi):
         for inbound in inbounds:
             api.inbound.delete(inbound.id)
         
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/del/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -222,7 +219,7 @@ class InboundApi(BaseApi):
 
         api.inbound.update(inbound.id, inbound)
         
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/update/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -247,7 +244,7 @@ class InboundApi(BaseApi):
         api.login()
         api.inbound.reset_stats()
         
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/resetAllTraffics"
         headers = {"Accept": "application/json"}
 
@@ -279,7 +276,7 @@ class InboundApi(BaseApi):
 
         api.inbound.reset_client_stats(inbound.id)
         
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/resetAllClientTraffics/{inbound_id}"
         headers = {"Accept": "application/json"}
 

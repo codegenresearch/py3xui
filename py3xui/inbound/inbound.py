@@ -1,5 +1,3 @@
-"""This module contains the Inbound class, which represents an inbound connection in the XUI API."""
-
 from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -9,11 +7,8 @@ from py3xui.inbound.settings import Settings
 from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
-
-# pylint: disable=too-few-public-methods
+# Stores the fields returned by the XUI API for parsing.
 class InboundFields:
-    """Stores the fields returned by the XUI API for parsing."""
-
     ENABLE = "enable"
     PORT = "port"
     PROTOCOL = "protocol"
@@ -35,24 +30,25 @@ class InboundFields:
 
 
 class Inbound(BaseModel):
-    """Represents an inbound connection in the XUI API.
+    """
+    Represents an inbound configuration for the XUI API.
 
     Attributes:
-        enable (bool): Whether the inbound connection is enabled. Required.
-        port (int): The port number for the inbound connection. Required.
-        protocol (str): The protocol for the inbound connection. Required.
-        settings (Settings): The settings for the inbound connection. Required.
-        stream_settings (StreamSettings): The stream settings for the inbound connection. Required.
-        sniffing (Sniffing): The sniffing settings for the inbound connection. Required.
-        listen (str): The listen address for the inbound connection. Optional.
-        remark (str): The remark for the inbound connection. Optional.
-        id (int): The ID of the inbound connection. Optional.
-        up (int): The up value for the inbound connection. Optional.
-        down (int): The down value for the inbound connection. Optional.
-        total (int): The total value for the inbound connection. Optional.
-        expiry_time (int): The expiry time for the inbound connection. Optional.
-        client_stats (list[Client]): The client stats for the inbound connection. Optional.
-        tag (str): The tag for the inbound connection. Optional.
+        enable (bool): Whether the inbound is enabled.
+        port (int): The port number for the inbound.
+        protocol (str): The protocol used by the inbound.
+        settings (Settings): The settings specific to the protocol.
+        stream_settings (StreamSettings): The stream settings for the inbound.
+        sniffing (Sniffing): The sniffing settings for the inbound.
+        listen (str): The address to listen on.
+        remark (str): A remark or description for the inbound.
+        id (int): The unique identifier for the inbound.
+        up (int): The total upload traffic.
+        down (int): The total download traffic.
+        total (int): The total traffic.
+        expiry_time (int): The expiry time for the inbound.
+        client_stats (list[Client]): The statistics for each client.
+        tag (str): A tag for the inbound.
     """
 
     enable: bool
@@ -81,12 +77,12 @@ class Inbound(BaseModel):
     )
 
     def to_json(self) -> dict[str, Any]:
-        """Converts the Inbound instance to a JSON-compatible dictionary for the XUI API.
+        """
+        Converts the inbound configuration to a JSON-compatible dictionary.
 
         Returns:
-            dict[str, Any]: The JSON-compatible dictionary.
+            dict[str, Any]: A dictionary representation of the inbound configuration.
         """
-
         include = {
             InboundFields.REMARK,
             InboundFields.ENABLE,

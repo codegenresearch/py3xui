@@ -1,14 +1,15 @@
 """
-Provides base classes for inbound models that include JSON string fields.
+Base classes for inbound models with JSON string fields.
 """
 
-from pydantic import BaseModel, model_validator
 import json
+from pydantic import BaseModel, model_validator
+
 
 class JsonStringModel(BaseModel):
     """
-    Base class for models that have a JSON string as a field.
-    This class ensures that JSON strings are properly validated and converted to dictionaries.
+    Base class for models that include a JSON string field.
+    Validates and converts JSON strings to dictionaries.
     """
 
     @model_validator(mode="before")

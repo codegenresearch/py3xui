@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, List, Optional
+from typing import Any, List
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -29,6 +29,23 @@ class InboundApi(BaseApi):
         reset_client_stats: Resets the statistics of a specific inbound.
 
     Examples:
+    
+    import py3xui
+
+    api = py3xui.Api.from_env()
+    api.login()
+
+    inbounds: list[py3xui.Inbound] = api.inbound.get_list()
+    
+    """
+
+    def get_list(self) -> list[Inbound]:
+        """Retrieves a list of all inbounds.
+
+        Returns:
+            list[Inbound]: A list of inbounds.
+
+        Examples:
         
         import py3xui
 
@@ -37,69 +54,47 @@ class InboundApi(BaseApi):
 
         inbounds: list[py3xui.Inbound] = api.inbound.get_list()
         
-    """
-
-    def get_list(self) -> List[Inbound]:
-        """Retrieves a comprehensive list of all inbounds along with
-        their associated client options and statistics.
-
-        [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#b7c42b67-4362-44d3-bd61-ba7df0721802)
-
-        Returns:
-            List[Inbound]: A list of inbounds.
-
-        Examples:
-            
-            
-            import py3xui
-
-            api = py3xui.Api.from_env()
-            api.login()
-
-            inbounds: list[py3xui.Inbound] = api.inbound.get_list()
-            
-        """  # pylint: disable=line-too-long
+        """
         endpoint = "panel/api/inbounds/list"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
+        self.logger.info("Getting inbounds...")
         response = self._get(url, headers)
 
         inbounds_json = response.json().get(ApiFields.OBJ, [])
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
-        """Retrieves statistics and details for a specific inbound connection
-        identified by specified ID. This includes information about the inbound itself, its
-        statistics, and the clients connected to it.
-        If the inbound is not found, the method will raise an exception.
+    def get_by_id(self, inbound_id: int) -> Inbound:
+        """Retrieves an inbound by its ID.
 
-        [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
-
-        Arguments:
+        Args:
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object.
+
+        Raises:
+            ValueError: If the inbound is not found.
 
         Examples:
+        
+        import py3xui
 
-            
-            import py3xui
+        api = py3xui.Api.from_env()
+        api.login()
 
-            api = py3xui.Api.from_env()
-            api.login()
+        inbound_id = 1
 
-            inbound_id = 1
-
-            inbound = api.inbound.get_by_id(inbound_id)
-            
+        inbound = api.inbound.get_by_id(inbound_id)
+        
         """
         endpoint = f"panel/api/inbounds/get/{inbound_id}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
+        self.logger.info(f"Getting inbound by ID: {inbound_id}")
         response = self._get(url, headers)
 
         inbound_json = response.json().get(ApiFields.OBJ)
@@ -109,159 +104,146 @@ class InboundApi(BaseApi):
             raise ValueError(f"Inbound with ID {inbound_id} not found.")
 
     def add(self, inbound: Inbound) -> None:
-        """Adds a new inbound configuration.
+        """Adds a new inbound.
 
-        [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#813ac729-5ba6-4314-bc2a-d0d3acc70388)
-
-        Arguments:
+        Args:
             inbound (Inbound): The inbound object to add.
 
         Examples:
-            
-            
-            import py3xui
-            from py3xui.inbound import Inbound, Settings, Sniffing, StreamSettings
+        
+        import py3xui
+        from py3xui.inbound import Inbound, Settings, Sniffing, StreamSettings
 
-            api = py3xui.Api.from_env()
-            api.login()
+        api = py3xui.Api.from_env()
+        api.login()
 
-            settings = Settings()
-            sniffing = Sniffing(enabled=True)
+        settings = Settings()
+        sniffing = Sniffing(enabled=True)
 
-            tcp_settings = {
-                "acceptProxyProtocol": False,
-                "header": {"type": "none"},
-            }
-            stream_settings = StreamSettings(security="reality", network="tcp", tcp_settings=tcp_settings)
+        tcp_settings = {
+            "acceptProxyProtocol": False,
+            "header": {"type": "none"},
+        }
+        stream_settings = StreamSettings(security="reality", network="tcp", tcp_settings=tcp_settings)
 
-            inbound = Inbound(
-                enable=True,
-                port=443,
-                protocol="vless",
-                settings=settings,
-                stream_settings=stream_settings,
-                sniffing=sniffing,
-                remark="test3",
-            )
+        inbound = Inbound(
+            enable=True,
+            port=443,
+            protocol="vless",
+            settings=settings,
+            stream_settings=stream_settings,
+            sniffing=sniffing,
+            remark="test3",
+        )
 
-            api.inbound.add(inbound)
-            
-        """  # pylint: disable=line-too-long
+        api.inbound.add(inbound)
+        
+        """
         endpoint = "panel/api/inbounds/add"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
         data = inbound.to_json()
+        self.logger.info(f"Adding inbound: {inbound}")
         self._post(url, headers, data)
 
     def delete(self, inbound_id: int) -> None:
-        """Deletes an inbound identified by its ID.
+        """Deletes an inbound by its ID.
 
-        [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#a655d0e3-7d8c-4331-9061-422fcb515da9)
-
-        Arguments:
+        Args:
             inbound_id (int): The ID of the inbound to delete.
 
         Examples:
+        
+        import py3xui
 
-            
-            
-            import py3xui
+        api = py3xui.Api.from_env()
+        api.login()
+        inbounds: list[py3xui.Inbound] = api.inbound.get_list()
 
-            api = py3xui.Api.from_env()
-            api.login()
-            inbounds: list[py3xui.Inbound] = api.inbound.get_list()
-
-            for inbound in inbounds:
-                api.inbound.delete(inbound.id)
-            
-        """  # pylint: disable=line-too-long
+        for inbound in inbounds:
+            api.inbound.delete(inbound.id)
+        
+        """
         endpoint = f"panel/api/inbounds/del/{inbound_id}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-
+        self.logger.info(f"Deleting inbound with ID: {inbound_id}")
         self._post(url, headers, data)
 
     def update(self, inbound_id: int, inbound: Inbound) -> None:
-        """Updates an existing inbound identified by its ID.
+        """Updates an existing inbound by its ID.
 
-        [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#19249b9f-a940-41e2-8bf4-86ff8dde857e)
-
-        Arguments:
+        Args:
             inbound_id (int): The ID of the inbound to update.
             inbound (Inbound): The inbound object to update.
 
         Examples:
-            
-            
-            import py3xui
+        
+        import py3xui
 
-            api = py3xui.Api.from_env()
-            api.login()
-            inbounds: list[py3xui.Inbound] = api.inbound.get_list()
-            inbound = inbounds[0]
+        api = py3xui.Api.from_env()
+        api.login()
+        inbounds: list[py3xui.Inbound] = api.inbound.get_list()
+        inbound = inbounds[0]
 
-            inbound.remark = "updated"
+        inbound.remark = "updated"
 
-            api.inbound.update(inbound.id, inbound)
-            
-        """  # pylint: disable=line-too-long
+        api.inbound.update(inbound.id, inbound)
+        
+        """
         endpoint = f"panel/api/inbounds/update/{inbound_id}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
         data = inbound.to_json()
+        self.logger.info(f"Updating inbound: {inbound}")
         self._post(url, headers, data)
 
     def reset_stats(self) -> None:
-        """Resets the traffic statistics for all inbounds within the system.
-
-        [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#6749f362-dc81-4769-8f45-37dc9e99f5e9)
+        """Resets the statistics of all inbounds.
 
         Examples:
-            
-            
-            import py3xui
+        
+        import py3xui
 
-            api = py3xui.Api.from_env()
-            api.login()
-            api.inbound.reset_stats()
-            
-        """  # pylint: disable=line-too-long
+        api = py3xui.Api.from_env()
+        api.login()
+        api.inbound.reset_stats()
+        
+        """
         endpoint = "panel/api/inbounds/resetAllTraffics"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
+        self.logger.info("Resetting inbounds stats...")
         self._post(url, headers, data)
 
     def reset_client_stats(self, inbound_id: int) -> None:
-        """Resets the traffic statistics for all clients associated with a
-        specific inbound identified by its ID.
+        """Resets the statistics of a specific inbound's clients.
 
-        [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#9bd93925-12a0-40d8-a390-d4874dea3683)
-
-        Arguments:
+        Args:
             inbound_id (int): The ID of the inbound to reset the client stats.
 
         Examples:
-            
-            
-            import py3xui
+        
+        import py3xui
 
-            api = py3xui.Api.from_env()
-            api.login()
-            inbounds: list[py3xui.Inbound] = api.inbound.get_list()
-            inbound = inbounds[0]
+        api = py3xui.Api.from_env()
+        api.login()
+        inbounds: list[py3xui.Inbound] = api.inbound.get_list()
+        inbound = inbounds[0]
 
-            api.inbound.reset_client_stats(inbound.id)
-            
-        """  # pylint: disable=line-too-long
+        api.inbound.reset_client_stats(inbound.id)
+        
+        """
         endpoint = f"panel/api/inbounds/resetAllClientTraffics/{inbound_id}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
+        self.logger.info(f"Resetting inbound client stats for ID: {inbound_id}")
         self._post(url, headers, data)

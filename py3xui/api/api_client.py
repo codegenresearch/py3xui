@@ -1,5 +1,5 @@
 import json
-from typing import Any
+from typing import Any, List
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.client.client import Client
@@ -39,7 +39,7 @@ class ClientApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        logger.info("Getting client stats for email: %s", email)
+        logger.info("Fetching client stats for email: %s", email)
 
         response = self._get(url, headers)
 
@@ -76,20 +76,20 @@ class ClientApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        logger.info("Getting client IPs for email: %s", email)
+        logger.info("Fetching client IPs for email: %s", email)
 
         response = self._post(url, headers, {})
 
         ips_json = response.json().get(ApiFields.OBJ)
         return ips_json if ips_json != ApiFields.NO_IP_RECORD else None
 
-    def add(self, inbound_id: int, clients: list[Client]) -> None:
+    def add(self, inbound_id: int, clients: List[Client]) -> None:
         """
         Add clients to a specific inbound.
 
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
-            clients (list[Client]): A list of Client objects to add.
+            clients (List[Client]): A list of Client objects to add.
 
         Returns:
             None
@@ -281,12 +281,12 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> list[str]:
+    def online(self) -> List[str]:
         """
         Retrieve a list of online clients.
 
         Returns:
-            list[str]: A list of online client UUIDs.
+            List[str]: A list of online client UUIDs.
 
         Examples::
             
@@ -304,7 +304,7 @@ class ClientApi(BaseApi):
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        logger.info("Getting online clients")
+        logger.info("Fetching online clients")
 
         response = self._post(url, headers, data)
         online = response.json().get(ApiFields.OBJ)

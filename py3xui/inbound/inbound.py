@@ -59,7 +59,7 @@ class Inbound(BaseModel):
     port: int  # Required: The port number on which the inbound listens
     protocol: str  # Required: The protocol used by the inbound (e.g., vmess, vless)
     settings: Settings  # Required: The settings specific to the protocol
-    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # Required: Stream settings for the inbound # type: ignore
+    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # Required: Stream settings for the inbound
     sniffing: Sniffing  # Required: Sniffing settings for the inbound
 
     listen: str = ""  # Optional: The address on which the inbound listens (default is an empty string)
@@ -70,8 +70,8 @@ class Inbound(BaseModel):
     down: int = 0  # Optional: The download traffic of the inbound (default is 0)
     total: int = 0  # Optional: The total traffic of the inbound (default is 0)
 
-    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # Optional: The expiry time of the inbound (default is 0) # type: ignore
-    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # Optional: List of client statistics (default is an empty list) # type: ignore
+    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # Optional: The expiry time of the inbound (default is 0)
+    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # Optional: List of client statistics (default is an empty list)
 
     tag: str = ""  # Optional: The tag associated with the inbound (default is an empty string)
 
@@ -101,7 +101,7 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # pylint: disable=no-member
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),
                 InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
             }
         )

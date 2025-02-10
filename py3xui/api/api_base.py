@@ -30,8 +30,6 @@ class ApiFields:
 class BaseApi:
     """Provides a base class for interacting with the XUI API.
 
-    This class handles the basic setup and authentication for API interactions.
-
     Args:
         host (str): The XUI host URL.
         username (str): The XUI username.
@@ -43,20 +41,10 @@ class BaseApi:
         password (str): The XUI password.
         max_retries (int): The maximum number of retries for API requests.
         session (str | None): The session cookie for authenticated requests.
-
-    Public Methods:
-        login: Logs into the XUI API and sets the session cookie.
-
-    Private Methods:
-        _check_response: Checks the API response for success status.
-        _url: Constructs the full URL for an API endpoint.
-        _request_with_retry: Sends a request to the API with retry logic.
-        _post: Sends a POST request to the API.
-        _get: Sends a GET request to the API.
     """
 
     def __init__(self, host: str, username: str, password: str):
-        """Initializes the BaseApi with the provided credentials.
+        """Initialize the BaseApi with the provided credentials.
 
         Args:
             host (str): The XUI host URL.
@@ -71,22 +59,38 @@ class BaseApi:
 
     @property
     def host(self) -> str:
-        """The XUI host URL."""
+        """Return the XUI host URL.
+
+        Returns:
+            str: The XUI host URL.
+        """
         return self._host
 
     @property
     def username(self) -> str:
-        """The XUI username."""
+        """Return the XUI username.
+
+        Returns:
+            str: The XUI username.
+        """
         return self._username
 
     @property
     def password(self) -> str:
-        """The XUI password."""
+        """Return the XUI password.
+
+        Returns:
+            str: The XUI password.
+        """
         return self._password
 
     @property
     def max_retries(self) -> int:
-        """The maximum number of retries for API requests."""
+        """Return the maximum number of retries for API requests.
+
+        Returns:
+            int: The maximum number of retries.
+        """
         return self._max_retries
 
     @max_retries.setter
@@ -100,7 +104,11 @@ class BaseApi:
 
     @property
     def session(self) -> str | None:
-        """The session cookie for authenticated requests."""
+        """Return the session cookie for authenticated requests.
+
+        Returns:
+            str | None: The session cookie.
+        """
         return self._session
 
     @session.setter
@@ -113,10 +121,10 @@ class BaseApi:
         self._session = value
 
     def login(self) -> None:
-        """Logs into the XUI API and sets the session cookie.
+        """Log into the XUI API and set the session cookie.
 
         Raises:
-            ValueError: If no session cookie is found after login.
+            ValueError: If no session cookie is received after login.
         """
         endpoint = "login"
         headers: dict[str, str] = {}
@@ -128,12 +136,12 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("Login failed: No session cookie received from the server.")
+            raise ValueError("Login failed: No session cookie received.")
         logger.info("Session cookie retrieved for username: %s", self.username)
         self.session = cookie
 
     def _check_response(self, response: requests.Response) -> None:
-        """Checks the API response for success status.
+        """Check the API response for success status.
 
         Args:
             response (requests.Response): The API response to check.
@@ -146,10 +154,10 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"API request failed with message: {message}")
+            raise ValueError(f"API request failed: {message}")
 
     def _url(self, endpoint: str) -> str:
-        """Constructs the full URL for an API endpoint.
+        """Construct the full URL for an API endpoint.
 
         Args:
             endpoint (str): The API endpoint.
@@ -166,7 +174,7 @@ class BaseApi:
         headers: dict[str, str],
         **kwargs: Any,
     ) -> requests.Response:
-        """Sends a request to the API with retry logic.
+        """Send a request to the API with retry logic.
 
         Args:
             method (Callable[..., requests.Response]): The HTTP method to use.
@@ -209,7 +217,7 @@ class BaseApi:
     def _post(
         self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs
     ) -> requests.Response:
-        """Sends a POST request to the API.
+        """Send a POST request to the API.
 
         Args:
             url (str): The URL to send the request to.
@@ -223,7 +231,7 @@ class BaseApi:
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
     def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
-        """Sends a GET request to the API.
+        """Send a GET request to the API.
 
         Args:
             url (str): The URL to send the request to.

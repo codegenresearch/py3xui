@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, List, Optional
+from typing import Any, List
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -30,7 +30,6 @@ class InboundApi(BaseApi):
 
     Examples:
     
-    
     import py3xui
 
     api = py3xui.Api.from_env()
@@ -53,7 +52,6 @@ class InboundApi(BaseApi):
 
         Examples:
         
-        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -71,9 +69,10 @@ class InboundApi(BaseApi):
 
         inbounds_json = response.json().get(ApiFields.OBJ, [])
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
+        self.logger.info("Inbounds retrieved successfully.")
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    def get_by_id(self, inbound_id: int) -> Inbound:
         """Retrieves an inbound by its ID.
 
         This route is used to retrieve statistics and details for a specific inbound connection
@@ -86,10 +85,12 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object.
+
+        Raises:
+            ValueError: If the inbound is not found.
 
         Examples:
-        
         
         import py3xui
 
@@ -110,9 +111,11 @@ class InboundApi(BaseApi):
 
         inbound_json = response.json().get(ApiFields.OBJ)
         if inbound_json:
-            return Inbound.model_validate(inbound_json)
+            inbound = Inbound.model_validate(inbound_json)
+            self.logger.info("Inbound retrieved successfully.")
+            return inbound
         else:
-            return None
+            raise ValueError(f"Inbound with ID {inbound_id} not found.")
 
     def add(self, inbound: Inbound) -> None:
         """Adds a new inbound.
@@ -125,7 +128,6 @@ class InboundApi(BaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
-        
         
         import py3xui
         from py3xui.inbound import Inbound, Settings, Sniffing, StreamSettings
@@ -162,6 +164,7 @@ class InboundApi(BaseApi):
         data = inbound.to_json()
         self.logger.info("Adding inbound: %s", inbound)
         self._post(url, headers, data)
+        self.logger.info("Inbound added successfully.")
 
     def delete(self, inbound_id: int) -> None:
         """Deletes an inbound by its ID.
@@ -174,7 +177,6 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to delete.
 
         Examples:
-        
         
         import py3xui
 
@@ -193,6 +195,7 @@ class InboundApi(BaseApi):
         data: dict[str, Any] = {}
         self.logger.info("Deleting inbound with ID: %s", inbound_id)
         self._post(url, headers, data)
+        self.logger.info("Inbound deleted successfully.")
 
     def update(self, inbound_id: int, inbound: Inbound) -> None:
         """Updates an existing inbound by its ID.
@@ -206,7 +209,6 @@ class InboundApi(BaseApi):
             inbound (Inbound): The inbound object to update.
 
         Examples:
-        
         
         import py3xui
 
@@ -227,6 +229,7 @@ class InboundApi(BaseApi):
         data = inbound.to_json()
         self.logger.info("Updating inbound: %s", inbound)
         self._post(url, headers, data)
+        self.logger.info("Inbound updated successfully.")
 
     def reset_stats(self) -> None:
         """Resets the statistics of all inbounds.
@@ -236,7 +239,6 @@ class InboundApi(BaseApi):
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#6749f362-dc81-4769-8f45-37dc9e99f5e9)
 
         Examples:
-        
         
         import py3xui
 
@@ -252,6 +254,7 @@ class InboundApi(BaseApi):
         data: dict[str, Any] = {}
         self.logger.info("Resetting inbounds stats...")
         self._post(url, headers, data)
+        self.logger.info("Inbounds stats reset successfully.")
 
     def reset_client_stats(self, inbound_id: int) -> None:
         """Resets the statistics of a specific inbound's clients.
@@ -265,7 +268,6 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to reset the client stats.
 
         Examples:
-        
         
         import py3xui
 
@@ -284,3 +286,4 @@ class InboundApi(BaseApi):
         data: dict[str, Any] = {}
         self.logger.info("Resetting inbound client stats for ID: %s", inbound_id)
         self._post(url, headers, data)
+        self.logger.info("Inbound client stats reset successfully.")

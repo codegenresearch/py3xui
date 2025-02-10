@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Provides a high-level interface to interact with the XUI API, offering access to client, inbound, and database APIs.
 """
@@ -22,6 +23,10 @@ class Api:
         client (ClientApi): API client for handling client-related operations.
         inbound (InboundApi): API client for handling inbound-related operations.
         database (DatabaseApi): API client for handling database-related operations.
+
+    Public Methods:
+        from_env: Create an instance of Api using environment variables.
+        login: Log into the XUI API and set the session.
 
     Examples:
 
@@ -71,6 +76,11 @@ class Api:
         Returns:
             Api: An instance of the Api class.
 
+        Environment Variables:
+            XUI_HOST: The host URL of the XUI API.
+            XUI_USERNAME: The username for authentication.
+            XUI_PASSWORD: The password for authentication.
+
         Examples:
 
         
@@ -81,6 +91,7 @@ class Api:
         api_from_env = Api.from_env()
         api_from_env.login()
         
+
         """
         host = env.xui_host()
         username = env.xui_username()
@@ -99,8 +110,9 @@ class Api:
         api = Api(host='https://api.example.com', username='user', password='pass')
         api.login()
         
+
         """
         self.client.login()
         self.inbound.session = self.client.session
         self.database.session = self.client.session
-        logger.info("Successfully logged into the XUI API.")
+        logger.info("Logged in successfully.")

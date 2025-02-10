@@ -1,7 +1,7 @@
 """This module contains the AsyncInboundApi class which provides methods to interact with the
 clients in the XUI API asynchronously."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields
 from py3xui.async_api.async_api_base import AsyncBaseApi
@@ -16,9 +16,9 @@ class AsyncInboundApi(AsyncBaseApi):
         host (str): The XUI host URL.
         username (str): The XUI username.
         password (str): The XUI password.
-        token (Optional[str]): The XUI secret token.
+        token (str | None): The XUI secret token.
         use_tls_verify (bool): Whether to verify the server TLS certificate.
-        custom_certificate_path (Optional[str]): Path to a custom certificate file.
+        custom_certificate_path (str | None): Path to a custom certificate file.
         session (aiohttp.ClientSession): The session object for the API.
         max_retries (int): The maximum number of retries for the API requests.
 
@@ -42,6 +42,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
     inbounds: list[py3xui.Inbound] = await api.inbound.get_list()
     
+
     """
 
     async def get_list(self) -> list[Inbound]:
@@ -73,7 +74,7 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """Retrieves a specific inbound by its ID.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
@@ -82,7 +83,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Optional[Inbound]: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
 
         Raises:
             InboundNotFound: If the inbound with the specified ID is not found.

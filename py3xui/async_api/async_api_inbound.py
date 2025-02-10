@@ -47,10 +47,12 @@ class AsyncInboundApi(AsyncBaseApi):
     async def get_list(self) -> list[Inbound]:
         """Retrieves a comprehensive list of all inbounds along with their associated client options and statistics.
 
+        This method fetches all inbounds configured in the XUI system, including details about their settings, clients, and traffic statistics.
+
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#b7c42b67-4362-44d3-bd61-ba7df0721802)
 
         Returns:
-            list[Inbound]: A list of inbounds.
+            list[Inbound]: A list of Inbound objects representing the inbounds.
 
         Examples:
         
@@ -73,8 +75,10 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Inbound | None:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """Retrieves a specific inbound by its ID.
+
+        This method fetches the details of a specific inbound identified by its unique ID. If the inbound is not found, it raises an exception.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -82,7 +86,10 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
+
+        Raises:
+            Exception: If the inbound with the specified ID is not found.
 
         Examples:
         
@@ -108,10 +115,12 @@ class AsyncInboundApi(AsyncBaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        return None
+        raise Exception(f"Inbound with ID {inbound_id} not found")
 
     async def add(self, inbound: Inbound) -> None:
         """Adds a new inbound configuration.
+
+        This method adds a new inbound configuration to the XUI system.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#813ac729-5ba6-4314-bc2a-d0d3acc70388)
 
@@ -159,6 +168,8 @@ class AsyncInboundApi(AsyncBaseApi):
     async def delete(self, inbound_id: int) -> None:
         """Deletes an inbound identified by its ID.
 
+        This method deletes an inbound configuration identified by its unique ID.
+
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#a655d0e3-7d8c-4331-9061-422fcb515da9)
 
         Arguments:
@@ -188,6 +199,8 @@ class AsyncInboundApi(AsyncBaseApi):
 
     async def update(self, inbound_id: int, inbound: Inbound) -> None:
         """Updates an existing inbound identified by its ID.
+
+        This method updates an existing inbound configuration identified by its unique ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#19249b9f-a940-41e2-8bf4-86ff8dde857e)
 
@@ -222,6 +235,8 @@ class AsyncInboundApi(AsyncBaseApi):
     async def reset_stats(self) -> None:
         """Resets the traffic statistics for all inbounds within the system.
 
+        This method resets the traffic statistics for all inbounds configured in the XUI system.
+
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#6749f362-dc81-4769-8f45-37dc9e99f5e9)
 
         Examples:
@@ -245,6 +260,8 @@ class AsyncInboundApi(AsyncBaseApi):
 
     async def reset_client_stats(self, inbound_id: int) -> None:
         """Resets the traffic statistics for all clients associated with a specific inbound identified by its ID.
+
+        This method resets the traffic statistics for all clients associated with a specific inbound identified by its unique ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#9bd93925-12a0-40d8-a390-d4874dea3683)
 
@@ -276,6 +293,8 @@ class AsyncInboundApi(AsyncBaseApi):
     async def enable(self, inbound_id: int) -> None:
         """Enables an existing inbound identified by its ID.
 
+        This method enables an existing inbound configuration identified by its unique ID.
+
         Arguments:
             inbound_id (int): The ID of the inbound to enable.
 
@@ -303,6 +322,8 @@ class AsyncInboundApi(AsyncBaseApi):
 
     async def disable(self, inbound_id: int) -> None:
         """Disables an existing inbound identified by its ID.
+
+        This method disables an existing inbound configuration identified by its unique ID.
 
         Arguments:
             inbound_id (int): The ID of the inbound to disable.

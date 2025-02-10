@@ -59,7 +59,7 @@ class BaseApi:
 
     @property
     def host(self) -> str:
-        """Return the XUI host URL.
+        """Get the XUI host URL.
 
         Returns:
             str: The XUI host URL.
@@ -68,7 +68,7 @@ class BaseApi:
 
     @property
     def username(self) -> str:
-        """Return the XUI username.
+        """Get the XUI username.
 
         Returns:
             str: The XUI username.
@@ -77,7 +77,7 @@ class BaseApi:
 
     @property
     def password(self) -> str:
-        """Return the XUI password.
+        """Get the XUI password.
 
         Returns:
             str: The XUI password.
@@ -86,7 +86,7 @@ class BaseApi:
 
     @property
     def max_retries(self) -> int:
-        """Return the maximum number of retries for API requests.
+        """Get the maximum number of retries for API requests.
 
         Returns:
             int: The maximum number of retries.
@@ -104,7 +104,7 @@ class BaseApi:
 
     @property
     def session(self) -> str | None:
-        """Return the session cookie for authenticated requests.
+        """Get the session cookie for authenticated requests.
 
         Returns:
             str | None: The session cookie.
@@ -131,13 +131,13 @@ class BaseApi:
 
         url = self._url(endpoint)
         data = {"username": self.username, "password": self.password}
-        logger.info("Initiating login for user: %s", self.username)
+        logger.info("Logging in with username: %s", self.username)
 
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
             raise ValueError("Login failed: No session cookie received.")
-        logger.info("Login successful for user: %s", self.username)
+        logger.info("Logged in successfully with username: %s", self.username)
         self.session = cookie
 
     def _check_response(self, response: requests.Response) -> None:

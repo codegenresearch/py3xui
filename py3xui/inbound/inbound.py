@@ -1,6 +1,6 @@
 """This module contains the Inbound class, which represents an inbound connection in the XUI API."""
 
-from typing import Any, Optional, Union
+from typing import Any, List, Optional
 from typing_extensions import AsyncContextManager
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -52,7 +52,7 @@ class Inbound(BaseModel):
         down (int): The down value for the inbound connection. Optional.
         total (int): The total value for the inbound connection. Optional.
         expiry_time (int): The expiry time for the inbound connection. Optional.
-        client_stats (Union[list[Client], None]): The client stats for the inbound connection. Optional.
+        client_stats (List[Client] | None): The client stats for the inbound connection. Optional.
         tag (str): The tag for the inbound connection. Optional.
     """
 
@@ -60,7 +60,7 @@ class Inbound(BaseModel):
     port: int
     protocol: str
     settings: Settings
-    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # type: ignore
+    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)
     sniffing: Sniffing
 
     listen: str = ""
@@ -72,8 +72,8 @@ class Inbound(BaseModel):
 
     total: int = 0
 
-    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: Union[list[Client], None] = Field(default=None, alias=InboundFields.CLIENT_STATS)  # type: ignore
+    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)
+    client_stats: List[Client] | None = Field(default=[])
 
     tag: str = ""
 
@@ -102,9 +102,7 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(  # pylint: disable=no-member
-                    by_alias=True
-                ),
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),
                 InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
             }
         )

@@ -15,9 +15,9 @@ class AsyncInboundApi(AsyncBaseApi):
         host (str): The XUI host URL.
         username (str): The XUI username.
         password (str): The XUI password.
-        token (Optional[str]): The XUI secret token.
+        token (str | None): The XUI secret token.
         use_tls_verify (bool): Whether to verify the server TLS certificate.
-        custom_certificate_path (Optional[str]): Path to a custom certificate file.
+        custom_certificate_path (str | None): Path to a custom certificate file.
         session (aiohttp.ClientSession): The session object for the API.
         max_retries (int): The maximum number of retries for the API requests.
 
@@ -72,10 +72,10 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """Retrieves a specific inbound by its ID.
 
-        This method fetches the details of a specific inbound identified by its unique ID. If the inbound is not found, it returns None.
+        This method fetches the details of a specific inbound identified by its unique ID. If the inbound is not found, it raises an exception.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -83,7 +83,10 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Optional[Inbound]: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
+
+        Raises:
+            ValueError: If the inbound is not found.
 
         Examples:
         
@@ -108,7 +111,7 @@ class AsyncInboundApi(AsyncBaseApi):
         inbound_json = response.json().get(ApiFields.OBJ)
         if inbound_json:
             return Inbound.model_validate(inbound_json)
-        return None
+        raise ValueError(f"Inbound with ID {inbound_id} not found.")
 
     async def add(self, inbound: Inbound) -> None:
         """Adds a new inbound configuration.

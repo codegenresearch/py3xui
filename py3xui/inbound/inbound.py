@@ -35,27 +35,45 @@ class InboundFields:
 
 
 class Inbound(BaseModel):
-    """Represents an inbound configuration from the XUI API."""
+    """Represents an inbound configuration from the XUI API.
 
-    enable: bool  # Indicates whether the inbound is enabled
-    port: int  # The port number on which the inbound listens
-    protocol: str  # The protocol used by the inbound (e.g., vmess, vless)
-    settings: Settings  # The settings specific to the protocol
-    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # Stream settings for the inbound
-    sniffing: Sniffing  # Sniffing settings for the inbound
+    Attributes:
+        enable (bool): Indicates whether the inbound is enabled. (Required)
+        port (int): The port number on which the inbound listens. (Required)
+        protocol (str): The protocol used by the inbound (e.g., vmess, vless). (Required)
+        settings (Settings): The settings specific to the protocol. (Required)
+        stream_settings (StreamSettings): Stream settings for the inbound. (Required)
+        sniffing (Sniffing): Sniffing settings for the inbound. (Required)
+        listen (str): The address on which the inbound listens. (Optional, default is an empty string)
+        remark (str): Any remarks or notes about the inbound. (Optional, default is an empty string)
+        id (int): The unique identifier for the inbound. (Optional, default is 0)
+        up (int): The upload traffic of the inbound. (Optional, default is 0)
+        down (int): The download traffic of the inbound. (Optional, default is 0)
+        total (int): The total traffic of the inbound. (Optional, default is 0)
+        expiry_time (int): The expiry time of the inbound. (Optional, default is 0)
+        client_stats (list[Client]): List of client statistics. (Optional, default is an empty list)
+        tag (str): The tag associated with the inbound. (Optional, default is an empty string)
+    """
 
-    listen: str = ""  # The address on which the inbound listens (default is an empty string)
-    remark: str = ""  # Any remarks or notes about the inbound (default is an empty string)
-    id: int = 0  # The unique identifier for the inbound (default is 0)
+    enable: bool  # Required: Indicates whether the inbound is enabled
+    port: int  # Required: The port number on which the inbound listens
+    protocol: str  # Required: The protocol used by the inbound (e.g., vmess, vless)
+    settings: Settings  # Required: The settings specific to the protocol
+    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # Required: Stream settings for the inbound # type: ignore
+    sniffing: Sniffing  # Required: Sniffing settings for the inbound
 
-    up: int = 0  # The upload traffic of the inbound (default is 0)
-    down: int = 0  # The download traffic of the inbound (default is 0)
-    total: int = 0  # The total traffic of the inbound (default is 0)
+    listen: str = ""  # Optional: The address on which the inbound listens (default is an empty string)
+    remark: str = ""  # Optional: Any remarks or notes about the inbound (default is an empty string)
+    id: int = 0  # Optional: The unique identifier for the inbound (default is 0)
 
-    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # The expiry time of the inbound (default is 0)
-    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # List of client statistics (default is an empty list)
+    up: int = 0  # Optional: The upload traffic of the inbound (default is 0)
+    down: int = 0  # Optional: The download traffic of the inbound (default is 0)
+    total: int = 0  # Optional: The total traffic of the inbound (default is 0)
 
-    tag: str = ""  # The tag associated with the inbound (default is an empty string)
+    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # Optional: The expiry time of the inbound (default is 0) # type: ignore
+    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # Optional: List of client statistics (default is an empty list) # type: ignore
+
+    tag: str = ""  # Optional: The tag associated with the inbound (default is an empty string)
 
     model_config = ConfigDict(
         populate_by_name=True,

@@ -1,3 +1,4 @@
+# pylint: disable=missing-module-docstring
 from py3xui.client.client import Client
 from py3xui.inbound.bases import JsonStringModel
 
@@ -17,11 +18,16 @@ class Settings(JsonStringModel):
     """
     Represents the settings configuration for the XUI application, inheriting from JsonStringModel.
     This class is used to parse and store settings data in a structured format.
+
+    Attributes:
+        clients (list[Client], optional): List of Client objects representing the clients configured in the settings. Defaults to an empty list.
+        decryption (str, optional): String representing the decryption method used in the settings. Defaults to an empty string.
+        fallbacks (list, optional): List of fallback configurations used in the settings. Defaults to an empty list.
     """
 
-    # List of Client objects representing the clients configured in the settings.
+    # List of Client objects representing the clients configured in the settings. Defaults to an empty list.
     clients: list[Client] = []
-    # String representing the decryption method used in the settings.
+    # String representing the decryption method used in the settings. Defaults to an empty string.
     decryption: str = ""
-    # List of fallback configurations used in the settings.
+    # List of fallback configurations used in the settings. Defaults to an empty list.
     fallbacks: list = []

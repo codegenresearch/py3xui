@@ -26,12 +26,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             client: py3xui.Client = api.client.get_by_email("email@example.com")
-            
             
         """  # pylint: disable=line-too-long
 
@@ -39,7 +37,7 @@ class ClientApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        logger.info("Fetching client stats for email: %s", email)
+        logger.info("Getting client stats for email: %s", email)
 
         response = self._get(url, headers)
 
@@ -63,12 +61,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             ips = api.client.get_ips("email@example.com")
-            
             
         """  # pylint: disable=line-too-long
 
@@ -76,7 +72,7 @@ class ClientApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        logger.info("Fetching client IPs for email: %s", email)
+        logger.info("Getting client IPs for email: %s", email)
 
         response = self._post(url, headers, {})
 
@@ -96,13 +92,11 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             clients = [py3xui.Client(...)]
             api.client.add(1, clients)
-            
             
         """  # pylint: disable=line-too-long
 
@@ -116,7 +110,7 @@ class ClientApi(BaseApi):
             ]
         }
         data = {"id": inbound_id, "settings": json.dumps(settings)}
-        logger.info("Adding %d clients to inbound ID: %s", len(clients), inbound_id)
+        logger.info("Adding %d clients to inbound with ID: %s", len(clients), inbound_id)
 
         self._post(url, headers, data)
         logger.info("Clients added successfully.")
@@ -134,13 +128,11 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             client = py3xui.Client(...)
             api.client.update("client-uuid", client)
-            
             
         """  # pylint: disable=line-too-long
 
@@ -167,12 +159,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.reset_ips("email@example.com")
-            
             
         """  # pylint: disable=line-too-long
 
@@ -199,12 +189,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.reset_stats(1, "email@example.com")
-            
             
         """  # pylint: disable=line-too-long
 
@@ -213,7 +201,7 @@ class ClientApi(BaseApi):
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        logger.info("Resetting client stats for inbound ID: %s, email: %s", inbound_id, email)
+        logger.info("Resetting client stats for inbound with ID: %s, email: %s", inbound_id, email)
 
         self._post(url, headers, data)
         logger.info("Client stats reset successfully.")
@@ -231,12 +219,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.delete(1, "client-uuid")
-            
             
         """  # pylint: disable=line-too-long
 
@@ -262,12 +248,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.delete_depleted(1)
-            
             
         """  # pylint: disable=line-too-long
 
@@ -276,26 +260,24 @@ class ClientApi(BaseApi):
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        logger.info("Deleting depleted clients for inbound ID: %s", inbound_id)
+        logger.info("Deleting depleted clients for inbound with ID: %s", inbound_id)
 
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> List[str]:
+    def online(self) -> list[str]:
         """
         Retrieve a list of online clients.
 
         Returns:
-            List[str]: A list of online client UUIDs.
+            list[str]: A list of online client UUIDs.
 
         Examples::
-            
             
             import py3xui
 
             api = py3xui.Api.from_env()
             online_clients = api.client.online()
-            
             
         """  # pylint: disable=line-too-long
 
@@ -304,7 +286,7 @@ class ClientApi(BaseApi):
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        logger.info("Fetching online clients")
+        logger.info("Getting online clients")
 
         response = self._post(url, headers, data)
         online = response.json().get(ApiFields.OBJ)

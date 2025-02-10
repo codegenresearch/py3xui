@@ -1,9 +1,5 @@
 """
 Module for handling inbound configurations in the XUI API.
-
-This module defines the `Inbound` class, which represents an inbound connection
-with various settings and statistics. It also includes a helper class `InboundFields`
-for storing field names used in the XUI API.
 """
 
 from typing import Any
@@ -16,6 +12,7 @@ from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
 
+# pylint: disable=too-few-public-methods
 class InboundFields:
     """Stores the fields returned by the XUI API for parsing."""
 
@@ -88,7 +85,7 @@ class Inbound(BaseModel):
 
     def to_json(self) -> dict[str, Any]:
         """
-        Converts the `Inbound` instance to a JSON-compatible dictionary for the XUI API.
+        Converts the `Inbound` instance to a JSON-compatible dictionary.
 
         Returns:
             dict[str, Any]: A dictionary representation of the inbound configuration.

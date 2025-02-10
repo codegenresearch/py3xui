@@ -16,7 +16,7 @@ class SniffingFields:
 
 
 class Sniffing(JsonStringModel):
-    """Represents the sniffing settings for an inbound connection in the XUI API.
+    """Represents the sniffing settings for an inbound connection.
 
     Attributes:
         enabled (bool): Whether sniffing is enabled. Required.
@@ -29,6 +29,3 @@ class Sniffing(JsonStringModel):
     dest_override: list[str] = Field(default=[], alias=SniffingFields.DEST_OVERRIDE)  # type: ignore
     metadata_only: bool = Field(default=False, alias=SniffingFields.METADATA_ONLY)  # type: ignore
     route_only: bool = Field(default=False, alias=SniffingFields.ROUTE_ONLY)  # type: ignore
-
-
-I have made the module and class docstrings more concise. The attribute descriptions are clear and consistent with the gold code. The formatting and alignment of the `Field` definitions have been adjusted to match the style of the gold code.

@@ -8,7 +8,7 @@ from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
 # Module-level docstring for clarity
-# This module defines the Inbound class and InboundFields class which are used to parse and represent inbound configurations from the XUI API.
+# This module defines the Inbound class and InboundFields class used to parse and represent inbound configurations from the XUI API.
 
 # pylint: disable=too-few-public-methods
 class InboundFields:

@@ -6,7 +6,6 @@ from typing import Any
 from py3xui.api.api_base import ApiFields
 from py3xui.async_api.async_api_base import AsyncBaseApi
 from py3xui.inbound import Inbound
-from py3xui.exceptions import InboundNotFound
 
 
 class AsyncInboundApi(AsyncBaseApi):
@@ -74,7 +73,7 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Inbound:
+    async def get_by_id(self, inbound_id: int) -> Inbound | None:
         """Retrieves a specific inbound by its ID.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
@@ -83,10 +82,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound: The inbound object if found.
-
-        Raises:
-            InboundNotFound: If the inbound with the specified ID is not found.
+            Inbound | None: The inbound object if found, otherwise None.
 
         Examples:
         
@@ -112,7 +108,7 @@ class AsyncInboundApi(AsyncBaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        raise InboundNotFound(f"Inbound with ID {inbound_id} not found.")
+        return None
 
     async def add(self, inbound: Inbound) -> None:
         """Adds a new inbound configuration.

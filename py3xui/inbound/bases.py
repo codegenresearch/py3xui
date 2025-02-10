@@ -1,5 +1,5 @@
 """
-Module for handling JSON string validation in Pydantic models.
+Provides a Pydantic model for validating JSON string fields.
 """
 
 from pydantic import BaseModel, model_validator
@@ -7,7 +7,7 @@ import json
 
 class JsonStringModel(BaseModel):
     """
-    Pydantic model that validates and parses JSON strings.
+    Base Pydantic model for validating and parsing JSON string fields.
     """
 
     @model_validator(mode="before")

@@ -14,66 +14,67 @@ from py3xui.inbound.stream_settings import StreamSettings
 class InboundFields:
     """Stores the fields returned by the XUI API for parsing."""
 
-    ENABLE = "enable"  # Field for enabling or disabling the inbound
-    PORT = "port"  # Field for the port number of the inbound
-    PROTOCOL = "protocol"  # Field for the protocol used by the inbound
-    SETTINGS = "settings"  # Field for the settings of the inbound
-    STREAM_SETTINGS = "streamSettings"  # Field for the stream settings of the inbound
-    SNIFFING = "sniffing"  # Field for the sniffing settings of the inbound
+    ENABLE = "enable"
+    PORT = "port"
+    PROTOCOL = "protocol"
+    SETTINGS = "settings"
+    STREAM_SETTINGS = "streamSettings"
+    SNIFFING = "sniffing"
 
-    ID = "id"  # Field for the unique identifier of the inbound
-    UP = "up"  # Field for the upload traffic of the inbound
-    DOWN = "down"  # Field for the download traffic of the inbound
-    TOTAL = "total"  # Field for the total traffic of the inbound
-    REMARK = "remark"  # Field for any remarks or notes about the inbound
+    ID = "id"
+    UP = "up"
+    DOWN = "down"
+    TOTAL = "total"
+    REMARK = "remark"
 
-    EXPIRY_TIME = "expiryTime"  # Field for the expiry time of the inbound
-    CLIENT_STATS = "clientStats"  # Field for the client statistics of the inbound
-    LISTEN = "listen"  # Field for the listening address of the inbound
+    EXPIRY_TIME = "expiryTime"
+    CLIENT_STATS = "clientStats"
+    LISTEN = "listen"
 
-    TAG = "tag"  # Field for the tag associated with the inbound
+    TAG = "tag"
 
 
 class Inbound(BaseModel):
     """Represents an inbound configuration from the XUI API.
 
     Attributes:
-        enable (bool): Indicates whether the inbound is enabled. (Required)
-        port (int): The port number on which the inbound listens. (Required)
-        protocol (str): The protocol used by the inbound (e.g., vmess, vless). (Required)
-        settings (Settings): The settings specific to the protocol. (Required)
-        stream_settings (StreamSettings): Stream settings for the inbound. (Required)
-        sniffing (Sniffing): Sniffing settings for the inbound. (Required)
-        listen (str): The address on which the inbound listens. (Optional, default is an empty string)
-        remark (str): Any remarks or notes about the inbound. (Optional, default is an empty string)
-        id (int): The unique identifier for the inbound. (Optional, default is 0)
-        up (int): The upload traffic of the inbound. (Optional, default is 0)
-        down (int): The download traffic of the inbound. (Optional, default is 0)
-        total (int): The total traffic of the inbound. (Optional, default is 0)
-        expiry_time (int): The expiry time of the inbound. (Optional, default is 0)
-        client_stats (list[Client]): List of client statistics. (Optional, default is an empty list)
-        tag (str): The tag associated with the inbound. (Optional, default is an empty string)
+        enable (bool): Indicates whether the inbound is enabled.
+        port (int): The port number on which the inbound listens.
+        protocol (str): The protocol used by the inbound (e.g., vmess, vless).
+        settings (Settings): The settings specific to the protocol.
+        stream_settings (StreamSettings): Stream settings for the inbound.
+        sniffing (Sniffing): Sniffing settings for the inbound.
+        listen (str): The address on which the inbound listens. Defaults to an empty string.
+        remark (str): Any remarks or notes about the inbound. Defaults to an empty string.
+        id (int): The unique identifier for the inbound. Defaults to 0.
+        up (int): The upload traffic of the inbound. Defaults to 0.
+        down (int): The download traffic of the inbound. Defaults to 0.
+        total (int): The total traffic of the inbound. Defaults to 0.
+        expiry_time (int): The expiry time of the inbound. Defaults to 0.
+        client_stats (list[Client]): List of client statistics. Defaults to an empty list.
+        tag (str): The tag associated with the inbound. Defaults to an empty string.
     """
 
-    enable: bool  # Required: Indicates whether the inbound is enabled
-    port: int  # Required: The port number on which the inbound listens
-    protocol: str  # Required: The protocol used by the inbound (e.g., vmess, vless)
-    settings: Settings  # Required: The settings specific to the protocol
-    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # Required: Stream settings for the inbound
-    sniffing: Sniffing  # Required: Sniffing settings for the inbound
+    enable: bool
+    port: int
+    protocol: str
+    settings: Settings
+    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # type: ignore
+    sniffing: Sniffing
 
-    listen: str = ""  # Optional: The address on which the inbound listens (default is an empty string)
-    remark: str = ""  # Optional: Any remarks or notes about the inbound (default is an empty string)
-    id: int = 0  # Optional: The unique identifier for the inbound (default is 0)
+    listen: str = ""
+    remark: str = ""
+    id: int = 0
 
-    up: int = 0  # Optional: The upload traffic of the inbound (default is 0)
-    down: int = 0  # Optional: The download traffic of the inbound (default is 0)
-    total: int = 0  # Optional: The total traffic of the inbound (default is 0)
+    up: int = 0
+    down: int = 0
 
-    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # Optional: The expiry time of the inbound (default is 0)
-    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # Optional: List of client statistics (default is an empty list)
+    total: int = 0
 
-    tag: str = ""  # Optional: The tag associated with the inbound (default is an empty string)
+    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
+    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+
+    tag: str = ""
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,8 +102,8 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),
-                InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # type: ignore
+                InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),  # type: ignore
             }
         )
 

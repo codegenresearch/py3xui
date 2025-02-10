@@ -15,7 +15,7 @@ from py3xui.inbound.settings import Settings
 from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
-# pylint: disable=too-few-public-methods
+
 class InboundFields:
     """Stores the fields returned by the XUI API for parsing."""
 
@@ -44,21 +44,21 @@ class Inbound(BaseModel):
     Represents an inbound connection in the XUI API.
 
     Attributes:
-        enable (bool): Whether the inbound is enabled. Required.
-        port (int): The port number for the inbound. Required.
-        protocol (str): The protocol used by the inbound. Required.
-        settings (Settings): The settings specific to the protocol. Required.
-        stream_settings (StreamSettings): The stream settings for the inbound. Required.
-        sniffing (Sniffing): The sniffing settings for the inbound. Required.
-        listen (str): The address to listen on. Optional. Defaults to an empty string.
-        remark (str): A remark or description for the inbound. Optional. Defaults to an empty string.
-        id (int): The unique identifier for the inbound. Optional. Defaults to 0.
-        up (int): The total upload traffic. Optional. Defaults to 0.
-        down (int): The total download traffic. Optional. Defaults to 0.
-        total (int): The total traffic. Optional. Defaults to 0.
-        expiry_time (int): The expiry time for the inbound. Optional. Defaults to 0.
-        client_stats (list[Client]): The statistics for each client. Optional. Defaults to an empty list.
-        tag (str): A tag for the inbound. Optional. Defaults to an empty string.
+        enable (bool): Whether the inbound is enabled.
+        port (int): The port number for the inbound.
+        protocol (str): The protocol used by the inbound.
+        settings (Settings): The settings specific to the protocol.
+        stream_settings (StreamSettings): The stream settings for the inbound.
+        sniffing (Sniffing): The sniffing settings for the inbound.
+        listen (str): The address to listen on. Defaults to an empty string.
+        remark (str): A remark or description for the inbound. Defaults to an empty string.
+        id (int): The unique identifier for the inbound. Defaults to 0.
+        up (int): The total upload traffic. Defaults to 0.
+        down (int): The total download traffic. Defaults to 0.
+        total (int): The total traffic. Defaults to 0.
+        expiry_time (int): The expiry time for the inbound. Defaults to 0.
+        client_stats (list[Client]): The statistics for each client. Defaults to an empty list.
+        tag (str): A tag for the inbound. Defaults to an empty string.
     """
 
     enable: bool

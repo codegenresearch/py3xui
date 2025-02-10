@@ -131,13 +131,13 @@ class BaseApi:
 
         url = self._url(endpoint)
         data = {"username": self.username, "password": self.password}
-        logger.info("Logging in with username: %s", self.username)
+        logger.info("Initiating login for user: %s", self.username)
 
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
             raise ValueError("Login failed: No session cookie received.")
-        logger.info("Session cookie retrieved for username: %s", self.username)
+        logger.info("Login successful for user: %s", self.username)
         self.session = cookie
 
     def _check_response(self, response: requests.Response) -> None:
@@ -157,7 +157,7 @@ class BaseApi:
             raise ValueError(f"API request failed: {message}")
 
     def _url(self, endpoint: str) -> str:
-        """Construct the full URL for an API endpoint.
+        """Construct the full URL for the API endpoint.
 
         Args:
             endpoint (str): The API endpoint.

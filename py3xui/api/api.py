@@ -24,7 +24,7 @@ class Api:
         inbound (InboundApi): API client for handling inbound-related operations.
         database (DatabaseApi): API client for handling database-related operations.
 
-    Public Methods:
+    Methods:
         from_env: Create an instance of Api using environment variables.
         login: Log into the XUI API and set the session.
 
@@ -66,7 +66,7 @@ class Api:
             self.login()
 
     @classmethod
-    def from_env(cls, skip_login: bool = False) -> Api:
+    def from_env(cls, skip_login: bool = False) -> 'Api':
         """
         Create an instance of Api using environment variables.
 

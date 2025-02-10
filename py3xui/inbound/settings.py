@@ -1,5 +1,5 @@
 """
-Module containing the Settings class for parsing inbound connection settings from JSON responses.
+Module for handling inbound connection settings parsed from JSON responses.
 """
 
 # pylint: disable=too-few-public-methods
@@ -20,9 +20,9 @@ class Settings(JsonStringModel):
     Represents the settings for an inbound connection parsed from JSON responses.
 
     Attributes:
-        clients (list[Client], optional): List of client configurations.
-        decryption (str, optional): Decryption method used.
-        fallbacks (list, optional): List of fallback configurations.
+        clients (list[Client], optional): Optional list of client configurations.
+        decryption (str, optional): Optional decryption method used.
+        fallbacks (list, optional): Optional list of fallback configurations.
     """
 
     clients: list[Client] = []

@@ -1,4 +1,3 @@
-from __future__ import annotations
 """
 Provides a high-level interface to interact with the XUI API, offering access to client, inbound, and database APIs.
 """
@@ -19,12 +18,12 @@ class Api:
         password (str): The password for authentication.
         skip_login (bool, optional): If True, skips the login process. Defaults to False.
 
-    Attributes:
-        client (ClientApi): API client for handling client-related operations.
-        inbound (InboundApi): API client for handling inbound-related operations.
-        database (DatabaseApi): API client for handling database-related operations.
+    Attributes and Properties:
+        client (ClientApi): An instance of the ClientApi class for handling client-related operations.
+        inbound (InboundApi): An instance of the InboundApi class for handling inbound-related operations.
+        database (DatabaseApi): An instance of the DatabaseApi class for handling database-related operations.
 
-    Methods:
+    Public Methods:
         from_env: Create an instance of Api using environment variables.
         login: Log into the XUI API and set the session.
 
@@ -66,7 +65,7 @@ class Api:
             self.login()
 
     @classmethod
-    def from_env(cls, skip_login: bool = False) -> 'Api':
+    def from_env(cls, skip_login: bool = False) -> Api:
         """
         Create an instance of Api using environment variables.
 

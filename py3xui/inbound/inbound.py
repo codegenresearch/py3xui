@@ -8,7 +8,7 @@ from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
 # Module-level docstring for clarity
-# This module defines the Inbound class used to parse and represent inbound connection configurations from the XUI API.
+# This module defines the Inbound class, which represents an inbound connection configuration for the XUI API.
 
 # pylint: disable=too-few-public-methods
 class InboundFields:
@@ -35,24 +35,24 @@ class InboundFields:
 
 
 class Inbound(BaseModel):
-    """Represents an inbound connection configuration from the XUI API.
+    """Represents an inbound connection configuration for the XUI API.
 
     Attributes:
-        enable (bool): Indicates whether the inbound connection is enabled.
-        port (int): The port number on which the inbound connection listens.
-        protocol (str): The protocol used by the inbound connection (e.g., vmess, vless).
-        settings (Settings): The settings specific to the protocol.
-        stream_settings (StreamSettings): Stream settings for the inbound connection.
-        sniffing (Sniffing): Sniffing settings for the inbound connection.
-        listen (str): The address on which the inbound connection listens. Defaults to an empty string.
-        remark (str): Any remarks or notes about the inbound connection. Defaults to an empty string.
-        id (int): The unique identifier for the inbound connection. Defaults to 0.
-        up (int): The upload traffic of the inbound connection. Defaults to 0.
-        down (int): The download traffic of the inbound connection. Defaults to 0.
-        total (int): The total traffic of the inbound connection. Defaults to 0.
-        expiry_time (int): The expiry time of the inbound connection. Defaults to 0.
-        client_stats (list[Client]): List of client statistics for the inbound connection. Defaults to an empty list.
-        tag (str): The tag associated with the inbound connection. Defaults to an empty string.
+        enable (bool): Required. Indicates whether the inbound connection is enabled.
+        port (int): Required. The port number on which the inbound connection listens.
+        protocol (str): Required. The protocol used by the inbound connection (e.g., vmess, vless).
+        settings (Settings): Required. The settings specific to the protocol.
+        stream_settings (StreamSettings): Required. Stream settings for the inbound connection.
+        sniffing (Sniffing): Required. Sniffing settings for the inbound connection.
+        listen (str): Optional. The address on which the inbound connection listens. Defaults to an empty string.
+        remark (str): Optional. Any remarks or notes about the inbound connection. Defaults to an empty string.
+        id (int): Optional. The unique identifier for the inbound connection. Defaults to 0.
+        up (int): Optional. The upload traffic of the inbound connection. Defaults to 0.
+        down (int): Optional. The download traffic of the inbound connection. Defaults to 0.
+        total (int): Optional. The total traffic of the inbound connection. Defaults to 0.
+        expiry_time (int): Optional. The expiry time of the inbound connection. Defaults to 0.
+        client_stats (list[Client]): Optional. List of client statistics for the inbound connection. Defaults to an empty list.
+        tag (str): Optional. The tag associated with the inbound connection. Defaults to an empty string.
     """
 
     enable: bool
@@ -82,8 +82,6 @@ class Inbound(BaseModel):
 
     def to_json(self) -> dict[str, Any]:
         """Converts the inbound connection configuration to a JSON-compatible dictionary for the XUI API.
-
-        This method includes only specific fields in the output and serializes nested models to JSON strings.
 
         Returns:
             dict[str, Any]: A dictionary representing the inbound connection configuration in JSON format.

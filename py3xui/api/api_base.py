@@ -43,9 +43,24 @@ class BaseApi:
         password (str): The XUI password.
         max_retries (int): The maximum number of retries for API requests.
         session (str | None): The session cookie for authenticated requests.
+
+    Public Methods:
+        login: Logs into the XUI API and sets the session cookie.
+        _check_response: Checks the API response for success status.
+        _url: Constructs the full URL for an API endpoint.
+        _request_with_retry: Sends a request to the API with retry logic.
+        _post: Sends a POST request to the API.
+        _get: Sends a GET request to the API.
     """
 
     def __init__(self, host: str, username: str, password: str):
+        """Initializes the BaseApi with the provided credentials.
+
+        Args:
+            host (str): The XUI host URL.
+            username (str): The XUI username.
+            password (str): The XUI password.
+        """
         self._host = host.rstrip("/")
         self._username = username
         self._password = password
@@ -111,7 +126,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("Login failed: No session cookie found.")
+            raise ValueError("Login failed: No session cookie received.")
         logger.info("Session cookie retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -129,7 +144,7 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"API error: {message}")
+            raise ValueError(f"API request failed: {message}")
 
     def _url(self, endpoint: str) -> str:
         """Constructs the full URL for an API endpoint.

@@ -1,33 +1,34 @@
-# pylint: disable=missing-module-docstring
+# pylint: disable=too-few-public-methods
+"""
+Module for handling XUI settings configuration.
+
+This module defines the `Settings` class, which is used to parse and store settings data
+for the XUI application. The class inherits from `JsonStringModel` and includes attributes
+for clients, decryption methods, and fallback configurations.
+"""
+
 from py3xui.client.client import Client
 from py3xui.inbound.bases import JsonStringModel
 
-# Stores the fields returned by the XUI API for parsing.
+
 class SettingsFields:
     """Stores the fields returned by the XUI API for parsing."""
 
-    # Key for accessing the list of clients in the settings.
     CLIENTS = "clients"
-    # Key for accessing the decryption method in the settings.
     DECRYPTION = "decryption"
-    # Key for accessing the fallback configurations in the settings.
     FALLBACKS = "fallbacks"
 
 
 class Settings(JsonStringModel):
     """
-    Represents the settings configuration for the XUI application, inheriting from JsonStringModel.
-    This class is used to parse and store settings data in a structured format.
+    Represents the settings configuration for the XUI application.
 
     Attributes:
-        clients (list[Client], optional): List of Client objects representing the clients configured in the settings. Defaults to an empty list.
-        decryption (str, optional): String representing the decryption method used in the settings. Defaults to an empty string.
-        fallbacks (list, optional): List of fallback configurations used in the settings. Defaults to an empty list.
+        clients (list[Client]): List of Client objects representing the clients configured in the settings.
+        decryption (str): String representing the decryption method used in the settings.
+        fallbacks (list): List of fallback configurations used in the settings.
     """
 
-    # List of Client objects representing the clients configured in the settings. Defaults to an empty list.
     clients: list[Client] = []
-    # String representing the decryption method used in the settings. Defaults to an empty string.
     decryption: str = ""
-    # List of fallback configurations used in the settings. Defaults to an empty list.
     fallbacks: list = []

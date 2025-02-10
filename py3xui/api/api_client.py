@@ -26,15 +26,12 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             client: py3xui.Client = api.client.get_by_email("email@example.com")
             
-            
-        """  # pylint: disable=line-too-long
-
+        """
         endpoint = f"panel/api/inbounds/getClientTraffics/{email}"
         headers = {"Accept": "application/json"}
 
@@ -63,14 +60,12 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             ips = api.client.get_ips("email@example.com")
             
-            
-        """  # pylint: disable=line-too-long
+        """
         endpoint = f"panel/api/inbounds/clientIps/{email}"
         headers = {"Accept": "application/json"}
 
@@ -95,13 +90,11 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             clients = [py3xui.Client(...)]
             api.client.add(1, clients)
-            
             
         """
         endpoint = "panel/api/inbounds/addClient"
@@ -114,10 +107,10 @@ class ClientApi(BaseApi):
             ]
         }
         data = {"id": inbound_id, "settings": json.dumps(settings)}
-        logger.info("Adding %s clients to inbound with ID: %s", len(clients), inbound_id)
+        logger.info("Adding clients to inbound ID: %s", inbound_id)
 
         self._post(url, headers, data)
-        logger.info("Client added successfully.")
+        logger.info("Clients added successfully.")
 
     def update(self, client_uuid: str, client: Client) -> None:
         """
@@ -132,13 +125,11 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             client = py3xui.Client(...)
             api.client.update("client-uuid", client)
-            
             
         """
         endpoint = f"panel/api/inbounds/updateClient/{client_uuid}"
@@ -150,7 +141,7 @@ class ClientApi(BaseApi):
 
         logger.info("Updating client with UUID: %s", client_uuid)
         self._post(url, headers, data)
-        logger.info("Client with UUID %s updated successfully.", client_uuid)
+        logger.info("Client updated successfully.")
 
     def reset_ips(self, email: str) -> None:
         """
@@ -164,12 +155,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.reset_ips("email@example.com")
-            
             
         """
         endpoint = f"panel/api/inbounds/clearClientIps/{email}"
@@ -180,7 +169,7 @@ class ClientApi(BaseApi):
         logger.info("Resetting client IPs for email: %s", email)
 
         self._post(url, headers, data)
-        logger.info("Client IPs for email %s reset successfully.", email)
+        logger.info("Client IPs reset successfully.")
 
     def reset_stats(self, inbound_id: int, email: str) -> None:
         """
@@ -195,12 +184,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.reset_stats(1, "email@example.com")
-            
             
         """
         endpoint = f"panel/api/inbounds/{inbound_id}/resetClientTraffic/{email}"
@@ -211,7 +198,7 @@ class ClientApi(BaseApi):
         logger.info("Resetting client stats for inbound ID: %s, email: %s", inbound_id, email)
 
         self._post(url, headers, data)
-        logger.info("Client stats for inbound ID %s and email %s reset successfully.", inbound_id, email)
+        logger.info("Client stats reset successfully.")
 
     def delete(self, inbound_id: int, client_uuid: str) -> None:
         """
@@ -226,12 +213,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.delete(1, "client-uuid")
-            
             
         """
         endpoint = f"panel/api/inbounds/{inbound_id}/delClient/{client_uuid}"
@@ -242,7 +227,7 @@ class ClientApi(BaseApi):
         logger.info("Deleting client with UUID: %s", client_uuid)
 
         self._post(url, headers, data)
-        logger.info("Client with UUID %s deleted successfully.", client_uuid)
+        logger.info("Client deleted successfully.")
 
     def delete_depleted(self, inbound_id: int) -> None:
         """
@@ -256,12 +241,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             api.client.delete_depleted(1)
-            
             
         """
         endpoint = f"panel/api/inbounds/delDepletedClients/{inbound_id}"
@@ -272,7 +255,7 @@ class ClientApi(BaseApi):
         logger.info("Deleting depleted clients for inbound ID: %s", inbound_id)
 
         self._post(url, headers, data)
-        logger.info("Depleted clients for inbound ID %s deleted successfully.", inbound_id)
+        logger.info("Depleted clients deleted successfully.")
 
     def online(self) -> list[str]:
         """
@@ -283,12 +266,10 @@ class ClientApi(BaseApi):
 
         Examples::
             
-            
             import py3xui
 
             api = py3xui.Api.from_env()
             online_clients = api.client.online()
-            
             
         """
         endpoint = "panel/api/inbounds/onlines"

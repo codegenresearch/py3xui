@@ -46,6 +46,8 @@ class BaseApi:
 
     Public Methods:
         login: Logs into the XUI API and sets the session cookie.
+
+    Private Methods:
         _check_response: Checks the API response for success status.
         _url: Constructs the full URL for an API endpoint.
         _request_with_retry: Sends a request to the API with retry logic.
@@ -126,7 +128,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("Login failed: No session cookie received.")
+            raise ValueError("Login failed: No session cookie received from the server.")
         logger.info("Session cookie retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -144,7 +146,7 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"API request failed: {message}")
+            raise ValueError(f"API request failed with message: {message}")
 
     def _url(self, endpoint: str) -> str:
         """Constructs the full URL for an API endpoint.

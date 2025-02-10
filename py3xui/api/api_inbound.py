@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, List
+from typing import Any, List, Optional
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -30,6 +30,7 @@ class InboundApi(BaseApi):
 
     Examples:
     
+    
     import py3xui
 
     api = py3xui.Api.from_env()
@@ -52,6 +53,7 @@ class InboundApi(BaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -72,7 +74,7 @@ class InboundApi(BaseApi):
         self.logger.info("Inbounds retrieved successfully.")
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Inbound:
+    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
         """Retrieves an inbound by its ID.
 
         This route is used to retrieve statistics and details for a specific inbound connection
@@ -85,12 +87,10 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound: The inbound object.
-
-        Raises:
-            ValueError: If the inbound is not found.
+            Inbound | None: The inbound object if found, otherwise None.
 
         Examples:
+        
         
         import py3xui
 
@@ -115,7 +115,8 @@ class InboundApi(BaseApi):
             self.logger.info("Inbound retrieved successfully.")
             return inbound
         else:
-            raise ValueError(f"Inbound with ID {inbound_id} not found.")
+            self.logger.info("Inbound not found.")
+            return None
 
     def add(self, inbound: Inbound) -> None:
         """Adds a new inbound.
@@ -128,6 +129,7 @@ class InboundApi(BaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
+        
         
         import py3xui
         from py3xui.inbound import Inbound, Settings, Sniffing, StreamSettings
@@ -178,6 +180,7 @@ class InboundApi(BaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -210,6 +213,7 @@ class InboundApi(BaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -240,6 +244,7 @@ class InboundApi(BaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -268,6 +273,7 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to reset the client stats.
 
         Examples:
+        
         
         import py3xui
 

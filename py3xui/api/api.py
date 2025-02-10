@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 """
-This module provides a high-level interface to interact with the XUI API, offering access to client, inbound, and database APIs.
+Provides a high-level interface to interact with the XUI API, offering access to client, inbound, and database APIs.
 """
 
 from py3xui.api import ClientApi, DatabaseApi, InboundApi
@@ -25,10 +23,6 @@ class Api:
         inbound (InboundApi): API client for handling inbound-related operations.
         database (DatabaseApi): API client for handling database-related operations.
 
-    Methods:
-        from_env(cls, skip_login: bool = False) -> Api: Create an instance using environment variables.
-        login(self) -> None: Log into the XUI API and set the session.
-
     Examples:
 
     
@@ -36,7 +30,9 @@ class Api:
     from py3xui.api.api import Api
     api = Api(host='https://api.example.com', username='user', password='pass')
     api.login()
+    
 
+    
     # Create an instance of Api using environment variables
     import os
     os.environ['XUI_HOST'] = 'https://api.example.com'
@@ -74,6 +70,17 @@ class Api:
 
         Returns:
             Api: An instance of the Api class.
+
+        Examples:
+
+        
+        import os
+        os.environ['XUI_HOST'] = 'https://api.example.com'
+        os.environ['XUI_USERNAME'] = 'user'
+        os.environ['XUI_PASSWORD'] = 'pass'
+        api_from_env = Api.from_env()
+        api_from_env.login()
+        
         """
         host = env.xui_host()
         username = env.xui_username()
@@ -85,8 +92,15 @@ class Api:
         Log into the XUI API and set the session.
 
         This method logs into the XUI API and sets the session for the client, inbound, and database APIs.
+
+        Examples:
+
+        
+        api = Api(host='https://api.example.com', username='user', password='pass')
+        api.login()
+        
         """
         self.client.login()
         self.inbound.session = self.client.session
         self.database.session = self.client.session
-        logger.info("Logged in.")
+        logger.info("Successfully logged into the XUI API.")

@@ -70,7 +70,7 @@ class Inbound(BaseModel):
     total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: Optional[List[Client]] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+    client_stats: list[Client] | None = Field(default=None, alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = ""
 

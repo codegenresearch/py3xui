@@ -1,11 +1,13 @@
-import json
+"""
+Module for handling JSON string validation in Pydantic models.
+"""
 
 from pydantic import BaseModel, model_validator
+import json
 
 class JsonStringModel(BaseModel):
     """
-    Base class for Pydantic models that handle a JSON string as a field.
-    This model attempts to parse the input into a dictionary if it is a valid JSON string.
+    Pydantic model that validates and parses JSON strings.
     """
 
     @model_validator(mode="before")
@@ -14,7 +16,7 @@ class JsonStringModel(BaseModel):
         values,
     ):  # pylint: disable=no-self-argument, arguments-differ
         """
-        Validates and converts the input values. If the input is a JSON string, it attempts to parse it into a dictionary.
+        Validate and convert JSON string to dictionary.
         """
         if isinstance(values, str):
             try:

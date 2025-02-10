@@ -1,5 +1,4 @@
-"""This module contains the StreamSettings class, which is used to parse the JSON response
-from the XUI API for inbound connection settings."""
+"""This module contains the StreamSettings class for parsing inbound connection settings."""
 
 from pydantic import ConfigDict, Field
 
@@ -8,24 +7,12 @@ from py3xui.inbound.bases import JsonStringModel
 
 # pylint: disable=too-few-public-methods
 class StreamSettingsFields:
-    """Stores the fields returned by the XUI API for parsing.
-
-    Attributes:
-        SECURITY (str): The key for the security settings in the API response.
-        NETWORK (str): The key for the network settings in the API response.
-        TCP_SETTINGS (str): The key for the TCP settings in the API response.
-        EXTERNAL_PROXY (str): The key for the external proxy settings in the API response.
-        REALITY_SETTINGS (str): The key for the reality settings in the API response.
-        XTLS_SETTINGS (str): The key for the XTLS settings in the API response.
-        TLS_SETTINGS (str): The key for the TLS settings in the API response.
-    """
+    """Stores the fields returned by the XUI API for parsing."""
 
     SECURITY = "security"
     NETWORK = "network"
     TCP_SETTINGS = "tcpSettings"
-
     EXTERNAL_PROXY = "externalProxy"
-
     REALITY_SETTINGS = "realitySettings"
     XTLS_SETTINGS = "xtlsSettings"
     TLS_SETTINGS = "tlsSettings"
@@ -37,10 +24,10 @@ class StreamSettings(JsonStringModel):
     Attributes:
         security (str): The security for the inbound connection. Required.
         network (str): The network type for the inbound connection. Required.
-        tcp_settings (dict): The TCP settings for the inbound connection. Optional.
+        tcp_settings (dict): The TCP settings for the inbound connection. Required.
         external_proxy (list): The external proxy settings for the inbound connection. Optional.
         reality_settings (dict): The reality settings for the inbound connection. Optional.
-        xtls_settings (dict): The XTLS settings for the inbound connection. Optional.
+        xtls_settings (dict): The xTLS settings for the inbound connection. Optional.
         tls_settings (dict): The TLS settings for the inbound connection. Optional.
     """
 

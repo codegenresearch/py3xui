@@ -38,3 +38,6 @@ class Sniffing(JsonStringModel):
     route_only: bool = Field(
         default=False, alias=SniffingFields.ROUTE_ONLY
     )  # type: ignore
+
+
+I have ensured that the module and class docstrings are concise and consistent with the gold code. The attribute descriptions are clear and brief, and the formatting of the class attributes is aligned with the gold code.

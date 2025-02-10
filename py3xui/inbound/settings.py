@@ -1,5 +1,5 @@
 """
-Module for parsing inbound connection settings from JSON responses.
+Module for parsing JSON responses from the XUI API, specifically containing the Settings class.
 """
 
 # pylint: disable=too-few-public-methods
@@ -17,10 +17,10 @@ class SettingsFields:
 
 class Settings(JsonStringModel):
     """
-    Represents the settings for an inbound connection.
+    Represents the settings for an inbound connection parsed from JSON responses.
 
     Attributes:
-        clients (list[Client], optional): List of clients.
+        clients (list[Client], optional): List of client configurations.
         decryption (str, optional): Decryption method.
         fallbacks (list, optional): List of fallback configurations.
     """

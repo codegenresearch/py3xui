@@ -1,5 +1,5 @@
 """
-Module for parsing JSON responses from the XUI API, specifically containing the Settings class.
+Module containing the Settings class for parsing inbound connection settings from JSON responses.
 """
 
 # pylint: disable=too-few-public-methods
@@ -21,7 +21,7 @@ class Settings(JsonStringModel):
 
     Attributes:
         clients (list[Client], optional): List of client configurations.
-        decryption (str, optional): Decryption method.
+        decryption (str, optional): Decryption method used.
         fallbacks (list, optional): List of fallback configurations.
     """
 

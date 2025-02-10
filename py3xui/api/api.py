@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 """
-This module provides classes to interact with the XUI API.
+This module provides a high-level interface to interact with the XUI API, offering access to client, inbound, and database APIs.
 
 Classes:
 - `Api`: A class to manage interactions with the XUI API, including login and session management.
@@ -13,7 +15,7 @@ logger = Logger(__name__)
 
 class Api:
     """
-    A class to manage interactions with the XUI API.
+    A class to manage interactions with the XUI API, providing a high-level interface to the client, inbound, and database APIs.
 
     Args:
     - host (str): The host URL of the XUI API.
@@ -27,21 +29,27 @@ class Api:
     - database (DatabaseApi): An instance of DatabaseApi for handling database-related API calls.
 
     Public Methods:
-    - `from_env(cls, skip_login: bool = False)`: Class method to create an instance of Api using environment variables.
+    - `from_env(cls, skip_login: bool = False) -> Api`: Class method to create an instance of Api using environment variables.
     - `login(self) -> None`: Logs into the XUI API and sets the session for inbound and database API calls.
 
     Examples:
     
+    # Import necessary modules
+    from py3xui.api.api import Api
+
     # Create an instance of Api using direct parameters
     api = Api(host='https://api.example.com', username='user', password='pass')
     api.login()
 
+    # Set environment variables (example using os module)
+    import os
+    os.environ['XUI_HOST'] = 'https://api.example.com'
+    os.environ['XUI_USERNAME'] = 'user'
+    os.environ['XUI_PASSWORD'] = 'pass'
+
     # Create an instance of Api using environment variables
     api_from_env = Api.from_env()
     api_from_env.login()
-    
-
-    After logging in, the `client`, `inbound`, and `database` attributes will have their sessions set, allowing you to make authenticated API calls.
     """
 
     def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
@@ -61,7 +69,7 @@ class Api:
             self.login()
 
     @classmethod
-    def from_env(cls, skip_login: bool = False) -> 'Api':
+    def from_env(cls, skip_login: bool = False) -> Api:
         """
         Creates an instance of Api using environment variables.
 
@@ -81,10 +89,10 @@ class Api:
         Logs into the XUI API and sets the session for inbound and database API calls.
 
         This method logs into the XUI API using the provided credentials and sets the session
-        for the `inbound` and `database` API instances. This is necessary for making authenticated
-        API calls.
+        cookie for the `client`, `inbound`, and `database` API instances. This is necessary for
+        making authenticated API calls.
         """
         self.client.login()
         self.inbound.session = self.client.session
         self.database.session = self.client.session
-        logger.info("Logged into successfully.")
+        logger.info("Logged into the XUI API successfully.")

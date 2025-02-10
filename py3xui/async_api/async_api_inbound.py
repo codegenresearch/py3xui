@@ -32,6 +32,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
     Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -50,6 +51,7 @@ class AsyncInboundApi(AsyncBaseApi):
             list[Inbound]: A list of inbounds.
 
         Examples:
+            
             
             import py3xui
 
@@ -70,9 +72,10 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Inbound:
+    async def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
         """Retrieves statistics and details for a specific inbound connection identified by its ID.
-        If the inbound is not found, the method will raise an exception.
+        This includes information about the inbound itself, its statistics, and the clients connected to it.
+        If the inbound is not found, the method will return None.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -80,12 +83,10 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound: The inbound object.
-
-        Raises:
-            Exception: If the inbound is not found.
+            Inbound | None: The inbound object if found, otherwise None.
 
         Examples:
+            
             
             import py3xui
 
@@ -105,6 +106,10 @@ class AsyncInboundApi(AsyncBaseApi):
         response = await self._get(url, headers)
 
         inbound_json = response.json().get(ApiFields.OBJ)
+        if not inbound_json:
+            self.logger.warning("Inbound with ID %s not found", inbound_id)
+            return None
+
         inbound = Inbound.model_validate(inbound_json)
         return inbound
 
@@ -117,6 +122,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
+            
             
             import py3xui
 
@@ -164,6 +170,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -195,6 +202,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -224,6 +232,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -250,6 +259,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to reset the client stats.
 
         Examples:
+            
             
             import py3xui
 

@@ -1,16 +1,13 @@
-"""This module contains the Inbound class, which represents an inbound connection in the XUI API."""
+"""This module contains the Inbound class, which represents an inbound connection in the XUI API and provides methods for interacting with it."""
 
-from typing import Any
-
+from typing import Any, List
 from pydantic import BaseModel, ConfigDict, Field
-
 from py3xui.client.client import Client
 from py3xui.inbound.settings import Settings
 from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
 
-# pylint: disable=too-few-public-methods
 class InboundFields:
     """Stores the fields returned by the XUI API for parsing."""
 
@@ -72,9 +69,7 @@ class Inbound(BaseModel):
     total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: list[Client] | None = Field(  # type: ignore
-        default=[], alias=InboundFields.CLIENT_STATS
-    )
+    client_stats: List[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = ""
 
@@ -88,7 +83,6 @@ class Inbound(BaseModel):
         Returns:
             dict[str, Any]: The JSON-compatible dictionary.
         """
-
         include = {
             InboundFields.REMARK,
             InboundFields.ENABLE,
@@ -103,11 +97,33 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(  # pylint: disable=no-member
-                    by_alias=True
-                ),
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),
                 InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
             }
         )
 
         return result
+
+    async def fetch_inbound_details(self, client: Client) -> 'Inbound':
+        """Fetches the details of the inbound connection asynchronously.
+
+        Args:
+            client (Client): The client to use for making the API request.
+
+        Returns:
+            Inbound: The updated Inbound instance with fetched details.
+        """
+        response = await client.get_inbound(self.id)
+        return Inbound(**response)
+
+    def fetch_inbound_details_sync(self, client: Client) -> 'Inbound':
+        """Fetches the details of the inbound connection synchronously.
+
+        Args:
+            client (Client): The client to use for making the API request.
+
+        Returns:
+            Inbound: The updated Inbound instance with fetched details.
+        """
+        response = client.get_inbound_sync(self.id)
+        return Inbound(**response)

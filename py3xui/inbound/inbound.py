@@ -35,7 +35,25 @@ class InboundFields:
 
 
 class Inbound(BaseModel):
-    """Represents an inbound configuration from the XUI API."""
+    """Represents an inbound configuration from the XUI API.
+
+    Attributes:
+        enable (bool): Indicates whether the inbound is enabled.
+        port (int): The port number on which the inbound listens.
+        protocol (str): The protocol used by the inbound (e.g., vmess, vless).
+        settings (Settings): The settings specific to the protocol.
+        stream_settings (StreamSettings): Stream settings for the inbound.
+        sniffing (Sniffing): Sniffing settings for the inbound.
+        listen (str): The address on which the inbound listens (default is an empty string).
+        remark (str): Any remarks or notes about the inbound (default is an empty string).
+        id (int): The unique identifier for the inbound (default is 0).
+        up (int): The upload traffic of the inbound (default is 0).
+        down (int): The download traffic of the inbound (default is 0).
+        total (int): The total traffic of the inbound (default is 0).
+        expiry_time (int): The expiry time of the inbound (default is 0).
+        client_stats (list[Client]): List of client statistics (default is an empty list).
+        tag (str): The tag associated with the inbound (default is an empty string).
+    """
 
     enable: bool  # Indicates whether the inbound is enabled
     port: int  # The port number on which the inbound listens
@@ -83,8 +101,8 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # pylint: disable=no-member
-                InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # type: ignore
+                InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),  # type: ignore
             }
         )
 

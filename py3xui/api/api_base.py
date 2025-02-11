@@ -30,7 +30,7 @@ class ApiFields:
 class BaseApi:
     """Provides a base class for interacting with the XUI API.
 
-    This class handles the basic authentication and request management for the XUI API.
+    This class handles basic authentication and request management for the XUI API.
     It includes methods for logging in, making requests with retry logic, and checking responses.
 
     Args:
@@ -44,9 +44,6 @@ class BaseApi:
         password (str): The XUI password.
         max_retries (int): The maximum number of retries for API requests.
         session (str | None): The session cookie for authenticated requests.
-
-    Public Methods:
-        login: Logs into the XUI API and sets the session cookie.
     """
 
     def __init__(self, host: str, username: str, password: str):

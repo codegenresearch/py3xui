@@ -8,6 +8,7 @@ from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
 # pylint: disable=missing-module-docstring
+# This module contains the definition of the Inbound class, which represents an inbound connection in the XUI API.
 
 class InboundFields:
     """Stores the fields returned by the XUI API for parsing."""
@@ -34,7 +35,7 @@ class InboundFields:
 
 class Inbound(BaseModel):
     """
-    Represents an inbound configuration for the XUI API.
+    Represents an inbound connection in the XUI API.
 
     Attributes:
         enable (bool): Whether the inbound is enabled.
@@ -43,15 +44,15 @@ class Inbound(BaseModel):
         settings (Settings): The settings for the inbound.
         stream_settings (StreamSettings): The stream settings for the inbound.
         sniffing (Sniffing): The sniffing settings for the inbound.
-        listen (str): The address to listen on.
-        remark (str): A remark for the inbound.
-        id (int): The unique identifier for the inbound.
-        up (int): The upload traffic.
-        down (int): The download traffic.
-        total (int): The total traffic.
-        expiry_time (int): The expiry time for the inbound.
-        client_stats (list[Client]): The client statistics for the inbound.
-        tag (str): A tag for the inbound.
+        listen (str): The address to listen on (optional).
+        remark (str): A remark for the inbound (optional).
+        id (int): The unique identifier for the inbound (optional).
+        up (int): The upload traffic (optional).
+        down (int): The download traffic (optional).
+        total (int): The total traffic (optional).
+        expiry_time (int): The expiry time for the inbound (optional).
+        client_stats (list[Client]): The client statistics for the inbound (optional).
+        tag (str): A tag for the inbound (optional).
     """
 
     enable: bool
@@ -81,7 +82,7 @@ class Inbound(BaseModel):
 
     def to_json(self) -> dict[str, Any]:
         """
-        Converts the inbound configuration to a JSON-compatible dictionary.
+        Converts the Inbound instance to a JSON-compatible dictionary for the XUI API.
 
         Returns:
             dict[str, Any]: A dictionary representing the inbound configuration.

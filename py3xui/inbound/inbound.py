@@ -59,7 +59,7 @@ class Inbound(BaseModel):
     port: int
     protocol: str
     settings: Settings
-    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)
+    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # type: ignore
     sniffing: Sniffing
 
     listen: str = Field(default="", alias=InboundFields.LISTEN)
@@ -71,8 +71,8 @@ class Inbound(BaseModel):
 
     total: int = Field(default=0, alias=InboundFields.TOTAL)
 
-    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)
-    client_stats: Optional[List[Client]] = Field(default=[], alias=InboundFields.CLIENT_STATS)
+    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
+    client_stats: Optional[List[Client]] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = Field(default="", alias=InboundFields.TAG)
 
@@ -101,8 +101,8 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),
-                InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # pylint: disable=no-member
+                InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),  # pylint: disable=no-member
             }
         )
 

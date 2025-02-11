@@ -1,5 +1,5 @@
 import json
-from typing import Any, List
+from typing import Any, list
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.client.client import Client
@@ -28,7 +28,7 @@ class ClientApi(BaseApi):
             import py3xui
 
             api = py3xui.Api.from_env()
-            client: py3xui.Client = api.client.get_by_email("email@example.com")
+            client: py3xui.Client = api.client.get_by_email("email")
             
         """  # pylint: disable=line-too-long
 
@@ -63,7 +63,7 @@ class ClientApi(BaseApi):
             import py3xui
 
             api = py3xui.Api.from_env()
-            ips = api.client.get_ips("email@example.com")
+            ips = api.client.get_ips("email")
             
         """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/clientIps/{email}"
@@ -77,13 +77,13 @@ class ClientApi(BaseApi):
         ips_json = response.json().get(ApiFields.OBJ)
         return ips_json if ips_json != ApiFields.NO_IP_RECORD else None
 
-    def add(self, inbound_id: int, clients: List[Client]):
+    def add(self, inbound_id: int, clients: list[Client]) -> None:
         """
         Add clients to a specific inbound.
 
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
-            clients (List[Client]): A list of Client objects to add.
+            clients (list[Client]): A list of Client objects to add.
 
         Examples::
             
@@ -149,7 +149,7 @@ class ClientApi(BaseApi):
             import py3xui
 
             api = py3xui.Api.from_env()
-            api.client.reset_ips("email@example.com")
+            api.client.reset_ips("email")
             
         """
         endpoint = f"panel/api/inbounds/clearClientIps/{email}"
@@ -175,7 +175,7 @@ class ClientApi(BaseApi):
             import py3xui
 
             api = py3xui.Api.from_env()
-            api.client.reset_stats(1, "email@example.com")
+            api.client.reset_stats(1, "email")
             
         """
         endpoint = f"panel/api/inbounds/{inbound_id}/resetClientTraffic/{email}"
@@ -239,12 +239,12 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> List[str]:
+    def online(self) -> list[str]:
         """
         Retrieve a list of online clients.
 
         Returns:
-            List[str]: A list of online client UUIDs.
+            list[str]: A list of online client UUIDs.
 
         Examples::
             

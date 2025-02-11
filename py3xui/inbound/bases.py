@@ -14,9 +14,7 @@ class JsonStringModel(BaseModel):
         values,
     ):  # pylint: disable=no-self-argument, arguments-differ
         """
-        Validates and converts the input values.
-
-        If the input is a JSON string, it attempts to parse it into a dictionary.
+        Validates and converts a JSON string into a dictionary.
         If parsing fails, the original input is returned.
         """
         if isinstance(values, str):

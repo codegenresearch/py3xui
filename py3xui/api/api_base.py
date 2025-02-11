@@ -119,7 +119,7 @@ class BaseApi:
     def login(self) -> None:
         """Logs into the XUI API and sets the session cookie.
 
-        This method makes a login request to the API and retrieves the session cookie.
+        This method sends a login request to the API and retrieves the session cookie.
         If the login is successful, the session cookie is stored for future requests.
 
         Raises:
@@ -135,7 +135,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("Login failed: No session cookie found in the response.")
+            raise ValueError("Login failed: No session cookie received from the server.")
         logger.info("Session cookie successfully retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -226,7 +226,7 @@ class BaseApi:
     ) -> requests.Response:
         """Makes a POST request to the API.
 
-        This method makes a POST request to the specified URL with the given headers and data.
+        This method sends a POST request to the specified URL with the given headers and data.
 
         Args:
             url (str): The URL to make the request to.
@@ -242,7 +242,7 @@ class BaseApi:
     def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
         """Makes a GET request to the API.
 
-        This method makes a GET request to the specified URL with the given headers.
+        This method sends a GET request to the specified URL with the given headers.
 
         Args:
             url (str): The URL to make the request to.

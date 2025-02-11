@@ -79,13 +79,13 @@ class ClientApi(BaseApi):
         ips_json = response.json().get(ApiFields.OBJ)
         return ips_json if ips_json != ApiFields.NO_IP_RECORD else None
 
-    def add(self, inbound_id: int, clients: list[Client]) -> None:
+    def add(self, inbound_id: int, clients: List[Client]) -> None:
         """
         Add clients to a specific inbound.
 
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
-            clients (list[Client]): A list of Client objects to add.
+            clients (List[Client]): A list of Client objects to add.
 
         Returns:
             None
@@ -265,12 +265,12 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> list[str]:
+    def online(self) -> List[str]:
         """
         Retrieve a list of online clients.
 
         Returns:
-            list[str]: A list of online client UUIDs.
+            List[str]: A list of online client UUIDs.
 
         Examples:
         

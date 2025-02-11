@@ -1,3 +1,7 @@
+"""
+Module for handling settings related to inbound connections in the XUI API.
+"""
+
 from py3xui.client.client import Client
 from py3xui.inbound.bases import JsonStringModel
 

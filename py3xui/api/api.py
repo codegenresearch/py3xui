@@ -12,13 +12,12 @@ logger = Logger(__name__)
 class Api:
     """High-level interface to interact with the XUI API.
 
-    This class initializes the API with the given credentials and provides methods to log in and perform
-    operations through the client, database, and inbound interfaces.
+    This class provides methods to log in and perform operations through the client, database, and inbound interfaces.
 
     Args:
         host (str): The XUI host URL.
-        username (str): The username for authentication.
-        password (str): The password for authentication.
+        xui_username (str): The XUI username for authentication.
+        xui_password (str): The XUI password for authentication.
         skip_login (bool): Whether to skip the login process.
 
     Attributes:
@@ -32,8 +31,10 @@ class Api:
 
     Examples:
     
+    
     # Initialize the API with explicit credentials and log in
-    api = Api(host='https://api.example.com', username='user', password='pass')
+    from py3xui.api.api import Api
+    api = Api(host='https://api.example.com', xui_username='user', xui_password='pass')
     api.login()
     # Logged in successfully.
     
@@ -41,6 +42,7 @@ class Api:
     
     # Initialize the API using environment variables and log in
     import os
+    from py3xui.api.api import Api
     os.environ['XUI_HOST'] = 'https://api.example.com'
     os.environ['XUI_USERNAME'] = 'user'
     os.environ['XUI_PASSWORD'] = 'pass'
@@ -51,18 +53,18 @@ class Api:
 
     """
 
-    def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
+    def __init__(self, host: str, xui_username: str, xui_password: str, skip_login: bool = False):
         """Initialize the API with the given credentials.
 
         Args:
             host (str): The XUI host URL.
-            username (str): The username for authentication.
-            password (str): The password for authentication.
+            xui_username (str): The XUI username for authentication.
+            xui_password (str): The XUI password for authentication.
             skip_login (bool): Whether to skip the login process.
         """
-        self.client = ClientApi(host, username, password)
-        self.inbound = InboundApi(host, username, password)
-        self.database = DatabaseApi(host, username, password)
+        self.client = ClientApi(host, xui_username, xui_password)
+        self.inbound = InboundApi(host, xui_username, xui_password)
+        self.database = DatabaseApi(host, xui_username, xui_password)
         if not skip_login:
             self.login()
 
@@ -78,7 +80,9 @@ class Api:
 
         Example:
         
+        
         import os
+        from py3xui.api.api import Api
         os.environ['XUI_HOST'] = 'https://api.example.com'
         os.environ['XUI_USERNAME'] = 'user'
         os.environ['XUI_PASSWORD'] = 'pass'
@@ -86,11 +90,12 @@ class Api:
         api.login()
         # Logged in successfully.
         
+        
         """
         host = env.xui_host()
-        username = env.xui_username()
-        password = env.xui_password()
-        return cls(host, username, password, skip_login)
+        xui_username = env.xui_username()
+        xui_password = env.xui_password()
+        return cls(host, xui_username, xui_password, skip_login)
 
     def login(self) -> None:
         """Log into the XUI API and set the session for other API components.
@@ -100,9 +105,12 @@ class Api:
 
         Example:
         
-        api = Api(host='https://api.example.com', username='user', password='pass')
+        
+        from py3xui.api.api import Api
+        api = Api(host='https://api.example.com', xui_username='user', xui_password='pass')
         api.login()
         # Logged in successfully.
+        
         
         """
         self.client.login()

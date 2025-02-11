@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -70,10 +70,11 @@ class InboundApi(BaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    def get_by_id(self, inbound_id: int) -> Inbound:
         """This route is used to retrieve statistics and details for a specific inbound connection
         identified by specified ID. This includes information about the inbound itself, its
         statistics, and the clients connected to it.
+        If the inbound is not found, the method will raise an exception.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -81,7 +82,10 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
+
+        Raises:
+            ValueError: If the inbound is not found.
 
         Examples:
         
@@ -107,7 +111,7 @@ class InboundApi(BaseApi):
         inbound_json = response.json().get(ApiFields.OBJ)
         if inbound_json:
             return Inbound.model_validate(inbound_json)
-        return None
+        raise ValueError(f"Inbound with ID {inbound_id} not found.")
 
     def add(self, inbound: Inbound) -> None:
         """This route is used to add a new inbound configuration.

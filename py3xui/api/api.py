@@ -23,14 +23,16 @@ class Api:
         login(): Logs in to the XUI API and sets the session for inbound and database API instances.
         from_env(skip_login=False): Creates an instance of Api using environment variables for credentials.
 
-    Example:
+    Examples:
         Directly using credentials:
+
         
         api = Api(host="https://api.example.com", username="user", password="pass")
         api.login()
         
 
         Using environment variables:
+
         
         import os
         os.environ['XUI_HOST'] = "https://api.example.com"

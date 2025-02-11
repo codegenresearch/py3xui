@@ -9,6 +9,7 @@ from py3xui.inbound.stream_settings import StreamSettings
 
 # This module contains the Inbound class, which represents an inbound connection configuration for the XUI API.
 
+# pylint: disable=too-few-public-methods
 class InboundFields:
     """Stores the fields returned by the XUI API for parsing."""
 
@@ -32,6 +33,7 @@ class InboundFields:
     TAG = "tag"
 
 
+# pylint: disable=too-few-public-methods
 class Inbound(BaseModel):
     """
     Represents an inbound connection configuration for the XUI API.
@@ -99,9 +101,7 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(  # pylint: disable=no-member
-                    by_alias=True
-                ),
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # pylint: disable=no-member
                 InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
             }
         )

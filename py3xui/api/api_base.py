@@ -1,5 +1,5 @@
 from time import sleep
-from typing import Callable, Dict, Any
+from typing import Callable, Any
 
 import requests
 
@@ -131,7 +131,7 @@ class BaseApi:
             ValueError: If no session cookie is found in the response.
         """
         endpoint = "login"
-        headers: Dict[str, str] = {}
+        headers: dict[str, str] = {}
 
         url = self._url(endpoint)
         data = {"username": self.username, "password": self.password}
@@ -175,15 +175,15 @@ class BaseApi:
         self,
         method: Callable[..., requests.Response],
         url: str,
-        headers: Dict[str, str],
-        **kwargs,
+        headers: dict[str, str],
+        **kwargs: Any,
     ) -> requests.Response:
         """Sends a request with retry logic.
 
         Args:
             method (Callable[..., requests.Response]): The request method (e.g., requests.post).
             url (str): The full URL for the API endpoint.
-            headers (Dict[str, str]): The request headers.
+            headers (dict[str, str]): The request headers.
             **kwargs: Additional keyword arguments for the request method.
 
         Returns:
@@ -219,14 +219,14 @@ class BaseApi:
         )
 
     def _post(
-        self, url: str, headers: Dict[str, str], data: Dict[str, Any], **kwargs
+        self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs: Any
     ) -> requests.Response:
         """Sends a POST request to the XUI API.
 
         Args:
             url (str): The full URL for the API endpoint.
-            headers (Dict[str, str]): The request headers.
-            data (Dict[str, Any]): The request data.
+            headers (dict[str, str]): The request headers.
+            data (dict[str, Any]): The request data.
             **kwargs: Additional keyword arguments for the request method.
 
         Returns:
@@ -234,12 +234,12 @@ class BaseApi:
         """
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
-    def _get(self, url: str, headers: Dict[str, str], **kwargs) -> requests.Response:
+    def _get(self, url: str, headers: dict[str, str], **kwargs: Any) -> requests.Response:
         """Sends a GET request to the XUI API.
 
         Args:
             url (str): The full URL for the API endpoint.
-            headers (Dict[str, str]): The request headers.
+            headers (dict[str, str]): The request headers.
             **kwargs: Additional keyword arguments for the request method.
 
         Returns:

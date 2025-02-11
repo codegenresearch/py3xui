@@ -7,10 +7,10 @@ from py3xui.inbound.settings import Settings
 from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
+# pylint: disable=missing-module-docstring
+
 # Represents the inbound configuration for the XUI API.
 # This module defines the Inbound class, which encapsulates all necessary settings and statistics for an inbound connection.
-
-# pylint: disable=missing-module-docstring
 
 # pylint: disable=too-few-public-methods
 class InboundFields:
@@ -38,24 +38,24 @@ class InboundFields:
 
 class Inbound(BaseModel):
     """
-    Represents an inbound connection configuration for the XUI API.
+    Represents an inbound connection in the XUI API.
 
     Attributes:
-        enable (bool): Whether the inbound is enabled.
-        port (int): The port number for the inbound.
-        protocol (str): The protocol used by the inbound.
-        settings (Settings): The settings for the inbound.
-        stream_settings (StreamSettings): The stream settings for the inbound.
-        sniffing (Sniffing): The sniffing settings for the inbound.
-        listen (str): The address to listen on. Defaults to an empty string.
-        remark (str): A remark for the inbound. Defaults to an empty string.
-        id (int): The unique identifier for the inbound. Defaults to 0.
-        up (int): The upload traffic. Defaults to 0.
-        down (int): The download traffic. Defaults to 0.
-        total (int): The total traffic. Defaults to 0.
-        expiry_time (int): The expiry time for the inbound. Defaults to 0.
-        client_stats (list[Client]): The client statistics for the inbound. Defaults to an empty list.
-        tag (str): A tag for the inbound. Defaults to an empty string.
+        enable (bool): Required. Whether the inbound is enabled.
+        port (int): Required. The port number for the inbound.
+        protocol (str): Required. The protocol used by the inbound.
+        settings (Settings): Required. The settings for the inbound.
+        stream_settings (StreamSettings): Required. The stream settings for the inbound.
+        sniffing (Sniffing): Required. The sniffing settings for the inbound.
+        listen (str): Optional. The address to listen on. Defaults to an empty string.
+        remark (str): Optional. A remark for the inbound. Defaults to an empty string.
+        id (int): Optional. The unique identifier for the inbound. Defaults to 0.
+        up (int): Optional. The upload traffic. Defaults to 0.
+        down (int): Optional. The download traffic. Defaults to 0.
+        total (int): Optional. The total traffic. Defaults to 0.
+        expiry_time (int): Optional. The expiry time for the inbound. Defaults to 0.
+        client_stats (list[Client]): Optional. The client statistics for the inbound. Defaults to an empty list.
+        tag (str): Optional. A tag for the inbound. Defaults to an empty string.
     """
 
     enable: bool
@@ -88,7 +88,7 @@ class Inbound(BaseModel):
         Converts the inbound configuration to a JSON-compatible dictionary for the XUI API.
 
         Returns:
-            dict[str, Any]: A dictionary representing the inbound configuration.
+            dict[str, Any]: A dictionary representing the inbound configuration, including only the specified fields.
         """
         include = {
             InboundFields.REMARK,

@@ -1,11 +1,12 @@
 """This module contains the AsyncInboundApi class which provides methods to interact with the
 clients in the XUI API asynchronously."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields
 from py3xui.async_api.async_api_base import AsyncBaseApi
 from py3xui.inbound import Inbound
+from py3xui.exceptions import InboundNotFound
 
 
 class AsyncInboundApi(AsyncBaseApi):
@@ -32,6 +33,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
     Examples:
     
+    
     import py3xui
 
     api = py3xui.AsyncApi.from_env()
@@ -52,6 +54,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -71,11 +74,11 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """This route is used to retrieve statistics and details for a specific inbound connection
         identified by specified ID. This includes information about the inbound itself, its
         statistics, and the clients connected to it.
-        If the inbound is not found, the method will return None.
+        If the inbound is not found, the method will raise an InboundNotFound exception.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -83,9 +86,13 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
+
+        Raises:
+            InboundNotFound: If the inbound with the specified ID is not found.
 
         Examples:
+        
         
         import py3xui
 
@@ -110,8 +117,8 @@ class AsyncInboundApi(AsyncBaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        self.logger.warning("Inbound with ID %s not found.", inbound_id)
-        return None
+        self.logger.error("Inbound with ID %s not found.", inbound_id)
+        raise InboundNotFound(f"Inbound with ID {inbound_id} not found.")
 
     async def add(self, inbound: Inbound) -> None:
         """This route is used to add a new inbound configuration.
@@ -122,6 +129,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
+        
         
         import py3xui
 
@@ -169,6 +177,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -200,6 +209,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -229,6 +239,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -257,6 +268,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -280,8 +292,8 @@ class AsyncInboundApi(AsyncBaseApi):
 
 Changes made:
 1. **Docstring Formatting**: Ensured all examples in the docstrings are consistently formatted using triple backticks.
-2. **Return Types**: Changed the return type of `get_by_id` to `Inbound | None` and clarified in the docstring.
-3. **Logging Messages**: Reviewed and adjusted logging messages for clarity and consistency.
-4. **Unused Imports**: Removed any unused imports or variables.
-5. **Exception Handling**: Used a warning log instead of raising an exception in `get_by_id` to align with the feedback.
-6. **Examples in Docstrings**: Ensured all examples are complete and correctly formatted.
+2. **Return Types**: Changed the return type of `get_by_id` to `Inbound` and raised an `InboundNotFound` exception if the inbound is not found.
+3. **Logging Messages**: Reviewed and adjusted logging messages for clarity and consistency, using `error` level for not found scenarios.
+4. **Exception Handling**: Raised an `InboundNotFound` exception in `get_by_id` if the inbound is not found.
+5. **Examples in Docstrings**: Ensured all examples are complete and correctly formatted, demonstrating practical usage.
+6. **Unused Imports**: Removed any unused imports or variables to keep the code clean and maintainable.

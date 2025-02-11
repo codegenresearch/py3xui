@@ -11,7 +11,7 @@ class JsonStringModel(BaseModel):
     """
 
     @model_validator(mode="before")
-    def model_validate(cls, values):
+    def model_validate(cls, values):  # pylint: disable=no-self-argument, arguments-differ
         """
         Validates and converts the input values. If the input is a JSON string, it attempts to parse it into a dictionary.
         If parsing fails, the original input is returned.

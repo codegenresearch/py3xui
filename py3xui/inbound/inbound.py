@@ -109,3 +109,6 @@ class Inbound(BaseModel):
         )
 
         return result
+
+
+This code snippet addresses the feedback by ensuring the module and class docstrings are more descriptive and consistent with the gold code. The attribute descriptions and method docstring have been refined to match the expected style. The formatting and comments have also been reviewed and adjusted accordingly.

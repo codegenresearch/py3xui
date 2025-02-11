@@ -25,9 +25,9 @@ class StreamSettings(JsonStringModel):
     """Represents the stream settings for an inbound connection.
 
     Attributes:
-        security (str): The security protocol for the inbound connection.
-        network (str): The network type for the inbound connection.
-        tcp_settings (dict): The TCP settings for the inbound connection.
+        security (str): The security protocol for the inbound connection. Required.
+        network (str): The network type for the inbound connection. Required.
+        tcp_settings (dict): The TCP settings for the inbound connection. Required.
         external_proxy (list): The external proxy settings for the inbound connection. Optional.
         reality_settings (dict): The Reality settings for the inbound connection. Optional.
         xtls_settings (dict): The xTLS settings for the inbound connection. Optional.
@@ -36,12 +36,18 @@ class StreamSettings(JsonStringModel):
 
     security: str
     network: str
-    tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS)
+    tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS)  # type: ignore
 
-    external_proxy: list = Field(default=[], alias=StreamSettingsFields.EXTERNAL_PROXY)
-    reality_settings: dict = Field(default={}, alias=StreamSettingsFields.REALITY_SETTINGS)
-    xtls_settings: dict = Field(default={}, alias=StreamSettingsFields.XTLS_SETTINGS)
-    tls_settings: dict = Field(default={}, alias=StreamSettingsFields.TLS_SETTINGS)
+    external_proxy: list = Field(  # type: ignore
+        default=[], alias=StreamSettingsFields.EXTERNAL_PROXY
+    )
+    reality_settings: dict = Field(  # type: ignore
+        default={}, alias=StreamSettingsFields.REALITY_SETTINGS
+    )
+    xtls_settings: dict = Field(  # type: ignore
+        default={}, alias=StreamSettingsFields.XTLS_SETTINGS
+    )
+    tls_settings: dict = Field(default={}, alias=StreamSettingsFields.TLS_SETTINGS)  # type: ignore
 
     model_config = ConfigDict(
         populate_by_name=True,

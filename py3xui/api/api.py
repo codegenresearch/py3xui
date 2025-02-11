@@ -1,7 +1,7 @@
 # pylint: disable=missing-module-docstring
 from __future__ import annotations
 
-"""This module provides a class to interact with the XUI API, offering methods for initialization, login, and environment-based configuration."""
+"""Provides a class to interact with the XUI API."""
 
 from py3xui.api import ClientApi, DatabaseApi, InboundApi
 from py3xui.utils import Logger, env
@@ -12,33 +12,32 @@ logger = Logger(__name__)
 class Api:
     """A class to interact with the XUI API.
 
-    This class provides methods to initialize the API with either direct credentials or environment variables,
-    and to log in to the API.
-
     Args:
         host (str): The host address of the XUI API.
         username (str): The username for authentication.
         password (str): The password for authentication.
         skip_login (bool): Whether to skip the login process. Defaults to False.
 
-    Attributes:
+    Attributes and Properties:
         client (ClientApi): An instance of the ClientApi class.
         inbound (InboundApi): An instance of the InboundApi class.
         database (DatabaseApi): An instance of the DatabaseApi class.
 
-    Methods:
+    Public Methods:
         from_env(skip_login: bool = False) -> Api: Initialize the API using environment variables.
-        login() -> None: Log in to the XUI API and set the session for inbound and database APIs.
+        login() -> None: Logs into the XUI API and sets the session for inbound and database APIs.
 
     Examples:
-        Initialize the API with direct credentials:
-        >>> api = Api(host='https://api.example.com', username='user', password='pass')
+        
+        # Initialize the API with direct credentials
+        api = Api(host='https://api.example.com', username='user', password='pass')
 
-        Initialize the API using environment variables:
-        >>> api = Api.from_env()
+        # Initialize the API using environment variables
+        api = Api.from_env()
 
-        Log in to the API:
-        >>> api.login()
+        # Log into the API
+        api.login()
+        
     """
 
     def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
@@ -67,8 +66,10 @@ class Api:
             Api: An instance of the Api class.
 
         Examples:
-            Initialize the API using environment variables:
-            >>> api = Api.from_env()
+            
+            # Initialize the API using environment variables
+            api = Api.from_env()
+            
         """
         host = env.xui_host()
         username = env.xui_username()
@@ -76,11 +77,13 @@ class Api:
         return cls(host, username, password, skip_login)
 
     def login(self) -> None:
-        """Log in to the XUI API and set the session for inbound and database APIs.
+        """Logs into the XUI API and sets the session for inbound and database APIs.
 
         Examples:
-            Log in to the API:
-            >>> api.login()
+            
+            # Log into the API
+            api.login()
+            
         """
         self.client.login()
         self.inbound.session = self.client.session

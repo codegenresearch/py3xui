@@ -7,11 +7,6 @@ from py3xui.utils import Logger
 
 logger = Logger(__name__)
 
-# pylint: disable=missing-module-docstring
-# pylint: disable=too-few-public-methods
-
-"""Provides a base class for interacting with the XUI API, handling authentication and request management."""
-
 class ApiFields:
     """Stores the fields returned by the XUI API for parsing.
 
@@ -33,7 +28,7 @@ class ApiFields:
 class BaseApi:
     """Base class for interacting with the XUI API.
 
-    This class provides methods for logging in, sending requests, and handling responses from the XUI API.
+    This class handles authentication and request management for the XUI API.
 
     Args:
         host (str): The XUI host URL.
@@ -46,29 +41,6 @@ class BaseApi:
         password (str): The XUI password.
         max_retries (int): Maximum number of retries for API requests.
         session (str | None): Session cookie for API requests.
-
-    Public Methods:
-        login: Logs into the XUI API and sets the session cookie.
-        _check_response: Checks the API response for success.
-        _url: Constructs the full URL for an API endpoint.
-        _request_with_retry: Sends a request with retry logic.
-        _post: Sends a POST request to the API.
-        _get: Sends a GET request to the API.
-
-    Private Methods:
-        _check_response: Checks the API response for success.
-        _url: Constructs the full URL for an API endpoint.
-        _request_with_retry: Sends a request with retry logic.
-        _post: Sends a POST request to the API.
-        _get: Sends a GET request to the API.
-
-    Examples:
-        
-        from py3xui.api.base_api import BaseApi
-
-        base_api = BaseApi("https://xui.example.com", "username", "password")
-        base_api.login()
-        
     """
 
     def __init__(self, host: str, username: str, password: str):
@@ -145,13 +117,7 @@ class BaseApi:
         """Logs into the XUI API and sets the session cookie.
 
         Raises:
-            ValueError: If no session cookie is found.
-
-        Examples:
-            
-            base_api = BaseApi("https://xui.example.com", "username", "password")
-            base_api.login()
-            
+            ValueError: If no session cookie is found in the response.
         """
         endpoint = "login"
         headers: dict[str, str] = {}

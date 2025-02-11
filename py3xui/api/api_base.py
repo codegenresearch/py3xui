@@ -31,7 +31,7 @@ class BaseApi:
     """Provides a base class for interacting with the XUI API.
 
     This class handles the basic authentication and request management for the XUI API.
-    It includes methods for logging in, sending requests with retry logic, and checking responses.
+    It includes methods for logging in, making requests with retry logic, and checking responses.
 
     Args:
         host (str): The XUI host URL.
@@ -122,7 +122,7 @@ class BaseApi:
     def login(self) -> None:
         """Logs into the XUI API and sets the session cookie.
 
-        This method sends a login request to the API and retrieves the session cookie.
+        This method makes a login request to the API and retrieves the session cookie.
         If the login is successful, the session cookie is stored for future requests.
 
         Raises:
@@ -181,14 +181,14 @@ class BaseApi:
         headers: dict[str, str],
         **kwargs: Any,
     ) -> requests.Response:
-        """Sends a request to the API with retry logic.
+        """Makes a request to the API with retry logic.
 
-        This method sends a request to the API using the specified HTTP method and handles
+        This method makes a request to the API using the specified HTTP method and handles
         retries in case of connection errors or timeouts.
 
         Args:
             method (Callable[..., requests.Response]): The HTTP method to use (e.g., requests.post).
-            url (str): The URL to send the request to.
+            url (str): The URL to make the request to.
             headers (dict[str, str]): The headers to include in the request.
             **kwargs: Additional keyword arguments to pass to the request method.
 
@@ -227,12 +227,12 @@ class BaseApi:
     def _post(
         self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs
     ) -> requests.Response:
-        """Sends a POST request to the API.
+        """Makes a POST request to the API.
 
-        This method sends a POST request to the specified URL with the given headers and data.
+        This method makes a POST request to the specified URL with the given headers and data.
 
         Args:
-            url (str): The URL to send the request to.
+            url (str): The URL to make the request to.
             headers (dict[str, str]): The headers to include in the request.
             data (dict[str, Any]): The data to send in the request body.
             **kwargs: Additional keyword arguments to pass to the request method.
@@ -243,12 +243,12 @@ class BaseApi:
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
     def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
-        """Sends a GET request to the API.
+        """Makes a GET request to the API.
 
-        This method sends a GET request to the specified URL with the given headers.
+        This method makes a GET request to the specified URL with the given headers.
 
         Args:
-            url (str): The URL to send the request to.
+            url (str): The URL to make the request to.
             headers (dict[str, str]): The headers to include in the request.
             **kwargs: Additional keyword arguments to pass to the request method.
 

@@ -1,5 +1,5 @@
 import json
-from typing import Any
+from typing import Any, List
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.client.client import Client
@@ -24,11 +24,13 @@ class ClientApi(BaseApi):
         Returns:
             Client | None: The client object if found, otherwise None.
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            client: py3xui.Client = api.client.get_by_email("email@example.com")
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                client: py3xui.Client = api.client.get_by_email("email@example.com")
         """  # pylint: disable=line-too-long
 
         endpoint = f"panel/api/inbounds/getClientTraffics/{email}"
@@ -57,11 +59,13 @@ class ClientApi(BaseApi):
         Returns:
             str | None: The client IPs if found, otherwise None.
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            ips = api.client.get_ips("email@example.com")
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                ips = api.client.get_ips("email@example.com")
         """  # pylint: disable=line-too-long
 
         endpoint = f"panel/api/inbounds/clientIps/{email}"
@@ -75,20 +79,25 @@ class ClientApi(BaseApi):
         ips_json = response.json().get(ApiFields.OBJ)
         return ips_json if ips_json != ApiFields.NO_IP_RECORD else None
 
-    def add(self, inbound_id: int, clients: list[Client]) -> None:
+    def add(self, inbound_id: int, clients: List[Client]) -> None:
         """
         Add clients to a specific inbound.
 
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
-            clients (list[Client]): A list of Client objects to add.
+            clients (List[Client]): A list of Client objects to add.
 
-        Examples::
-            import py3xui
+        Returns:
+            None
 
-            api = py3xui.Api.from_env()
-            clients = [py3xui.Client(...)]
-            api.client.add(1, clients)
+        Examples:
+            .. code-block:: python
+
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                clients = [py3xui.Client(...)]
+                api.client.add(1, clients)
         """  # pylint: disable=line-too-long
 
         endpoint = "panel/api/inbounds/addClient"
@@ -117,12 +126,14 @@ class ClientApi(BaseApi):
         Returns:
             None
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            client = py3xui.Client(...)
-            api.client.update("client-uuid", client)
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                client = py3xui.Client(...)
+                api.client.update("client-uuid", client)
         """  # pylint: disable=line-too-long
 
         endpoint = f"panel/api/inbounds/updateClient/{client_uuid}"
@@ -146,11 +157,13 @@ class ClientApi(BaseApi):
         Returns:
             None
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            api.client.reset_ips("email@example.com")
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                api.client.reset_ips("email@example.com")
         """  # pylint: disable=line-too-long
 
         endpoint = f"panel/api/inbounds/clearClientIps/{email}"
@@ -174,11 +187,13 @@ class ClientApi(BaseApi):
         Returns:
             None
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            api.client.reset_stats(1, "email@example.com")
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                api.client.reset_stats(1, "email@example.com")
         """  # pylint: disable=line-too-long
 
         endpoint = f"panel/api/inbounds/{inbound_id}/resetClientTraffic/{email}"
@@ -202,11 +217,13 @@ class ClientApi(BaseApi):
         Returns:
             None
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            api.client.delete(1, "client-uuid")
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                api.client.delete(1, "client-uuid")
         """  # pylint: disable=line-too-long
 
         endpoint = f"panel/api/inbounds/{inbound_id}/delClient/{client_uuid}"
@@ -229,11 +246,13 @@ class ClientApi(BaseApi):
         Returns:
             None
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            api.client.delete_depleted(1)
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                api.client.delete_depleted(1)
         """  # pylint: disable=line-too-long
 
         endpoint = f"panel/api/inbounds/delDepletedClients/{inbound_id}"
@@ -246,18 +265,20 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> list[str]:
+    def online(self) -> List[str]:
         """
         Retrieve a list of online clients.
 
         Returns:
-            list[str]: A list of online client UUIDs.
+            List[str]: A list of online client UUIDs.
 
-        Examples::
-            import py3xui
+        Examples:
+            .. code-block:: python
 
-            api = py3xui.Api.from_env()
-            online_clients = api.client.online()
+                import py3xui
+
+                api = py3xui.Api.from_env()
+                online_clients = api.client.online()
         """  # pylint: disable=line-too-long
 
         endpoint = "panel/api/inbounds/onlines"

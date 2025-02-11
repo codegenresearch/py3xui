@@ -3,8 +3,7 @@ from pydantic import ConfigDict, Field
 from py3xui.inbound.bases import JsonStringModel
 
 
-"""This module contains the StreamSettings class, which is used to parse the JSON response
-from the XUI API for stream settings of an inbound connection."""
+"""This module contains the StreamSettings class for parsing the XUI API response."""
 
 
 # pylint: disable=too-few-public-methods
@@ -48,7 +47,7 @@ class StreamSettings(JsonStringModel):
     security: str
     network: str
     tcp_settings: dict = Field(
-        alias=StreamSettingsFields.TCP_SETTINGS
+        default={}, alias=StreamSettingsFields.TCP_SETTINGS
     )  # type: ignore
     external_proxy: list = Field(
         default=[], alias=StreamSettingsFields.EXTERNAL_PROXY

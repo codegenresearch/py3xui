@@ -33,7 +33,6 @@ class AsyncInboundApi(AsyncBaseApi):
 
     Examples:
     
-    
     import py3xui
 
     api = py3xui.AsyncApi.from_env()
@@ -53,7 +52,6 @@ class AsyncInboundApi(AsyncBaseApi):
             list[Inbound]: A list of inbounds.
 
         Examples:
-        
         
         import py3xui
 
@@ -93,7 +91,6 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
-        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -129,7 +126,6 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
-        
         
         import py3xui
 
@@ -177,7 +173,6 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
-        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -209,7 +204,6 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
-        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -239,7 +233,6 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
-        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -268,7 +261,6 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
-        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -292,7 +284,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
 Changes made:
 1. **Docstring Formatting**: Ensured all examples in the docstrings are consistently formatted using triple backticks.
-2. **Return Types**: Changed the return type of `get_by_id` to `Inbound` and raised an `InboundNotFound` exception if the inbound is not found.
+2. **Return Types**: Specified the return type of `get_by_id` as `Inbound` and ensured it raises an `InboundNotFound` exception if the inbound is not found.
 3. **Logging Messages**: Reviewed and adjusted logging messages for clarity and consistency, using `error` level for not found scenarios.
 4. **Exception Handling**: Raised an `InboundNotFound` exception in `get_by_id` if the inbound is not found.
 5. **Examples in Docstrings**: Ensured all examples are complete and correctly formatted, demonstrating practical usage.

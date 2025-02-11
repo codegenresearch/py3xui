@@ -32,6 +32,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
     Examples:
     
+    
     import py3xui
 
     api = py3xui.AsyncApi.from_env()
@@ -42,7 +43,8 @@ class AsyncInboundApi(AsyncBaseApi):
     """
 
     async def get_list(self) -> list[Inbound]:
-        """Retrieves a comprehensive list of all inbounds along with their associated client options and statistics.
+        """This route is used to retrieve a comprehensive list of all inbounds along with
+        their associated client options and statistics.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#b7c42b67-4362-44d3-bd61-ba7df0721802)
 
@@ -50,6 +52,7 @@ class AsyncInboundApi(AsyncBaseApi):
             list[Inbound]: A list of inbounds.
 
         Examples:
+        
         
         import py3xui
 
@@ -71,7 +74,9 @@ class AsyncInboundApi(AsyncBaseApi):
         return inbounds
 
     async def get_by_id(self, inbound_id: int) -> Inbound:
-        """Retrieves a specific inbound by its ID, including its statistics and client details.
+        """This route is used to retrieve statistics and details for a specific inbound connection
+        identified by the specified ID. This includes information about the inbound itself, its
+        statistics, and the clients connected to it.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -85,6 +90,7 @@ class AsyncInboundApi(AsyncBaseApi):
             ValueError: If the inbound is not found.
 
         Examples:
+        
         
         import py3xui
 
@@ -111,7 +117,7 @@ class AsyncInboundApi(AsyncBaseApi):
         raise ValueError(f"Inbound with ID {inbound_id} not found")
 
     async def add(self, inbound: Inbound) -> None:
-        """Adds a new inbound configuration.
+        """This route is used to add a new inbound configuration.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#813ac729-5ba6-4314-bc2a-d0d3acc70388)
 
@@ -122,6 +128,7 @@ class AsyncInboundApi(AsyncBaseApi):
             None
 
         Examples:
+        
         
         import py3xui
 
@@ -160,7 +167,7 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbound added successfully.")
 
     async def delete(self, inbound_id: int) -> None:
-        """Deletes an inbound identified by its ID.
+        """This route is used to delete an inbound identified by its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#a655d0e3-7d8c-4331-9061-422fcb515da9)
 
@@ -171,6 +178,7 @@ class AsyncInboundApi(AsyncBaseApi):
             None
 
         Examples:
+        
         
         import py3xui
 
@@ -193,7 +201,7 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbound deleted successfully.")
 
     async def update(self, inbound_id: int, inbound: Inbound) -> None:
-        """Updates an existing inbound identified by its ID.
+        """This route is used to update an existing inbound identified by its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#19249b9f-a940-41e2-8bf4-86ff8dde857e)
 
@@ -205,6 +213,7 @@ class AsyncInboundApi(AsyncBaseApi):
             None
 
         Examples:
+        
         
         import py3xui
 
@@ -229,7 +238,7 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbound updated successfully.")
 
     async def reset_stats(self) -> None:
-        """Resets the traffic statistics for all inbounds within the system.
+        """This route is used to reset the traffic statistics for all inbounds within the system.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#6749f362-dc81-4769-8f45-37dc9e99f5e9)
 
@@ -237,6 +246,7 @@ class AsyncInboundApi(AsyncBaseApi):
             None
 
         Examples:
+        
         
         import py3xui
 
@@ -256,7 +266,8 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbounds stats reset successfully.")
 
     async def reset_client_stats(self, inbound_id: int) -> None:
-        """Resets the traffic statistics for all clients associated with a specific inbound identified by its ID.
+        """This route is used to reset the traffic statistics for all clients associated with a
+        specific inbound identified by its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#9bd93925-12a0-40d8-a390-d4874dea3683)
 
@@ -267,6 +278,7 @@ class AsyncInboundApi(AsyncBaseApi):
             None
 
         Examples:
+        
         
         import py3xui
 
@@ -289,4 +301,4 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbound client stats reset successfully.")
 
 
-This revised code addresses the feedback by ensuring consistent docstring formatting, detailed method descriptions, clear logging messages, and properly formatted example code snippets. The `get_by_id` method now raises a `ValueError` if the inbound is not found, and the logging messages provide clear context.
+This revised code addresses the feedback by ensuring consistent docstring formatting, detailed method descriptions, clear logging messages, and properly formatted example code snippets. The `get_by_id` method now raises a `ValueError` if the inbound is not found, and the logging messages provide clear context. All examples are enclosed in triple backticks for better readability.

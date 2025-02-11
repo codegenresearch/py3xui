@@ -1,5 +1,5 @@
 """
-Module containing the Settings class for parsing inbound connection settings from the XUI API.
+Module for parsing inbound connection settings from the XUI API.
 """
 
 from py3xui.client.client import Client
@@ -9,7 +9,7 @@ from py3xui.inbound.bases import JsonStringModel
 # pylint: disable=too-few-public-methods
 class SettingsFields:
     """
-    Stores the fields returned by the XUI API for parsing inbound connection settings.
+    Stores the fields returned by the XUI API.
     """
 
     CLIENTS = "clients"

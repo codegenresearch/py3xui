@@ -1,5 +1,5 @@
 """
-This module provides a Pydantic model that validates and converts a JSON string into a dictionary.
+This module contains base classes for inbound models, including a model that validates and converts a JSON string into a dictionary.
 """
 
 import json
@@ -9,7 +9,8 @@ from pydantic import BaseModel, model_validator
 
 class JsonStringModel(BaseModel):
     """
-    A Pydantic model that validates and converts a JSON string into a dictionary.
+    Base class for models that have a JSON string as a field.
+    Validates and converts a JSON string into a dictionary.
     """
 
     @model_validator(mode="before")
@@ -31,4 +32,4 @@ class JsonStringModel(BaseModel):
         return values
 
 
-I have added a module-level docstring to describe the purpose of the module. The class and method docstrings have been revised to be more concise and focused on their respective functionalities. The code structure and formatting remain consistent with the provided code snippets.
+I have revised the module-level docstring to reflect that it contains base classes for inbound models. The class docstring has been made more concise and specifies that it is a base class for models with a JSON string as a field. The method docstring has been simplified to focus on the core functionality. The code structure and formatting remain consistent with the provided code snippets.

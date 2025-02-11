@@ -1,7 +1,8 @@
 """
-This module provides a high-level interface to interact with the XUI API.
+Provides a high-level interface to interact with the XUI API.
 """
 
+from __future__ import annotations
 from py3xui.api import ClientApi, DatabaseApi, InboundApi
 from py3xui.utils import Logger, env
 
@@ -21,12 +22,12 @@ class Api:
     - skip_login (bool, optional): If True, skips the login process. Defaults to False.
 
     Attributes:
-    - client (ClientApi): An instance of ClientApi for handling client-related API calls.
-    - inbound (InboundApi): An instance of InboundApi for handling inbound-related API calls.
-    - database (DatabaseApi): An instance of DatabaseApi for handling database-related API calls.
+    - client (ClientApi): An instance of `ClientApi` for handling client-related API calls.
+    - inbound (InboundApi): An instance of `InboundApi` for handling inbound-related API calls.
+    - database (DatabaseApi): An instance of `DatabaseApi` for handling database-related API calls.
 
     Methods:
-    - `from_env(skip_login: bool = False) -> Api`: Class method to create an instance of Api using environment variables.
+    - `from_env(skip_login: bool = False) -> Api`: Class method to create an instance of `Api` using environment variables.
     - `login() -> None`: Logs in to the XUI API and sets the session for client, inbound, and database API calls.
 
     Examples:
@@ -49,7 +50,7 @@ class Api:
 
     def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
         """
-        Initializes the Api class.
+        Initializes the `Api` class.
 
         Args:
         - host (str): The XUI host URL.
@@ -66,7 +67,7 @@ class Api:
     @classmethod
     def from_env(cls, skip_login: bool = False) -> Api:
         """
-        Creates an instance of Api using environment variables.
+        Creates an instance of `Api` using environment variables.
 
         The required environment variables are:
         - `XUI_HOST`: The XUI host URL.
@@ -77,7 +78,7 @@ class Api:
         - skip_login (bool, optional): If True, skips the login process. Defaults to False.
 
         Returns:
-        - Api: An instance of the Api class.
+        - Api: An instance of the `Api` class.
 
         Examples:
         

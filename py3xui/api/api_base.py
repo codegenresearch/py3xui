@@ -135,7 +135,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("Login failed: No session cookie received from the server.")
+            raise ValueError("Login failed: No session cookie received.")
         logger.info("Session cookie successfully retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -156,7 +156,7 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"API request failed with message: {message}")
+            raise ValueError(f"API request failed: {message}.")
 
     def _url(self, endpoint: str) -> str:
         """Constructs the full URL for an API endpoint.
@@ -212,13 +212,17 @@ class BaseApi:
                 if retry == self.max_retries:
                     raise e
                 logger.warning(
-                    "Request to %s failed: %s, retry %s of %s", url, e, retry, self.max_retries
+                    "Request to %s failed: %s. Retrying %s of %s...",
+                    url,
+                    e,
+                    retry,
+                    self.max_retries,
                 )
                 sleep(1 * (retry + 1))
             except requests.exceptions.RequestException as e:
                 raise e
         raise requests.exceptions.RetryError(
-            f"Max retries exceeded with no successful response to {url}"
+            f"Max retries exceeded with no successful response to {url}."
         )
 
     def _post(

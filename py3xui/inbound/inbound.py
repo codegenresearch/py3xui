@@ -51,7 +51,7 @@ class Inbound(BaseModel):
         down (int): The down value for the inbound connection. Optional.
         total (int): The total value for the inbound connection. Optional.
         expiry_time (int): The expiry time for the inbound connection. Optional.
-        client_stats (list[Client] | None): The client stats for the inbound connection. Optional.
+        client_stats (list[Client]): The client stats for the inbound connection. Optional.
         tag (str): The tag for the inbound connection. Optional.
     """
 
@@ -72,7 +72,7 @@ class Inbound(BaseModel):
     total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: list[Client] | None = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+    client_stats: List[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = ""
 
@@ -101,7 +101,9 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # pylint: disable=no-member
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(
+                    by_alias=True
+                ),  # pylint: disable=no-member
                 InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
             }
         )

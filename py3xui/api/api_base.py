@@ -38,6 +38,14 @@ class BaseApi:
         password (str): The XUI password.
         max_retries (int): The maximum number of retries for failed requests.
         session (str | None): The session cookie for authenticated requests.
+
+    Methods:
+        login: Logs into the XUI API and sets the session cookie.
+        _check_response: Validates the API response.
+        _url: Constructs the full URL for API requests.
+        _request_with_retry: Sends a request with retry logic.
+        _post: Makes a POST request.
+        _get: Makes a GET request.
     """
 
     def __init__(self, host: str, username: str, password: str):
@@ -56,22 +64,38 @@ class BaseApi:
 
     @property
     def host(self) -> str:
-        """The XUI host URL."""
+        """The XUI host URL.
+
+        Returns:
+            str: The host URL.
+        """
         return self._host
 
     @property
     def username(self) -> str:
-        """The XUI username."""
+        """The XUI username.
+
+        Returns:
+            str: The username.
+        """
         return self._username
 
     @property
     def password(self) -> str:
-        """The XUI password."""
+        """The XUI password.
+
+        Returns:
+            str: The password.
+        """
         return self._password
 
     @property
     def max_retries(self) -> int:
-        """The maximum number of retries for failed requests."""
+        """The maximum number of retries for failed requests.
+
+        Returns:
+            int: The maximum number of retries.
+        """
         return self._max_retries
 
     @max_retries.setter
@@ -85,7 +109,11 @@ class BaseApi:
 
     @property
     def session(self) -> str | None:
-        """The session cookie for authenticated requests."""
+        """The session cookie for authenticated requests.
+
+        Returns:
+            str | None: The session cookie.
+        """
         return self._session
 
     @session.setter
@@ -192,7 +220,7 @@ class BaseApi:
         )
 
     def _post(
-        self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs
+        self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs: Any
     ) -> requests.Response:
         """Makes a POST request to the specified URL.
 
@@ -207,7 +235,7 @@ class BaseApi:
         """
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
-    def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
+    def _get(self, url: str, headers: dict[str, str], **kwargs: Any) -> requests.Response:
         """Makes a GET request to the specified URL.
 
         Args:

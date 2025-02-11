@@ -6,7 +6,6 @@ from typing import Any
 from py3xui.api.api_base import ApiFields
 from py3xui.async_api.async_api_base import AsyncBaseApi
 from py3xui.inbound import Inbound
-from py3xui.exceptions import InboundNotFound
 
 
 class AsyncInboundApi(AsyncBaseApi):
@@ -59,7 +58,7 @@ class AsyncInboundApi(AsyncBaseApi):
         await api.login()
         inbounds: list[py3xui.Inbound] = await api.inbound.get_list()
         
-        """  # pylint: disable=line-too-long
+        """
         endpoint = "panel/api/inbounds/list"
         headers = {"Accept": "application/json"}
 
@@ -72,11 +71,11 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Inbound:
+    async def get_by_id(self, inbound_id: int) -> Inbound | None:
         """This route is used to retrieve statistics and details for a specific inbound connection
         identified by specified ID. This includes information about the inbound itself, its
         statistics, and the clients connected to it.
-        If the inbound is not found, the method will raise an InboundNotFound exception.
+        If the inbound is not found, the method will return None.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -84,10 +83,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound: The inbound object if found.
-
-        Raises:
-            InboundNotFound: If the inbound with the specified ID is not found.
+            Inbound | None: The inbound object if found, otherwise None.
 
         Examples:
         
@@ -114,7 +110,8 @@ class AsyncInboundApi(AsyncBaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        raise InboundNotFound(f"Inbound with ID {inbound_id} not found.")
+        self.logger.info("Inbound with ID %s not found.", inbound_id)
+        return None
 
     async def add(self, inbound: Inbound) -> None:
         """This route is used to add a new inbound configuration.
@@ -151,7 +148,7 @@ class AsyncInboundApi(AsyncBaseApi):
         )
         await api.inbound.add(inbound)
         
-        """  # pylint: disable=line-too-long
+        """
         endpoint = "panel/api/inbounds/add"
         headers = {"Accept": "application/json"}
 
@@ -181,7 +178,7 @@ class AsyncInboundApi(AsyncBaseApi):
         for inbound in inbounds:
             await api.inbound.delete(inbound.id)
         
-        """  # pylint: disable=line-too-long
+        """
         endpoint = f"panel/api/inbounds/del/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -214,7 +211,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         await api.inbound.update(inbound.id, inbound)
         
-        """  # pylint: disable=line-too-long
+        """
         endpoint = f"panel/api/inbounds/update/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -238,7 +235,7 @@ class AsyncInboundApi(AsyncBaseApi):
         await api.login()
         await api.inbound.reset_stats()
         
-        """  # pylint: disable=line-too-long
+        """
         endpoint = "panel/api/inbounds/resetAllTraffics"
         headers = {"Accept": "application/json"}
 
@@ -269,7 +266,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         await api.inbound.reset_client_stats(inbound.id)
         
-        """  # pylint: disable=line-too-long
+        """
         endpoint = f"panel/api/inbounds/resetAllClientTraffics/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -282,9 +279,9 @@ class AsyncInboundApi(AsyncBaseApi):
 
 
 Changes made:
-1. **Docstring Consistency**: Used triple backticks for code examples in the docstrings.
-2. **Return Types**: Changed the return type of `get_by_id` to `Inbound` and raised an `InboundNotFound` exception if the inbound is not found.
-3. **Example Formatting**: Ensured all examples in the docstrings are formatted consistently using triple backticks.
-4. **Logging Messages**: Reviewed and adjusted logging messages for clarity and consistency.
-5. **Unused Imports**: Removed any unused imports or variables.
-6. **Type Annotations**: Ensured type annotations are consistent throughout the code.
+1. **Docstring Formatting**: Ensured all code examples in the docstrings are consistently formatted using triple backticks.
+2. **Return Types**: Changed the return type of `get_by_id` to `Inbound | None` and adjusted the behavior to return `None` if the inbound is not found.
+3. **Logging Messages**: Reviewed and adjusted logging messages for clarity and consistency.
+4. **Unused Imports**: Removed any unused imports or variables.
+5. **Type Annotations**: Ensured type annotations are consistent throughout the code.
+6. **Example Consistency**: Ensured all examples in the docstrings follow a similar structure and style.

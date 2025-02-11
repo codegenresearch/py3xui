@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -30,6 +30,7 @@ class InboundApi(BaseApi):
 
     Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -40,7 +41,7 @@ class InboundApi(BaseApi):
     """
 
     def get_list(self) -> list[Inbound]:
-        """Retrieves a comprehensive list of all inbounds along with
+        """This route is used to retrieve a comprehensive list of all inbounds along with
         their associated client options and statistics.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#b7c42b67-4362-44d3-bd61-ba7df0721802)
@@ -63,7 +64,7 @@ class InboundApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        self.logger.info("Getting inbounds...")
+        self.logger.info("Retrieving list of inbounds...")
 
         response = self._get(url, headers)
 
@@ -71,8 +72,8 @@ class InboundApi(BaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
-        """Retrieves statistics and details for a specific inbound connection
+    def get_by_id(self, inbound_id: int) -> Inbound:
+        """This route is used to retrieve statistics and details for a specific inbound connection
         identified by specified ID. This includes information about the inbound itself, its
         statistics, and the clients connected to it.
         If the inbound is not found, the method will raise an exception.
@@ -83,7 +84,10 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object.
+
+        Raises:
+            ValueError: If the inbound is not found.
 
         Examples:
 
@@ -102,20 +106,20 @@ class InboundApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        self.logger.info("Getting inbound by ID: %s", inbound_id)
+        self.logger.info("Retrieving inbound by ID: %s", inbound_id)
 
         response = self._get(url, headers)
 
         inbound_json = response.json().get(ApiFields.OBJ)
         if not inbound_json:
             self.logger.error("Inbound with ID %s not found", inbound_id)
-            return None
+            raise ValueError(f"Inbound with ID {inbound_id} not found")
 
         inbound = Inbound.model_validate(inbound_json)
         return inbound
 
     def add(self, inbound: Inbound) -> None:
-        """Adds a new inbound configuration.
+        """This route is used to add a new inbound configuration.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#813ac729-5ba6-4314-bc2a-d0d3acc70388)
 
@@ -164,7 +168,7 @@ class InboundApi(BaseApi):
         self.logger.info("Inbound added successfully.")
 
     def delete(self, inbound_id: int) -> None:
-        """Deletes an inbound identified by its ID.
+        """This route is used to delete an inbound identified by its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#a655d0e3-7d8c-4331-9061-422fcb515da9)
 
@@ -173,7 +177,6 @@ class InboundApi(BaseApi):
 
         Examples:
 
-            
             
             import py3xui
 
@@ -196,7 +199,7 @@ class InboundApi(BaseApi):
         self.logger.info("Inbound deleted successfully.")
 
     def update(self, inbound_id: int, inbound: Inbound) -> None:
-        """Updates an existing inbound identified by its ID.
+        """This route is used to update an existing inbound identified by its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#19249b9f-a940-41e2-8bf4-86ff8dde857e)
 
@@ -230,7 +233,7 @@ class InboundApi(BaseApi):
         self.logger.info("Inbound updated successfully.")
 
     def reset_stats(self) -> None:
-        """Resets the traffic statistics for all inbounds within the system.
+        """This route is used to reset the traffic statistics for all inbounds within the system.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#6749f362-dc81-4769-8f45-37dc9e99f5e9)
 
@@ -255,7 +258,7 @@ class InboundApi(BaseApi):
         self.logger.info("Inbounds stats reset successfully.")
 
     def reset_client_stats(self, inbound_id: int) -> None:
-        """Resets the traffic statistics for all clients associated with a
+        """This route is used to reset the traffic statistics for all clients associated with a
         specific inbound identified by its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#9bd93925-12a0-40d8-a390-d4874dea3683)

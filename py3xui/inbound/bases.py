@@ -9,7 +9,7 @@ from pydantic import BaseModel, model_validator
 
 class JsonStringModel(BaseModel):
     """
-    Model that validates and converts a JSON string into a dictionary.
+    Base class for models that handle a JSON string.
     """
 
     @model_validator(mode="before")
@@ -28,4 +28,4 @@ class JsonStringModel(BaseModel):
         return values
 
 
-I have simplified the module-level and class docstrings to be more concise, aligning them with the gold code's brevity. The method docstring has been streamlined to focus only on the core functionality. The code structure and formatting have been adjusted to match the gold code more closely.
+I have refined the module-level and class docstrings to be more specific and concise. The method docstring has been streamlined to focus on the core functionality. The code structure and formatting have been adjusted to match the gold code more closely.

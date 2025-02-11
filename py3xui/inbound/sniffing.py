@@ -1,4 +1,4 @@
-"""This module contains the Sniffing class, which parses the sniffing settings from the XUI API response."""
+"""This module contains the Sniffing class, which represents the sniffing settings for an inbound connection in the XUI API."""
 
 from pydantic import Field
 
@@ -19,10 +19,10 @@ class Sniffing(JsonStringModel):
     """Represents the sniffing settings for an inbound connection in the XUI API.
 
     Attributes:
-        enabled (bool): Whether sniffing is enabled.
-        dest_override (list[str]): List of destination overrides.
-        metadata_only (bool): Use only metadata for sniffing.
-        route_only (bool): Use only routing information for sniffing.
+        enabled (bool): Whether sniffing is enabled. Required.
+        dest_override (list[str]): List of destination overrides. Optional.
+        metadata_only (bool): Use only metadata for sniffing. Optional.
+        route_only (bool): Use only routing information for sniffing. Optional.
     """
 
     enabled: bool

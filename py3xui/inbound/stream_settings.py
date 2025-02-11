@@ -27,16 +27,16 @@ class StreamSettings(JsonStringModel):
     Attributes:
         security (str): The security protocol for the stream.
         network (str): The network type for the stream.
-        tcp_settings (dict): The TCP settings for the stream. Optional.
+        tcp_settings (dict): The TCP settings for the stream.
         external_proxy (list): The external proxy settings for the stream. Optional.
         reality_settings (dict): The Reality settings for the stream. Optional.
-        xtls_settings (dict): The XTLS settings for the stream. Optional.
+        xtls_settings (dict): The xTLS settings for the stream. Optional.
         tls_settings (dict): The TLS settings for the stream. Optional.
     """
 
     security: str
     network: str
-    tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS, default={})  # type: ignore
+    tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS)  # type: ignore
 
     external_proxy: list = Field(  # type: ignore
         default=[], alias=StreamSettingsFields.EXTERNAL_PROXY

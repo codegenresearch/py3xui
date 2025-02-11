@@ -84,6 +84,9 @@ class Inbound(BaseModel):
         """
         Converts the inbound configuration to a JSON-compatible dictionary.
 
+        This method constructs a dictionary that includes only the specified fields and
+        serializes nested models to JSON strings.
+
         Returns:
             dict[str, Any]: A dictionary representing the inbound configuration.
         """

@@ -1,5 +1,5 @@
 """
-Handles settings related to the XUI API for parsing inbound connection configurations.
+Module for handling settings related to the XUI API for parsing inbound connection configurations.
 """
 
 from py3xui.client.client import Client
@@ -22,9 +22,9 @@ class Settings(JsonStringModel):
     Represents the settings for an inbound connection in the XUI API.
 
     Attributes:
-        clients (list[Client], optional): List of client configurations.
-        decryption (str, optional): Decryption method used.
-        fallbacks (list, optional): List of fallback configurations.
+        clients (list[Client]): List of client configurations.
+        decryption (str): Decryption method used.
+        fallbacks (list): List of fallback configurations.
     """
 
     clients: list[Client] = []

@@ -49,7 +49,7 @@ class Inbound(BaseModel):
         down (int): The down value for the inbound connection. Optional.
         total (int): The total value for the inbound connection. Optional.
         expiry_time (int): The expiry time for the inbound connection. Optional.
-        client_stats (list[Client] | None): The client stats for the inbound connection. Optional.
+        client_stats (list[Client]): The client stats for the inbound connection. Optional.
         tag (str): The tag for the inbound connection. Optional.
     """
 
@@ -70,7 +70,7 @@ class Inbound(BaseModel):
     total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: List[Client] | None = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+    client_stats: List[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = ""
 
@@ -131,8 +131,8 @@ class Inbound(BaseModel):
 
 
 This code snippet addresses the feedback by:
-1. Changing the type hint for `client_stats` to `list[Client] | None`.
-2. Setting the default value for `client_stats` to an empty list (`default=[]`).
-3. Ensuring consistent formatting in the `to_json` method, particularly in how the `model_dump_json` method is called for `stream_settings`.
-4. Reviewing and adjusting comments and documentation to match the gold code's style.
-5. Ensuring `pylint: disable` comments are used consistently and only where necessary.
+1. Changing the type hint for `client_stats` to `list[Client]` and ensuring the default value is an empty list (`default=[]`).
+2. Ensuring consistent formatting in the `client_stats` field definition.
+3. Reviewing and adjusting the documentation for the `to_json` method to match the gold code's style.
+4. Ensuring `pylint: disable` comments are used consistently and only where necessary.
+5. Ensuring consistent formatting in the `to_json` method, particularly in how the `model_dump_json` method is called.

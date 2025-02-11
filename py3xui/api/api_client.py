@@ -1,6 +1,6 @@
 # pylint: disable=missing-function-docstring
 import json
-from typing import Any, List
+from typing import Any
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.client.client import Client
@@ -76,12 +76,12 @@ class ClientApi(BaseApi):
         ips_json = response.json().get(ApiFields.OBJ)
         return ips_json if ips_json != ApiFields.NO_IP_RECORD else None
 
-    def add(self, inbound_id: int, clients: List[Client]):
+    def add(self, inbound_id: int, clients: list[Client]) -> None:
         """Add clients to a specific inbound.
 
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
-            clients (List[Client]): A list of Client objects to add.
+            clients (list[Client]): A list of Client objects to add.
         """
         endpoint = "panel/api/inbounds/addClient"
         headers = {"Accept": "application/json"}
@@ -182,11 +182,11 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> List[str]:
+    def online(self) -> list[str]:
         """Retrieve a list of online clients.
 
         Returns:
-            List[str]: A list of online client IDs.
+            list[str]: A list of online client IDs.
         """
         endpoint = "panel/api/inbounds/onlines"
         headers = {"Accept": "application/json"}

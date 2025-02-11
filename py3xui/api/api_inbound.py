@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -30,6 +30,7 @@ class InboundApi(BaseApi):
 
     Examples:
     
+    
     import py3xui
 
     api = py3xui.Api.from_env()
@@ -49,6 +50,7 @@ class InboundApi(BaseApi):
             list[Inbound]: A list of inbounds.
 
         Examples:
+        
         
         import py3xui
 
@@ -70,10 +72,11 @@ class InboundApi(BaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    def get_by_id(self, inbound_id: int) -> Inbound:
         """This route is used to retrieve statistics and details for a specific inbound connection
         identified by specified ID. This includes information about the inbound itself, its
         statistics, and the clients connected to it.
+        If the inbound is not found, the method will raise an exception.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -81,9 +84,13 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
+
+        Raises:
+            ValueError: If the inbound is not found.
 
         Examples:
+        
         
         import py3xui
 
@@ -108,7 +115,7 @@ class InboundApi(BaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        return None
+        raise ValueError(f"Inbound with ID {inbound_id} not found.")
 
     def add(self, inbound: Inbound) -> None:
         """This route is used to add a new inbound configuration.
@@ -119,6 +126,7 @@ class InboundApi(BaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
+        
         
         import py3xui
         from py3xui.inbound import Inbound, Settings, Sniffing, StreamSettings
@@ -168,6 +176,7 @@ class InboundApi(BaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -199,6 +208,7 @@ class InboundApi(BaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -228,6 +238,7 @@ class InboundApi(BaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.Api.from_env()
@@ -255,6 +266,7 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to reset the client stats.
 
         Examples:
+        
         
         import py3xui
 

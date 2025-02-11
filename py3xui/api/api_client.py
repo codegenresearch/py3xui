@@ -1,5 +1,5 @@
 import json
-from typing import Any, list
+from typing import Any
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.client.client import Client

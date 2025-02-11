@@ -1,5 +1,5 @@
 from time import sleep
-from typing import Any, Callable
+from typing import Callable, Dict, Any
 
 import requests
 
@@ -31,20 +31,30 @@ class BaseApi:
 
     Provides methods for logging in, sending requests, and handling responses.
 
-    Args:
-        host (str): The XUI host URL.
-        username (str): The XUI username.
-        password (str): The XUI password.
-
     Attributes:
         host (str): The XUI host URL.
         username (str): The XUI username.
         password (str): The XUI password.
         max_retries (int): Maximum number of retries for API requests.
         session (str | None): Session cookie for API requests.
+
+    Methods:
+        login: Logs into the XUI API and sets the session cookie.
+        _url: Constructs the full URL for an API endpoint.
+        _post: Sends a POST request to the API.
+        _get: Sends a GET request to the API.
+        _check_response: Checks the API response for success.
+        _request_with_retry: Sends a request with retry logic.
     """
 
     def __init__(self, host: str, username: str, password: str):
+        """Initialize the BaseApi with host, username, and password.
+
+        Args:
+            host (str): The XUI host URL.
+            username (str): The XUI username.
+            password (str): The XUI password.
+        """
         self._host = host.rstrip("/")
         self._username = username
         self._password = password
@@ -121,7 +131,7 @@ class BaseApi:
             ValueError: If no session cookie is found in the response.
         """
         endpoint = "login"
-        headers: dict[str, str] = {}
+        headers: Dict[str, str] = {}
 
         url = self._url(endpoint)
         data = {"username": self.username, "password": self.password}
@@ -130,7 +140,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("Login failed: No session cookie found.")
+            raise ValueError("Login failed: No session cookie found in the response.")
         logger.info("Session cookie successfully retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -165,15 +175,15 @@ class BaseApi:
         self,
         method: Callable[..., requests.Response],
         url: str,
-        headers: dict[str, str],
-        **kwargs: Any,
+        headers: Dict[str, str],
+        **kwargs,
     ) -> requests.Response:
         """Sends a request with retry logic.
 
         Args:
             method (Callable[..., requests.Response]): The request method (e.g., requests.post).
             url (str): The full URL for the API endpoint.
-            headers (dict[str, str]): The request headers.
+            headers (Dict[str, str]): The request headers.
             **kwargs: Additional keyword arguments for the request method.
 
         Returns:
@@ -209,14 +219,14 @@ class BaseApi:
         )
 
     def _post(
-        self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs
+        self, url: str, headers: Dict[str, str], data: Dict[str, Any], **kwargs
     ) -> requests.Response:
         """Sends a POST request to the XUI API.
 
         Args:
             url (str): The full URL for the API endpoint.
-            headers (dict[str, str]): The request headers.
-            data (dict[str, Any]): The request data.
+            headers (Dict[str, str]): The request headers.
+            data (Dict[str, Any]): The request data.
             **kwargs: Additional keyword arguments for the request method.
 
         Returns:
@@ -224,12 +234,12 @@ class BaseApi:
         """
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
-    def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
+    def _get(self, url: str, headers: Dict[str, str], **kwargs) -> requests.Response:
         """Sends a GET request to the XUI API.
 
         Args:
             url (str): The full URL for the API endpoint.
-            headers (dict[str, str]): The request headers.
+            headers (Dict[str, str]): The request headers.
             **kwargs: Additional keyword arguments for the request method.
 
         Returns:

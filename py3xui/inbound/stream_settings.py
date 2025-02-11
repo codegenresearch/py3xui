@@ -25,29 +25,34 @@ class StreamSettings(JsonStringModel):
     """Represents the stream settings for an inbound connection.
 
     Attributes:
-        security (str): The security protocol for the inbound connection. Required.
-        network (str): The network type for the inbound connection. Required.
-        tcp_settings (dict): The TCP settings for the inbound connection. Required.
-        external_proxy (list): The external proxy settings for the inbound connection. Optional.
-        reality_settings (dict): The Reality settings for the inbound connection. Optional.
-        xtls_settings (dict): The xTLS settings for the inbound connection. Optional.
-        tls_settings (dict): The TLS settings for the inbound connection. Optional.
+        security (str): Security protocol.
+        network (str): Network type.
+        tcp_settings (dict): TCP settings.
+        external_proxy (list): External proxy settings. Optional.
+        reality_settings (dict): Reality settings. Optional.
+        xtls_settings (dict): xTLS settings. Optional.
+        tls_settings (dict): TLS settings. Optional.
     """
 
     security: str
     network: str
     tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS)  # type: ignore
 
-    external_proxy: list = Field(  # type: ignore
+    external_proxy: list = Field(
         default=[], alias=StreamSettingsFields.EXTERNAL_PROXY
-    )
-    reality_settings: dict = Field(  # type: ignore
+    )  # type: ignore
+
+    reality_settings: dict = Field(
         default={}, alias=StreamSettingsFields.REALITY_SETTINGS
-    )
-    xtls_settings: dict = Field(  # type: ignore
+    )  # type: ignore
+
+    xtls_settings: dict = Field(
         default={}, alias=StreamSettingsFields.XTLS_SETTINGS
-    )
-    tls_settings: dict = Field(default={}, alias=StreamSettingsFields.TLS_SETTINGS)  # type: ignore
+    )  # type: ignore
+
+    tls_settings: dict = Field(
+        default={}, alias=StreamSettingsFields.TLS_SETTINGS
+    )  # type: ignore
 
     model_config = ConfigDict(
         populate_by_name=True,

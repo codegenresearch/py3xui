@@ -1,7 +1,7 @@
 """This module contains the AsyncInboundApi class which provides asynchronous methods to interact with the
 inbounds in the XUI API."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields
 from py3xui.async_api.async_api_base import AsyncBaseApi
@@ -32,6 +32,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
     Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -51,6 +52,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -62,7 +64,7 @@ class AsyncInboundApi(AsyncBaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        self.logger.info("Getting inbounds...")
+        self.logger.info("Retrieving list of inbounds...")
 
         response = await self._get(url, headers)
 
@@ -70,7 +72,7 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Inbound | None:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """Retrieves a specific inbound by its ID, including its statistics and client details.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
@@ -79,12 +81,13 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object.
 
         Raises:
             Exception: If the inbound is not found.
 
         Examples:
+            
             
             import py3xui
 
@@ -99,15 +102,15 @@ class AsyncInboundApi(AsyncBaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        self.logger.info("Getting inbound by ID: %s", inbound_id)
+        self.logger.info("Retrieving inbound with ID: %s", inbound_id)
 
         response = await self._get(url, headers)
 
         inbound_json = response.json().get(ApiFields.OBJ)
-        if inbound_json:
-            inbound = Inbound.model_validate(inbound_json)
-            return inbound
-        return None
+        if not inbound_json:
+            raise Exception(f"Inbound with ID {inbound_id} not found.")
+        inbound = Inbound.model_validate(inbound_json)
+        return inbound
 
     async def add(self, inbound: Inbound) -> None:
         """Adds a new inbound configuration.
@@ -118,6 +121,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
+            
             
             import py3xui
 
@@ -165,6 +169,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -196,6 +201,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -225,6 +231,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
             
+            
             import py3xui
 
             api = py3xui.AsyncApi.from_env()
@@ -237,10 +244,10 @@ class AsyncInboundApi(AsyncBaseApi):
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        self.logger.info("Resetting inbounds stats...")
+        self.logger.info("Resetting statistics for all inbounds...")
 
         await self._post(url, headers, data)
-        self.logger.info("Inbounds stats reset successfully.")
+        self.logger.info("Inbound statistics reset successfully.")
 
     async def reset_client_stats(self, inbound_id: int) -> None:
         """Resets the traffic statistics for all clients associated with a specific inbound identified by its ID.
@@ -251,6 +258,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to reset the client stats.
 
         Examples:
+            
             
             import py3xui
 
@@ -267,7 +275,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        self.logger.info("Resetting inbound client stats for ID: %s", inbound_id)
+        self.logger.info("Resetting client statistics for inbound with ID: %s", inbound_id)
 
         await self._post(url, headers, data)
-        self.logger.info("Inbound client stats reset successfully.")
+        self.logger.info("Client statistics for inbound reset successfully.")

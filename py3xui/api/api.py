@@ -1,7 +1,7 @@
 # pylint: disable=missing-module-docstring
 from __future__ import annotations
 
-"""Provides classes to interact with the XUI API."""
+"""Provides a high-level interface to interact with the XUI API."""
 
 from py3xui.api import ClientApi, DatabaseApi, InboundApi
 from py3xui.utils import Logger, env
@@ -10,9 +10,9 @@ logger = Logger(__name__)
 
 
 class Api:
-    """A class to interact with the XUI API.
+    """A high-level interface to interact with the XUI API.
 
-    This class initializes the API with the given credentials and provides methods to logs into the API and perform
+    This class initializes the API with the given credentials and provides methods to log into the API and perform
     operations through the client, database, and inbound interfaces.
 
     Args:
@@ -31,17 +31,15 @@ class Api:
         login() -> None: Logs into the XUI API and sets the session for other API components.
 
     Examples:
-        Initialize the API with explicit credentials and logs into:
-
         
+        # Initialize the API with explicit credentials and log in
         api = Api(host='https://api.example.com', username='user', password='pass')
         api.login()
         # Logged in successfully.
         
 
-        Initialize the API using environment variables and logs into:
-
         
+        # Initialize the API using environment variables and log in
         import os
         os.environ['XUI_HOST'] = 'https://api.example.com'
         os.environ['XUI_USERNAME'] = 'user'

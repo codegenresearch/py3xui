@@ -7,6 +7,7 @@ from py3xui.utils import Logger
 
 logger = Logger(__name__)
 
+
 class ApiFields:
     """Stores the fields returned by the XUI API for parsing.
 
@@ -44,18 +45,13 @@ class BaseApi:
 
     Public Methods:
         login: Logs into the XUI API and sets the session cookie.
-        _check_response: Checks the API response for success.
         _url: Constructs the full URL for an API endpoint.
-        _request_with_retry: Sends a request with retry logic.
         _post: Sends a POST request to the API.
         _get: Sends a GET request to the API.
 
     Private Methods:
         _check_response: Checks the API response for success.
-        _url: Constructs the full URL for an API endpoint.
         _request_with_retry: Sends a request with retry logic.
-        _post: Sends a POST request to the API.
-        _get: Sends a GET request to the API.
     """
 
     def __init__(self, host: str, username: str, password: str):

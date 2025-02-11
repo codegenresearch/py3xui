@@ -20,12 +20,12 @@ class SettingsFields:
 
 class Settings(JsonStringModel):
     """
-    Represents the settings configuration parsed from the XUI API.
+    Represents the settings for an inbound connection parsed from the XUI API.
 
     Attributes:
-        clients (list[Client]): A list of client configurations.
-        decryption (str): The decryption method used.
-        fallbacks (list): A list of fallback configurations.
+        clients (list[Client], optional): A list of client configurations for the inbound connection.
+        decryption (str, optional): The decryption method used for the inbound connection.
+        fallbacks (list, optional): A list of fallback configurations for the inbound connection.
     """
 
     clients: list[Client] = []

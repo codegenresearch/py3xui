@@ -8,7 +8,7 @@ Attributes:
 - `inbound` (InboundApi): Manages inbound-related API calls.
 - `database` (DatabaseApi): Manages database-related API calls.
 
-Methods:
+Public Methods:
 - `from_env(skip_login: bool = False) -> Api`: Creates an instance of `Api` using environment variables.
 - `login() -> None`: Logs in to the XUI API and sets the session for client, inbound, and database API calls.
 
@@ -27,9 +27,9 @@ api = Api.from_env()
 # Log in to the API
 api.login()
 
+
 """
 
-from __future__ import annotations
 from py3xui.api import ClientApi, DatabaseApi, InboundApi
 from py3xui.utils import Logger, env
 
@@ -51,7 +51,7 @@ class Api:
     - `inbound` (InboundApi): Manages inbound-related API calls.
     - `database` (DatabaseApi): Manages database-related API calls.
 
-    Methods:
+    Public Methods:
     - `from_env(skip_login: bool = False) -> Api`: Creates an instance of `Api` using environment variables.
     - `login() -> None`: Logs in to the XUI API and sets the session for client, inbound, and database API calls.
 
@@ -70,6 +70,7 @@ class Api:
     # Log in to the API
     api.login()
     
+
     """
 
     def __init__(self, host: str, username: str, password: str, skip_login: bool = False):

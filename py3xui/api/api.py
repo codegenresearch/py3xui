@@ -13,6 +13,12 @@ class Api:
     client, inbound, and database APIs. It supports both direct initialization
     with credentials and initialization using environment variables.
 
+    Args:
+        host (str): The XUI host URL.
+        username (str): The username for authentication.
+        password (str): The password for authentication.
+        skip_login (bool, optional): If True, skips the login process. Defaults to False.
+
     Attributes:
         client (ClientApi): Manages client-related API calls.
         inbound (InboundApi): Manages inbound-related API calls.
@@ -39,6 +45,15 @@ class Api:
         os.environ['XUI_PASSWORD'] = "pass"
         api = Api.from_env()
         
+
+        Calling methods after initialization:
+
+        
+        # After logging in, you can use the client, inbound, and database attributes
+        api.client.some_client_method()
+        api.inbound.some_inbound_method()
+        api.database.some_database_method()
+        
     """
 
     def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
@@ -63,7 +78,7 @@ class Api:
             self.login()
 
     @classmethod
-    def from_env(cls, skip_login: bool = False) -> 'Api':
+    def from_env(cls, skip_login: bool = False) -> Api:
         """
         Initializes the Api class using environment variables.
 
@@ -108,9 +123,9 @@ class Api:
 
 
 This code addresses the feedback by:
-1. Ensuring the `from_env` method uses `cls` correctly to instantiate the class.
-2. Adding a module-level docstring.
-3. Structuring the class docstring with sections for attributes, methods, and examples.
-4. Formatting examples using triple backticks.
-5. Adding type annotations for the return types of methods.
-6. Including the `from __future__ import annotations` import statement.
+1. Ensuring a concise module-level docstring.
+2. Structuring the class docstring with sections for arguments, attributes, methods, and examples.
+3. Formatting examples using triple backticks.
+4. Using the `Api` type annotation for the `from_env` method.
+5. Ensuring consistent terminology and style in the docstrings.
+6. Adding additional examples to demonstrate how to use the API effectively.

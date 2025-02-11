@@ -1,6 +1,7 @@
 from __future__ import annotations
 from py3xui.api import ClientApi, DatabaseApi, InboundApi
 from py3xui.utils import Logger, env
+import os
 
 logger = Logger(__name__)
 
@@ -24,13 +25,19 @@ class Api:
 
     Example:
         Directly using credentials:
-        >>> api = Api(host="https://api.example.com", username="user", password="pass")
-        >>> api.login()
-        Logged in successfully.
+        
+        api = Api(host="https://api.example.com", username="user", password="pass")
+        api.login()
+        
 
         Using environment variables:
-        >>> api = Api.from_env()
-        Logged in successfully.
+        
+        import os
+        os.environ['XUI_HOST'] = "https://api.example.com"
+        os.environ['XUI_USERNAME'] = "user"
+        os.environ['XUI_PASSWORD'] = "pass"
+        api = Api.from_env()
+        
     """
 
     def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
@@ -44,7 +51,9 @@ class Api:
             skip_login (bool, optional): If True, skips the login process. Defaults to False.
 
         Example:
-            >>> api = Api(host="https://api.example.com", username="user", password="pass")
+            
+            api = Api(host="https://api.example.com", username="user", password="pass")
+            
         """
         self.client = ClientApi(host, username, password)
         self.inbound = InboundApi(host, username, password)
@@ -69,7 +78,13 @@ class Api:
             Api: An instance of the Api class initialized with credentials from environment variables.
 
         Example:
-            >>> api = Api.from_env()
+            
+            import os
+            os.environ['XUI_HOST'] = "https://api.example.com"
+            os.environ['XUI_USERNAME'] = "user"
+            os.environ['XUI_PASSWORD'] = "pass"
+            api = Api.from_env()
+            
         """
         host = env.xui_host()
         username = env.xui_username()
@@ -84,8 +99,9 @@ class Api:
         across the client, inbound, and database API instances to maintain a consistent session state.
 
         Example:
-            >>> api.login()
-            Logged in successfully.
+            
+            api.login()
+            
         """
         self.client.login()
         self.inbound.session = self.client.session

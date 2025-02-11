@@ -1,6 +1,7 @@
 """This module contains the Inbound class, which represents an inbound connection in the XUI API."""
 
-from typing import Any
+from typing import Any, Optional
+from typing_extensions import AsyncContextManager
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -72,9 +73,7 @@ class Inbound(BaseModel):
     total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: list[Client] | None = Field(  # type: ignore
-        default=[], alias=InboundFields.CLIENT_STATS
-    )
+    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = ""
 
@@ -87,6 +86,11 @@ class Inbound(BaseModel):
 
         Returns:
             dict[str, Any]: The JSON-compatible dictionary.
+
+        Example:
+            >>> inbound = Inbound(enable=True, port=8080, protocol="vmess", settings=Settings(...), stream_settings=StreamSettings(...), sniffing=Sniffing(...))
+            >>> inbound.to_json()
+            {'remark': '', 'enable': True, 'listen': '', 'port': 8080, 'protocol': 'vmess', 'expiryTime': 0, 'settings': '{"...": "..."}', 'streamSettings': '{"...": "..."}', 'sniffing': '{"...": "..."}'}
         """
 
         include = {
@@ -111,3 +115,26 @@ class Inbound(BaseModel):
         )
 
         return result
+
+    @staticmethod
+    async def get_inbound_by_id(client: AsyncContextManager, inbound_id: int) -> Optional['Inbound']:
+        """Retrieves an inbound connection by its ID.
+
+        Args:
+            client (AsyncContextManager): An asynchronous client to interact with the XUI API.
+            inbound_id (int): The ID of the inbound connection to retrieve.
+
+        Returns:
+            Optional[Inbound]: The Inbound instance if found, otherwise None.
+
+        Example:
+            >>> async with Client(api_url="https://example.com/api", token="your_token") as client:
+            ...     inbound = await Inbound.get_inbound_by_id(client, inbound_id=123)
+            ...     if inbound:
+            ...         print(inbound)
+        """
+        # Assuming the client has a method to fetch an inbound by ID
+        response = await client.fetch_inbound(inbound_id)
+        if response:
+            return Inbound(**response)
+        return None

@@ -72,7 +72,11 @@ class BaseApi:
 
     @max_retries.setter
     def max_retries(self, value: int) -> None:
-        """Set the maximum number of retries for API requests."""
+        """Set the maximum number of retries for API requests.
+
+        Args:
+            value (int): The new maximum number of retries.
+        """
         self._max_retries = value
 
     @property
@@ -82,7 +86,11 @@ class BaseApi:
 
     @session.setter
     def session(self, value: str | None) -> None:
-        """Set the session cookie for authenticated requests."""
+        """Set the session cookie for authenticated requests.
+
+        Args:
+            value (str | None): The new session cookie.
+        """
         self._session = value
 
     def login(self) -> None:
@@ -101,7 +109,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("No session cookie found, something wrong with the login...")
+            raise ValueError("Login failed: No session cookie found.")
         logger.info("Session cookie successfully retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -119,7 +127,7 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"Response status is not successful, message: {message}")
+            raise ValueError(f"API request failed: {message}")
 
     def _url(self, endpoint: str) -> str:
         """Constructs the full URL for an API endpoint.

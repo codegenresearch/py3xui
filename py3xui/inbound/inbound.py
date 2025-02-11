@@ -63,19 +63,19 @@ class Inbound(BaseModel):
     stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # type: ignore
     sniffing: Sniffing
 
-    listen: str = ""
-    remark: str = ""
-    id: int = 0
+    listen: str = Field(default="", alias=InboundFields.LISTEN)
+    remark: str = Field(default="", alias=InboundFields.REMARK)
+    id: int = Field(default=0, alias=InboundFields.ID)
 
-    up: int = 0
-    down: int = 0
+    up: int = Field(default=0, alias=InboundFields.UP)
+    down: int = Field(default=0, alias=InboundFields.DOWN)
 
-    total: int = 0
+    total: int = Field(default=0, alias=InboundFields.TOTAL)
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: Optional[List[Client]] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+    client_stats: list[Client] | None = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
-    tag: str = ""
+    tag: str = Field(default="", alias=InboundFields.TAG)
 
     model_config = ConfigDict(
         populate_by_name=True,

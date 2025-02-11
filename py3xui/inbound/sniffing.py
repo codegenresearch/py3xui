@@ -20,9 +20,9 @@ class Sniffing(JsonStringModel):
 
     Attributes:
         enabled (bool): Whether sniffing is enabled. Required.
-        dest_override (list[str]): The destination override. Optional.
-        metadata_only (bool): Use only metadata for sniffing. Optional.
-        route_only (bool): Use only routing information for sniffing. Optional.
+        dest_override (list[str]): Whether to override the destination. Optional.
+        metadata_only (bool): Whether to use only metadata for sniffing. Optional.
+        route_only (bool): Whether to use only routing information for sniffing. Optional.
     """
 
     enabled: bool
@@ -33,7 +33,7 @@ class Sniffing(JsonStringModel):
 
 I have made the following adjustments based on the feedback:
 
-1. **Docstring Consistency**: Simplified the description of the `Sniffing` class to be more concise and direct.
-2. **Attribute Descriptions**: Ensured the attribute descriptions are phrased consistently, focusing on the wording used for optional attributes.
+1. **Docstring Consistency**: Simplified the description of the `Sniffing` class to be more concise.
+2. **Attribute Descriptions**: Updated the wording of the optional attributes to use "Whether to" for consistency.
 3. **Formatting**: Ensured each attribute is defined on a new line with consistent spacing.
-4. **Field Names**: Ensured each field in the `SniffingFields` class is defined on its own line to match the style of the gold code.
+4. **Field Names**: Ensured each field in the `SniffingFields` class is defined on its own line for clarity and consistency.

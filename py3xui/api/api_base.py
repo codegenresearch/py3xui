@@ -10,7 +10,7 @@ logger = Logger(__name__)
 # pylint: disable=missing-module-docstring
 # pylint: disable=too-few-public-methods
 
-"""This module provides a base class for interacting with the XUI API, handling authentication and request management."""
+"""Provides a base class for interacting with the XUI API, handling authentication and request management."""
 
 class ApiFields:
     """Stores the fields returned by the XUI API for parsing.
@@ -80,37 +80,65 @@ class BaseApi:
 
     @property
     def host(self) -> str:
-        """The XUI host URL."""
+        """The XUI host URL.
+
+        Returns:
+            str: The XUI host URL.
+        """
         return self._host
 
     @property
     def username(self) -> str:
-        """The XUI username."""
+        """The XUI username.
+
+        Returns:
+            str: The XUI username.
+        """
         return self._username
 
     @property
     def password(self) -> str:
-        """The XUI password."""
+        """The XUI password.
+
+        Returns:
+            str: The XUI password.
+        """
         return self._password
 
     @property
     def max_retries(self) -> int:
-        """Maximum number of retries for API requests."""
+        """Maximum number of retries for API requests.
+
+        Returns:
+            int: Maximum number of retries.
+        """
         return self._max_retries
 
     @max_retries.setter
     def max_retries(self, value: int) -> None:
-        """Set the maximum number of retries for API requests."""
+        """Set the maximum number of retries for API requests.
+
+        Args:
+            value (int): The new maximum number of retries.
+        """
         self._max_retries = value
 
     @property
     def session(self) -> str | None:
-        """Session cookie for API requests."""
+        """Session cookie for API requests.
+
+        Returns:
+            str | None: The session cookie.
+        """
         return self._session
 
     @session.setter
     def session(self, value: str | None) -> None:
-        """Set the session cookie for API requests."""
+        """Set the session cookie for API requests.
+
+        Args:
+            value (str | None): The session cookie.
+        """
         self._session = value
 
     def login(self) -> None:
@@ -135,7 +163,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("Login failed: No session cookie found.")
+            raise ValueError("Login failed: No session cookie found in the response.")
         logger.info("Session cookie successfully retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -153,7 +181,7 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"API request failed: {message}")
+            raise ValueError(f"API request failed with message: {message}")
 
     def _url(self, endpoint: str) -> str:
         """Constructs the full URL for an API endpoint.

@@ -10,13 +10,13 @@ logger = Logger(__name__)
 
 
 class Api:
-    """A high-level interface to interact with the XUI API.
+    """High-level interface to interact with the XUI API.
 
-    This class initializes the API with the given credentials and provides methods to log into the API and perform
+    This class initializes the API with the given credentials and provides methods to log in and perform
     operations through the client, database, and inbound interfaces.
 
     Args:
-        host (str): The host address of the XUI API.
+        xui_host (str): The XUI host URL.
         username (str): The username for authentication.
         password (str): The password for authentication.
         skip_login (bool): Whether to skip the login process.
@@ -31,45 +31,43 @@ class Api:
         login() -> None: Logs into the XUI API and sets the session for other API components.
 
     Examples:
-        
-        # Initialize the API with explicit credentials and log in
-        api = Api(host='https://api.example.com', username='user', password='pass')
-        api.login()
-        # Logged in successfully.
-        
+    
+    # Initialize the API with explicit credentials and log in
+    api = Api(xui_host='https://api.example.com', username='user', password='pass')
+    api.login()
+    # Logged in successfully.
+    
 
-        
-        # Initialize the API using environment variables and log in
-        import os
-        os.environ['XUI_HOST'] = 'https://api.example.com'
-        os.environ['XUI_USERNAME'] = 'user'
-        os.environ['XUI_PASSWORD'] = 'pass'
-        api = Api.from_env()
-        api.login()
-        # Logged in successfully.
-        
+    
+    # Initialize the API using environment variables and log in
+    import os
+    os.environ['XUI_HOST'] = 'https://api.example.com'
+    os.environ['XUI_USERNAME'] = 'user'
+    os.environ['XUI_PASSWORD'] = 'pass'
+    api = Api.from_env()
+    api.login()
+    # Logged in successfully.
+    
     """
 
-    def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
-        """Initializes the API with the given credentials.
+    def __init__(self, xui_host: str, username: str, password: str, skip_login: bool = False):
+        """Initialize the API with the given credentials.
 
         Args:
-            host (str): The host address of the XUI API.
+            xui_host (str): The XUI host URL.
             username (str): The username for authentication.
             password (str): The password for authentication.
             skip_login (bool): Whether to skip the login process.
         """
-        self.client = ClientApi(host, username, password)
-        self.inbound = InboundApi(host, username, password)
-        self.database = DatabaseApi(host, username, password)
+        self.client = ClientApi(xui_host, username, password)
+        self.inbound = InboundApi(xui_host, username, password)
+        self.database = DatabaseApi(xui_host, username, password)
         if not skip_login:
             self.login()
 
     @classmethod
     def from_env(cls, skip_login: bool = False) -> Api:
-        """Initializes the API using environment variables.
-
-        This method reads the host, username, and password from environment variables and initializes the API.
+        """Initialize the API using environment variables.
 
         Args:
             skip_login (bool): Whether to skip the login process.
@@ -78,33 +76,30 @@ class Api:
             Api: An instance of the Api class.
 
         Example:
-            
-            import os
-            os.environ['XUI_HOST'] = 'https://api.example.com'
-            os.environ['XUI_USERNAME'] = 'user'
-            os.environ['XUI_PASSWORD'] = 'pass'
-            api = Api.from_env()
-            api.login()
-            # Logged in successfully.
-            
+        
+        import os
+        os.environ['XUI_HOST'] = 'https://api.example.com'
+        os.environ['XUI_USERNAME'] = 'user'
+        os.environ['XUI_PASSWORD'] = 'pass'
+        api = Api.from_env()
+        api.login()
+        # Logged in successfully.
+        
         """
-        host = env.xui_host()
+        xui_host = env.xui_host()
         username = env.xui_username()
         password = env.xui_password()
-        return cls(host, username, password, skip_login)
+        return cls(xui_host, username, password, skip_login)
 
     def login(self) -> None:
-        """Logs into the XUI API and sets the session for other API components.
-
-        This method logs into the XUI API using the provided credentials and sets the session for the client,
-        inbound, and database components.
+        """Log into the XUI API and set the session for other API components.
 
         Example:
-            
-            api = Api(host='https://api.example.com', username='user', password='pass')
-            api.login()
-            # Logged in successfully.
-            
+        
+        api = Api(xui_host='https://api.example.com', username='user', password='pass')
+        api.login()
+        # Logged in successfully.
+        
         """
         self.client.login()
         self.inbound.session = self.client.session

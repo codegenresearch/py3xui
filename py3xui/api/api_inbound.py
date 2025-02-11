@@ -1,6 +1,6 @@
 """This module contains the InboundApi class for handling inbounds in the XUI API."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.inbound import Inbound
@@ -42,10 +42,13 @@ class InboundApi(BaseApi):
     def get_list(self) -> list[Inbound]:
         """Retrieves a comprehensive list of all inbounds along with their associated client options and statistics.
 
+        This method fetches a detailed list of all inbounds configured in the XUI system, including their
+        client options and traffic statistics.
+
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#b7c42b67-4362-44d3-bd61-ba7df0721802)
 
         Returns:
-            list[Inbound]: A list of inbounds.
+            list[Inbound]: A list of Inbound objects.
 
         Examples:
             
@@ -56,7 +59,7 @@ class InboundApi(BaseApi):
 
             inbounds: list[py3xui.Inbound] = api.inbound.get_list()
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/list"
         headers = {"Accept": "application/json"}
 
@@ -69,11 +72,11 @@ class InboundApi(BaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    def get_by_id(self, inbound_id: int) -> Inbound:
         """Retrieves a specific inbound by its ID.
 
         This method fetches detailed information about an inbound, including its statistics and client details.
-        If the inbound is not found, the method returns None.
+        If the inbound is not found, the method raises a ValueError.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -81,7 +84,10 @@ class InboundApi(BaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object.
+
+        Raises:
+            ValueError: If the inbound is not found.
 
         Examples:
             
@@ -93,7 +99,7 @@ class InboundApi(BaseApi):
             inbound_id = 1
             inbound = api.inbound.get_by_id(inbound_id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/get/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -103,12 +109,14 @@ class InboundApi(BaseApi):
         response = self._get(url, headers)
 
         inbound_json = response.json().get(ApiFields.OBJ)
-        if inbound_json:
-            return Inbound.model_validate(inbound_json)
-        return None
+        if not inbound_json:
+            raise ValueError(f"Inbound with ID {inbound_id} not found.")
+        return Inbound.model_validate(inbound_json)
 
     def add(self, inbound: Inbound) -> None:
         """Adds a new inbound configuration.
+
+        This method adds a new inbound configuration to the XUI system.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#813ac729-5ba6-4314-bc2a-d0d3acc70388)
 
@@ -144,7 +152,7 @@ class InboundApi(BaseApi):
 
             api.inbound.add(inbound)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/add"
         headers = {"Accept": "application/json"}
 
@@ -157,6 +165,8 @@ class InboundApi(BaseApi):
 
     def delete(self, inbound_id: int) -> None:
         """Deletes an inbound identified by its ID.
+
+        This method deletes an inbound configuration from the XUI system based on its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#a655d0e3-7d8c-4331-9061-422fcb515da9)
 
@@ -174,7 +184,7 @@ class InboundApi(BaseApi):
             for inbound in inbounds:
                 api.inbound.delete(inbound.id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/del/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -187,6 +197,8 @@ class InboundApi(BaseApi):
 
     def update(self, inbound_id: int, inbound: Inbound) -> None:
         """Updates an existing inbound identified by its ID.
+
+        This method updates an existing inbound configuration in the XUI system based on its ID.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#19249b9f-a940-41e2-8bf4-86ff8dde857e)
 
@@ -207,7 +219,7 @@ class InboundApi(BaseApi):
 
             api.inbound.update(inbound.id, inbound)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/update/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -221,6 +233,8 @@ class InboundApi(BaseApi):
     def reset_stats(self) -> None:
         """Resets the traffic statistics for all inbounds within the system.
 
+        This method resets the traffic statistics for all inbounds configured in the XUI system.
+
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#6749f362-dc81-4769-8f45-37dc9e99f5e9)
 
         Examples:
@@ -231,7 +245,7 @@ class InboundApi(BaseApi):
             api.login()
             api.inbound.reset_stats()
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/resetAllTraffics"
         headers = {"Accept": "application/json"}
 
@@ -244,6 +258,8 @@ class InboundApi(BaseApi):
 
     def reset_client_stats(self, inbound_id: int) -> None:
         """Resets the traffic statistics for all clients associated with a specific inbound identified by its ID.
+
+        This method resets the traffic statistics for all clients associated with a specific inbound in the XUI system.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#9bd93925-12a0-40d8-a390-d4874dea3683)
 
@@ -261,7 +277,7 @@ class InboundApi(BaseApi):
 
             api.inbound.reset_client_stats(inbound.id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/resetAllClientTraffics/{inbound_id}"
         headers = {"Accept": "application/json"}
 

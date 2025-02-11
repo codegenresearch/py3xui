@@ -1,5 +1,3 @@
-"""This module contains the base class for the XUI API."""
-
 from time import sleep
 from typing import Any, Callable
 
@@ -22,30 +20,25 @@ class ApiFields:
 
 
 class BaseApi:
-    """Base class for the XUI API. Contains common methods for making requests.
+    """Provides a base class for interacting with the XUI API.
 
-    Arguments:
-        host (str): The host of the XUI API.
-        username (str): The username for the XUI API.
-        password (str): The password for the XUI API.
+    This class handles the login process, session management, and request handling
+    with retry logic.
 
-    Attributes and Properties:
-        host (str): The host of the XUI API.
-        username (str): The username for the XUI API.
-        password (str): The password for the XUI API.
-        max_retries (int): The maximum number of retries for a request.
-        session (str): The session cookie for the XUI API.
+    Attributes:
+        host (str): The XUI host URL.
+        username (str): The XUI username.
+        password (str): The XUI password.
+        max_retries (int): The maximum number of retries for failed requests.
+        session (str | None): The session cookie for authenticated requests.
 
-    Public Methods:
-        login: Logs into the XUI API.
-
-    Private Methods:
-        _check_response: Checks the response from the XUI API.
-        _url: Returns the URL for the XUI API.
-        _request_with_retry: Makes a request to the XUI API with retries.
-        _post: Makes a POST request to the XUI API.
-        _get: Makes a GET request to the XUI API.
-
+    Methods:
+        login: Logs into the XUI API and sets the session cookie.
+        _check_response: Validates the API response.
+        _url: Constructs the full URL for API requests.
+        _request_with_retry: Sends a request with retry logic.
+        _post: Sends a POST request.
+        _get: Sends a GET request.
     """
 
     def __init__(self, host: str, username: str, password: str):
@@ -57,65 +50,45 @@ class BaseApi:
 
     @property
     def host(self) -> str:
-        """The host of the XUI API.
-
-        Returns:
-            str: The host of the XUI API."""
+        """The XUI host URL."""
         return self._host
 
     @property
     def username(self) -> str:
-        """The username for the XUI API.
-
-        Returns:
-            str: The username for the XUI API."""
+        """The XUI username."""
         return self._username
 
     @property
     def password(self) -> str:
-        """The password for the XUI API.
-
-        Returns:
-            str: The password for the XUI API."""
+        """The XUI password."""
         return self._password
 
     @property
     def max_retries(self) -> int:
-        """The maximum number of retries for a request.
-
-        Returns:
-            int: The maximum number of retries for a request."""
+        """The maximum number of retries for failed requests."""
         return self._max_retries
 
     @max_retries.setter
     def max_retries(self, value: int) -> None:
-        """Sets the maximum number of retries for a request.
-
-        Arguments:
-            value (int): The maximum number of retries for a request."""
+        """Sets the maximum number of retries for failed requests."""
         self._max_retries = value
 
     @property
     def session(self) -> str | None:
-        """The session cookie for the XUI API.
-
-        Returns:
-            str | None: The session cookie for the XUI API."""
+        """The session cookie for authenticated requests."""
         return self._session
 
     @session.setter
     def session(self, value: str | None) -> None:
-        """Sets the session cookie for the XUI API.
-
-        Arguments:
-            value (str | None): The session cookie for the XUI API."""
+        """Sets the session cookie for authenticated requests."""
         self._session = value
 
     def login(self) -> None:
-        """Logs into the XUI API and sets the session cookie if successful.
+        """Logs into the XUI API and sets the session cookie.
 
         Raises:
-            ValueError: If the login is unsuccessful."""
+            ValueError: If no session cookie is found after login.
+        """
         endpoint = "login"
         headers: dict[str, str] = {}
 
@@ -131,10 +104,10 @@ class BaseApi:
         self.session = cookie
 
     def _check_response(self, response: requests.Response) -> None:
-        """Checks the response from the XUI API using the success field.
+        """Validates the API response.
 
-        Arguments:
-            response (requests.Response): The response from the XUI API.
+        Args:
+            response (requests.Response): The response object from the API request.
 
         Raises:
             ValueError: If the response status is not successful.
@@ -147,13 +120,14 @@ class BaseApi:
             raise ValueError(f"Response status is not successful, message: {message}")
 
     def _url(self, endpoint: str) -> str:
-        """Returns the URL for the XUI API (adds the endpoint to the host URL).
+        """Constructs the full URL for API requests.
 
-        Arguments:
-            endpoint (str): The endpoint for the XUI API.
+        Args:
+            endpoint (str): The API endpoint.
 
         Returns:
-            str: The URL for the XUI API."""
+            str: The full URL for the API request.
+        """
         return f"{self._host}/{endpoint}"
 
     def _request_with_retry(
@@ -163,20 +137,20 @@ class BaseApi:
         headers: dict[str, str],
         **kwargs: Any,
     ) -> requests.Response:
-        """Makes a request to the XUI API with retries.
+        """Sends a request with retry logic.
 
-        Arguments:
-            method (Callable[..., requests.Response]): The request method to use.
-            url (str): The URL for the XUI API.
-            headers (dict[str, str]): The headers for the request.
-            **kwargs (Any): Additional keyword arguments for the request.
+        Args:
+            method (Callable[..., requests.Response]): The HTTP method to use (e.g., requests.post).
+            url (str): The URL to send the request to.
+            headers (dict[str, str]): The headers to include in the request.
+            **kwargs: Additional keyword arguments to pass to the request method.
 
         Returns:
-            requests.Response: The response from the XUI API.
+            requests.Response: The response object from the API request.
 
         Raises:
-            requests.exceptions.RequestException: If the request fails.
-            requests.exceptions.RetryError: If the maximum number of retries is exceeded."""
+            requests.exceptions.RetryError: If the maximum number of retries is exceeded.
+        """
         logger.debug("%s request to %s...", method.__name__.upper(), url)
         for retry in range(1, self.max_retries + 1):
             try:
@@ -203,26 +177,28 @@ class BaseApi:
     def _post(
         self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs
     ) -> requests.Response:
-        """Makes a POST request to the XUI API.
+        """Sends a POST request.
 
-        Arguments:
-            url (str): The URL for the XUI API.
-            headers (dict[str, str]): The headers for the request.
-            data (dict[str, Any]): The data for the request.
-            **kwargs (Any): Additional keyword arguments for the request.
+        Args:
+            url (str): The URL to send the request to.
+            headers (dict[str, str]): The headers to include in the request.
+            data (dict[str, Any]): The data to send in the request body.
+            **kwargs: Additional keyword arguments to pass to the request method.
 
         Returns:
-            requests.Response: The response from the XUI API."""
+            requests.Response: The response object from the API request.
+        """
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
     def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
-        """Makes a GET request to the XUI API.
+        """Sends a GET request.
 
-        Arguments:
-            url (str): The URL for the XUI API.
-            headers (dict[str, str]): The headers for the request.
-            **kwargs (Any): Additional keyword arguments for the request.
+        Args:
+            url (str): The URL to send the request to.
+            headers (dict[str, str]): The headers to include in the request.
+            **kwargs: Additional keyword arguments to pass to the request method.
 
         Returns:
-            requests.Response: The response from the XUI API."""
+            requests.Response: The response object from the API request.
+        """
         return self._request_with_retry(requests.get, url, headers, **kwargs)

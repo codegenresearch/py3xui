@@ -10,7 +10,15 @@ logger = Logger(__name__)
 
 # pylint: disable=too-few-public-methods
 class ApiFields:
-    """Stores the fields returned by the XUI API for parsing."""
+    """Stores the fields returned by the XUI API for parsing.
+
+    Attributes:
+        SUCCESS (str): The key for the success status in the API response.
+        MSG (str): The key for the message in the API response.
+        OBJ (str): The key for the object data in the API response.
+        CLIENT_STATS (str): The key for client statistics in the API response.
+        NO_IP_RECORD (str): The message indicating no IP record found.
+    """
 
     SUCCESS = "success"
     MSG = "msg"
@@ -42,6 +50,13 @@ class BaseApi:
     """
 
     def __init__(self, host: str, username: str, password: str):
+        """Initializes the BaseApi with the provided credentials.
+
+        Args:
+            host (str): The XUI host URL.
+            username (str): The XUI username.
+            password (str): The XUI password.
+        """
         self._host = host.rstrip("/")
         self._username = username
         self._password = password
@@ -70,7 +85,11 @@ class BaseApi:
 
     @max_retries.setter
     def max_retries(self, value: int) -> None:
-        """Sets the maximum number of retries for failed requests."""
+        """Sets the maximum number of retries for failed requests.
+
+        Args:
+            value (int): The new maximum number of retries.
+        """
         self._max_retries = value
 
     @property
@@ -80,7 +99,11 @@ class BaseApi:
 
     @session.setter
     def session(self, value: str | None) -> None:
-        """Sets the session cookie for authenticated requests."""
+        """Sets the session cookie for authenticated requests.
+
+        Args:
+            value (str | None): The new session cookie.
+        """
         self._session = value
 
     def login(self) -> None:
@@ -150,6 +173,9 @@ class BaseApi:
 
         Raises:
             requests.exceptions.RetryError: If the maximum number of retries is exceeded.
+            requests.exceptions.ConnectionError: If a connection error occurs.
+            requests.exceptions.Timeout: If a timeout error occurs.
+            requests.exceptions.RequestException: If any other request-related error occurs.
         """
         logger.debug("%s request to %s...", method.__name__.upper(), url)
         for retry in range(1, self.max_retries + 1):

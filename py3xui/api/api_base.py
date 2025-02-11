@@ -10,6 +10,7 @@ logger = Logger(__name__)
 # pylint: disable=missing-module-docstring
 # pylint: disable=too-few-public-methods
 
+"""This module provides a base class for interacting with the XUI API, handling authentication and request management."""
 
 class ApiFields:
     """Stores the fields returned by the XUI API for parsing.
@@ -51,14 +52,6 @@ class BaseApi:
         _request_with_retry: Sends a request with retry logic.
         _post: Sends a POST request to the API.
         _get: Sends a GET request to the API.
-
-    Examples:
-        
-        from py3xui.api.base_api import BaseApi
-
-        base_api = BaseApi("https://xui.example.com", "username", "password")
-        base_api.login()
-        
     """
 
     def __init__(self, host: str, username: str, password: str):
@@ -108,12 +101,6 @@ class BaseApi:
 
         Raises:
             ValueError: If no session cookie is found.
-
-        Examples:
-            
-            base_api = BaseApi("https://xui.example.com", "username", "password")
-            base_api.login()
-            
         """
         endpoint = "login"
         headers: dict[str, str] = {}
@@ -125,7 +112,7 @@ class BaseApi:
         response = self._post(url, headers, data)
         cookie: str | None = response.cookies.get("session")
         if not cookie:
-            raise ValueError("No session cookie found, something wrong with the login...")
+            raise ValueError("Login failed: No session cookie found.")
         logger.info("Session cookie successfully retrieved for username: %s", self.username)
         self.session = cookie
 
@@ -143,7 +130,7 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"Response status is not successful, message: {message}")
+            raise ValueError(f"API request failed: {message}")
 
     def _url(self, endpoint: str) -> str:
         """Constructs the full URL for an API endpoint.
@@ -206,7 +193,7 @@ class BaseApi:
     def _post(
         self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs
     ) -> requests.Response:
-        """Sends a POST request to the API.
+        """Sends a POST request to the XUI API.
 
         Args:
             url (str): The full URL for the API endpoint.
@@ -220,7 +207,7 @@ class BaseApi:
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
     def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
-        """Sends a GET request to the API.
+        """Sends a GET request to the XUI API.
 
         Args:
             url (str): The full URL for the API endpoint.

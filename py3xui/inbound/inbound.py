@@ -52,7 +52,7 @@ class Inbound(BaseModel):
         down (int): The down value for the inbound connection. Optional.
         total (int): The total value for the inbound connection. Optional.
         expiry_time (int): The expiry time for the inbound connection. Optional.
-        client_stats (list[Client] | None): The client stats for the inbound connection. Optional.
+        client_stats (list[Client]): The client stats for the inbound connection. Optional.
         tag (str): The tag for the inbound connection. Optional.
     """
 
@@ -63,19 +63,19 @@ class Inbound(BaseModel):
     stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # type: ignore
     sniffing: Sniffing
 
-    listen: str = Field(default="", alias=InboundFields.LISTEN)
-    remark: str = Field(default="", alias=InboundFields.REMARK)
-    id: int = Field(default=0, alias=InboundFields.ID)
+    listen: str = ""
+    remark: str = ""
+    id: int = 0
 
-    up: int = Field(default=0, alias=InboundFields.UP)
-    down: int = Field(default=0, alias=InboundFields.DOWN)
+    up: int = 0
+    down: int = 0
 
-    total: int = Field(default=0, alias=InboundFields.TOTAL)
+    total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: list[Client] | None = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+    client_stats: List[Client] = Field(default_factory=list, alias=InboundFields.CLIENT_STATS)  # type: ignore
 
-    tag: str = Field(default="", alias=InboundFields.TAG)
+    tag: str = ""
 
     model_config = ConfigDict(
         populate_by_name=True,

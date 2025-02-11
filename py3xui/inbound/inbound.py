@@ -1,6 +1,6 @@
 """This module contains the Inbound class, which represents an inbound connection in the XUI API."""
 
-from typing import Any, List, Optional
+from typing import Any, List
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -62,19 +62,19 @@ class Inbound(BaseModel):
     stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # type: ignore
     sniffing: Sniffing
 
-    listen: str = Field(default="", alias=InboundFields.LISTEN)
-    remark: str = Field(default="", alias=InboundFields.REMARK)
-    id: int = Field(default=0, alias=InboundFields.ID)
+    listen: str = ""
+    remark: str = ""
+    id: int = 0
 
-    up: int = Field(default=0, alias=InboundFields.UP)
-    down: int = Field(default=0, alias=InboundFields.DOWN)
+    up: int = 0
+    down: int = 0
 
-    total: int = Field(default=0, alias=InboundFields.TOTAL)
+    total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: Optional[List[Client]] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+    client_stats: List[Client] | None = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
-    tag: str = Field(default="", alias=InboundFields.TAG)
+    tag: str = ""
 
     model_config = ConfigDict(
         populate_by_name=True,

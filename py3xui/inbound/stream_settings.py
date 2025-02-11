@@ -1,5 +1,4 @@
-"""This module contains the StreamSettings class, which is used to parse the JSON response
-from the XUI API for stream settings."""
+"""This module contains the StreamSettings class for parsing stream settings from the XUI API."""
 
 from pydantic import ConfigDict, Field
 
@@ -13,9 +12,7 @@ class StreamSettingsFields:
     SECURITY = "security"
     NETWORK = "network"
     TCP_SETTINGS = "tcpSettings"
-
     EXTERNAL_PROXY = "externalProxy"
-
     REALITY_SETTINGS = "realitySettings"
     XTLS_SETTINGS = "xtlsSettings"
     TLS_SETTINGS = "tlsSettings"
@@ -25,7 +22,7 @@ class StreamSettings(JsonStringModel):
     """Represents the stream settings for an inbound connection.
 
     Attributes:
-        security (str): The security for the inbound connection. Required.
+        security (str): The security settings for the inbound connection. Required.
         network (str): The network type for the inbound connection. Required.
         tcp_settings (dict): The TCP settings for the inbound connection. Required.
         external_proxy (list): The external proxy settings for the inbound connection. Optional.

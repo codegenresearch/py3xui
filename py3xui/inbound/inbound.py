@@ -110,3 +110,6 @@ class Inbound(BaseModel):
         )
 
         return result
+
+
+This code snippet addresses the feedback by ensuring consistent docstring phrasing, concise attribute descriptions, and proper formatting. The `pylint` comment is also placed consistently.

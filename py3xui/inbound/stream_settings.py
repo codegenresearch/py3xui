@@ -1,5 +1,3 @@
-"""This module contains the StreamSettings class for parsing the XUI API response."""
-
 from pydantic import ConfigDict, Field
 
 from py3xui.inbound.bases import JsonStringModel
@@ -21,33 +19,35 @@ class StreamSettingsFields:
 
 
 class StreamSettings(JsonStringModel):
-    """Represents the stream settings for an inbound.
+    """Represents the stream settings for an inbound connection.
 
     Attributes:
-        security (str): The security for the inbound connection. Required.
-        network (str): The network for the inbound connection. Required.
-        tcp_settings (dict): The TCP settings for the inbound connection. Required.
-        external_proxy (list): The external proxy for the inbound connection. Optional.
-        reality_settings (dict): The reality settings for the inbound connection. Optional.
-        xtls_settings (dict): The xTLS settings for the inbound connection. Optional.
-        tls_settings (dict): The TLS settings for the inbound connection. Optional.
+        security (str): The security protocol used for the stream.
+        network (str): The network type used for the stream.
+        tcp_settings (dict): Configuration settings specific to TCP streams.
+        external_proxy (list): List of external proxies used for the stream.
+        reality_settings (dict): Configuration settings specific to Reality protocol.
+        xtls_settings (dict): Configuration settings specific to XTLS protocol.
+        tls_settings (dict): Configuration settings specific to TLS protocol.
     """
 
-    security: str
-    network: str
-    tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS)  # type: ignore
-
-    external_proxy: list = Field(  # type: ignore
-        default=[], alias=StreamSettingsFields.EXTERNAL_PROXY
+    security: str = Field(description="The security protocol used for the stream.")
+    network: str = Field(description="The network type used for the stream.")
+    tcp_settings: dict = Field(
+        default={}, alias=StreamSettingsFields.TCP_SETTINGS, description="Configuration settings specific to TCP streams."
     )
-
-    reality_settings: dict = Field(  # type: ignore
-        default={}, alias=StreamSettingsFields.REALITY_SETTINGS
+    external_proxy: list = Field(
+        default=[], alias=StreamSettingsFields.EXTERNAL_PROXY, description="List of external proxies used for the stream."
     )
-    xtls_settings: dict = Field(  # type: ignore
-        default={}, alias=StreamSettingsFields.XTLS_SETTINGS
+    reality_settings: dict = Field(
+        default={}, alias=StreamSettingsFields.REALITY_SETTINGS, description="Configuration settings specific to Reality protocol."
     )
-    tls_settings: dict = Field(default={}, alias=StreamSettingsFields.TLS_SETTINGS)  # type: ignore
+    xtls_settings: dict = Field(
+        default={}, alias=StreamSettingsFields.XTLS_SETTINGS, description="Configuration settings specific to XTLS protocol."
+    )
+    tls_settings: dict = Field(
+        default={}, alias=StreamSettingsFields.TLS_SETTINGS, description="Configuration settings specific to TLS protocol."
+    )
 
     model_config = ConfigDict(
         populate_by_name=True,

@@ -25,9 +25,9 @@ class StreamSettings(JsonStringModel):
     """Represents the stream settings for an inbound connection.
 
     Attributes:
-        security (str): Security protocol.
-        network (str): Network type.
-        tcp_settings (dict): TCP settings.
+        security (str): Security protocol. Required.
+        network (str): Network type. Required.
+        tcp_settings (dict): TCP settings. Required.
         external_proxy (list): External proxy settings. Optional.
         reality_settings (dict): Reality settings. Optional.
         xtls_settings (dict): xTLS settings. Optional.

@@ -21,12 +21,12 @@ class Sniffing(JsonStringModel):
 
     Attributes:
         enabled (bool): Whether sniffing is enabled. Required.
-        dest_override (list[str]): Destination overrides. Optional.
+        dest_override (list[str]): List of destination overrides. Optional.
         metadata_only (bool): Capture only metadata. Optional.
         route_only (bool): Capture only routing information. Optional.
     """
 
     enabled: bool
-    dest_override: list[str] = Field(default=[], alias=SniffingFields.DEST_OVERRIDE)
-    metadata_only: bool = Field(default=False, alias=SniffingFields.METADATA_ONLY)
-    route_only: bool = Field(default=False, alias=SniffingFields.ROUTE_ONLY)
+    dest_override: list[str] = Field(default=[], alias=SniffingFields.DEST_OVERRIDE)  # type: ignore
+    metadata_only: bool = Field(default=False, alias=SniffingFields.METADATA_ONLY)  # type: ignore
+    route_only: bool = Field(default=False, alias=SniffingFields.ROUTE_ONLY)  # type: ignore

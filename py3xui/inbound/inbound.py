@@ -7,10 +7,9 @@ from py3xui.inbound.settings import Settings
 from py3xui.inbound.sniffing import Sniffing
 from py3xui.inbound.stream_settings import StreamSettings
 
-# pylint: disable=missing-module-docstring
+# This module defines the Inbound class, which encapsulates all necessary settings and statistics for an inbound connection in the XUI API.
 
-# Represents the inbound configuration for the XUI API.
-# This module defines the Inbound class, which encapsulates all necessary settings and statistics for an inbound connection.
+# pylint: disable=missing-module-docstring
 
 # pylint: disable=too-few-public-methods
 class InboundFields:

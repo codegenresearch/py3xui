@@ -1,6 +1,6 @@
 """This module contains the Inbound class, which represents an inbound connection in the XUI API."""
 
-from typing import Any, List, Optional
+from typing import Any, List
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -72,7 +72,7 @@ class Inbound(BaseModel):
     total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: Optional[List[Client]] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
+    client_stats: list[Client] | None = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = ""
 
@@ -85,23 +85,6 @@ class Inbound(BaseModel):
 
         Returns:
             dict[str, Any]: The JSON-compatible dictionary.
-
-        Example:
-            >>> inbound = Inbound(
-            ...     enable=True,
-            ...     port=8080,
-            ...     protocol="vmess",
-            ...     settings=Settings(...),
-            ...     stream_settings=StreamSettings(...),
-            ...     sniffing=Sniffing(...),
-            ...     listen="127.0.0.1",
-            ...     remark="My Inbound",
-            ...     expiry_time=1672531200,
-            ...     client_stats=[Client(...)],
-            ...     tag="my_tag"
-            ... )
-            >>> inbound.to_json()
-            {'remark': 'My Inbound', 'enable': True, 'listen': '127.0.0.1', 'port': 8080, 'protocol': 'vmess', 'expiryTime': 1672531200, 'settings': '{"..."', 'streamSettings': '{"..."', 'sniffing': '{"..."}'}
         """
 
         include = {
@@ -118,9 +101,7 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(  # pylint: disable=no-member
-                    by_alias=True
-                ),
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),  # pylint: disable=no-member
                 InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
             }
         )

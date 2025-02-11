@@ -3,7 +3,7 @@ from pydantic import Field
 from py3xui.inbound.bases import JsonStringModel
 
 
-"""This module contains the Sniffing class for parsing sniffing settings from the XUI API."""
+"""This module contains the Sniffing class, which represents the sniffing settings for an inbound connection in the XUI API."""
 
 
 # pylint: disable=too-few-public-methods

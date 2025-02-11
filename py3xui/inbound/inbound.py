@@ -55,25 +55,22 @@ class Inbound(BaseModel):
         tag (str): Optional. The tag associated with the inbound (default is an empty string).
     """
 
-    enable: bool  # Required. Indicates whether the inbound is enabled
-    port: int  # Required. The port number on which the inbound listens
-    protocol: str  # Required. The protocol used by the inbound (e.g., vmess, vless)
-    settings: Settings  # Required. The settings specific to the protocol
-    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # Required. Stream settings for the inbound
-    sniffing: Sniffing  # Required. Sniffing settings for the inbound
+    enable: bool  # Required. Indicates whether the inbound is enabled.
+    port: int  # Required. The port number on which the inbound listens.
+    protocol: str  # Required. The protocol used by the inbound (e.g., vmess, vless).
+    settings: Settings  # Required. The settings specific to the protocol.
+    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # Required. Stream settings for the inbound. # type: ignore
+    sniffing: Sniffing  # Required. Sniffing settings for the inbound.
 
-    listen: str = ""  # Optional. The address on which the inbound listens (default is an empty string)
-    remark: str = ""  # Optional. Any remarks or notes about the inbound (default is an empty string)
-    id: int = 0  # Optional. The unique identifier for the inbound (default is 0)
-
-    up: int = 0  # Optional. The upload traffic of the inbound (default is 0)
-    down: int = 0  # Optional. The download traffic of the inbound (default is 0)
-    total: int = 0  # Optional. The total traffic of the inbound (default is 0)
-
-    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # Optional. The expiry time of the inbound (default is 0)
-    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # Optional. List of client statistics (default is an empty list)
-
-    tag: str = ""  # Optional. The tag associated with the inbound (default is an empty string)
+    listen: str = ""  # Optional. The address on which the inbound listens (default is an empty string).
+    remark: str = ""  # Optional. Any remarks or notes about the inbound (default is an empty string).
+    id: int = 0  # Optional. The unique identifier for the inbound (default is 0).
+    up: int = 0  # Optional. The upload traffic of the inbound (default is 0).
+    down: int = 0  # Optional. The download traffic of the inbound (default is 0).
+    total: int = 0  # Optional. The total traffic of the inbound (default is 0).
+    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # Optional. The expiry time of the inbound (default is 0). # type: ignore
+    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # Optional. List of client statistics (default is an empty list). # type: ignore
+    tag: str = ""  # Optional. The tag associated with the inbound (default is an empty string).
 
     model_config = ConfigDict(
         populate_by_name=True,

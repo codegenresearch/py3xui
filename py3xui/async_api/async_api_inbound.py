@@ -57,7 +57,7 @@ class AsyncInboundApi(AsyncBaseApi):
             await api.login()
             inbounds: list[py3xui.Inbound] = await api.inbound.get_list()
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/list"
         headers = {"Accept": "application/json"}
 
@@ -70,7 +70,7 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Inbound:
+    async def get_by_id(self, inbound_id: int) -> Inbound | None:
         """Retrieves a specific inbound by its ID, including its statistics and client details.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
@@ -79,7 +79,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound: The inbound object.
+            Inbound | None: The inbound object if found, otherwise None.
 
         Raises:
             Exception: If the inbound is not found.
@@ -94,7 +94,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id = 1
             inbound = await api.inbound.get_by_id(inbound_id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/get/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -104,8 +104,10 @@ class AsyncInboundApi(AsyncBaseApi):
         response = await self._get(url, headers)
 
         inbound_json = response.json().get(ApiFields.OBJ)
-        inbound = Inbound.model_validate(inbound_json)
-        return inbound
+        if inbound_json:
+            inbound = Inbound.model_validate(inbound_json)
+            return inbound
+        return None
 
     async def add(self, inbound: Inbound) -> None:
         """Adds a new inbound configuration.
@@ -142,7 +144,7 @@ class AsyncInboundApi(AsyncBaseApi):
             )
             await api.inbound.add(inbound)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/add"
         headers = {"Accept": "application/json"}
 
@@ -172,7 +174,7 @@ class AsyncInboundApi(AsyncBaseApi):
             for inbound in inbounds:
                 await api.inbound.delete(inbound.id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/del/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -205,7 +207,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
             await api.inbound.update(inbound.id, inbound)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/update/{inbound_id}"
         headers = {"Accept": "application/json"}
 
@@ -229,7 +231,7 @@ class AsyncInboundApi(AsyncBaseApi):
             await api.login()
             await api.inbound.reset_stats()
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = "panel/api/inbounds/resetAllTraffics"
         headers = {"Accept": "application/json"}
 
@@ -240,15 +242,13 @@ class AsyncInboundApi(AsyncBaseApi):
         await self._post(url, headers, data)
         self.logger.info("Inbounds stats reset successfully.")
 
-    async def reset_client_stats(self, inbound_id: int, client_id: Optional[int] = None) -> None:
+    async def reset_client_stats(self, inbound_id: int) -> None:
         """Resets the traffic statistics for all clients associated with a specific inbound identified by its ID.
-        If a client_id is provided, it resets the statistics for that specific client only.
 
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#9bd93925-12a0-40d8-a390-d4874dea3683)
 
         Arguments:
             inbound_id (int): The ID of the inbound to reset the client stats.
-            client_id (int | None): The ID of the specific client to reset stats for (optional).
 
         Examples:
             
@@ -261,10 +261,8 @@ class AsyncInboundApi(AsyncBaseApi):
 
             await api.inbound.reset_client_stats(inbound.id)
             
-        """
+        """  # pylint: disable=line-too-long
         endpoint = f"panel/api/inbounds/resetAllClientTraffics/{inbound_id}"
-        if client_id is not None:
-            endpoint += f"/{client_id}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)

@@ -4,7 +4,7 @@ from pydantic import BaseModel, model_validator
 
 class JsonStringModel(BaseModel):
     """
-    Base model for Pydantic that validates and converts a JSON string into a dictionary.
+    A Pydantic model that validates and converts a JSON string into a dictionary.
     """
 
     @model_validator(mode="before")

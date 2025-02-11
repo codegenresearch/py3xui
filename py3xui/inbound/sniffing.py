@@ -17,10 +17,10 @@ class Sniffing(JsonStringModel):
     """Represents the sniffing settings for an inbound connection in the XUI API.
 
     Attributes:
-        enabled (bool): Whether sniffing is enabled.
-        dest_override (list[str]): List of destination overrides.
-        metadata_only (bool): Capture only metadata.
-        route_only (bool): Capture only routing information.
+        enabled (bool): Whether sniffing is enabled. Required.
+        dest_override (list[str]): List of destination overrides. Optional.
+        metadata_only (bool): Capture only metadata. Optional.
+        route_only (bool): Capture only routing information. Optional.
     """
 
     enabled: bool

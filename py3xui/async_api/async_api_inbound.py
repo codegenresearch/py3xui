@@ -70,7 +70,7 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """Retrieves a specific inbound by its ID, including its statistics and client details.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
@@ -79,10 +79,10 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
 
         Raises:
-            Exception: If the inbound is not found.
+            ValueError: If the inbound is not found.
 
         Examples:
         
@@ -107,8 +107,8 @@ class AsyncInboundApi(AsyncBaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        self.logger.warning("Inbound with ID %s not found", inbound_id)
-        return None
+        self.logger.error("Inbound with ID %s not found", inbound_id)
+        raise ValueError(f"Inbound with ID {inbound_id} not found")
 
     async def add(self, inbound: Inbound) -> None:
         """Adds a new inbound configuration.
@@ -289,4 +289,4 @@ class AsyncInboundApi(AsyncBaseApi):
         self.logger.info("Inbound client stats reset successfully.")
 
 
-This revised code addresses the feedback by ensuring consistent docstring formatting, detailed method descriptions, clear logging messages, and proper use of code blocks for examples. The return types in the docstrings match the actual return types in the method signatures, and pylint comments are added to handle line length warnings. Additionally, the logging message in `get_by_id` is updated to provide more context when an inbound is not found.
+This revised code addresses the feedback by ensuring consistent docstring formatting, detailed method descriptions, clear logging messages, and properly formatted example code snippets. The `get_by_id` method now raises a `ValueError` if the inbound is not found, and the logging messages provide clear context.

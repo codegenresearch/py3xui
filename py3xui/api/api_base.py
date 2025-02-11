@@ -13,11 +13,11 @@ class ApiFields:
     """Stores the fields returned by the XUI API for parsing.
 
     Attributes:
-        SUCCESS (str): The key for the success status in the API response.
-        MSG (str): The key for the message in the API response.
-        OBJ (str): The key for the object data in the API response.
-        CLIENT_STATS (str): The key for client statistics in the API response.
-        NO_IP_RECORD (str): The message indicating no IP record found.
+        SUCCESS (str): Key for the success status in the API response.
+        MSG (str): Key for the message in the API response.
+        OBJ (str): Key for the object data in the API response.
+        CLIENT_STATS (str): Key for client statistics in the API response.
+        NO_IP_RECORD (str): Message indicating no IP record found.
     """
 
     SUCCESS = "success"
@@ -30,8 +30,7 @@ class ApiFields:
 class BaseApi:
     """Provides a base class for interacting with the XUI API.
 
-    This class handles the login process, session management, and request handling
-    with retry logic.
+    This class handles the login process, session management, and request handling with retry logic.
 
     Attributes:
         host (str): The XUI host URL.
@@ -39,14 +38,6 @@ class BaseApi:
         password (str): The XUI password.
         max_retries (int): The maximum number of retries for failed requests.
         session (str | None): The session cookie for authenticated requests.
-
-    Methods:
-        login: Logs into the XUI API and sets the session cookie.
-        _check_response: Validates the API response.
-        _url: Constructs the full URL for API requests.
-        _request_with_retry: Sends a request with retry logic.
-        _post: Sends a POST request.
-        _get: Sends a GET request.
     """
 
     def __init__(self, host: str, username: str, password: str):
@@ -203,7 +194,7 @@ class BaseApi:
     def _post(
         self, url: str, headers: dict[str, str], data: dict[str, Any], **kwargs
     ) -> requests.Response:
-        """Sends a POST request.
+        """Makes a POST request to the specified URL.
 
         Args:
             url (str): The URL to send the request to.
@@ -217,7 +208,7 @@ class BaseApi:
         return self._request_with_retry(requests.post, url, headers, json=data, **kwargs)
 
     def _get(self, url: str, headers: dict[str, str], **kwargs) -> requests.Response:
-        """Sends a GET request.
+        """Makes a GET request to the specified URL.
 
         Args:
             url (str): The URL to send the request to.

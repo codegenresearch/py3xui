@@ -18,11 +18,17 @@ class Api:
         inbound (InboundApi): An instance of InboundApi for handling inbound-related API calls.
         database (DatabaseApi): An instance of DatabaseApi for handling database-related API calls.
 
+    Methods:
+        login(): Logs in to the XUI API and sets the session for inbound and database API instances.
+        from_env(skip_login=False): Creates an instance of Api using environment variables for credentials.
+
     Example:
+        Directly using credentials:
         >>> api = Api(host="https://api.example.com", username="user", password="pass")
         >>> api.login()
         Logged in successfully.
 
+        Using environment variables:
         >>> api = Api.from_env()
         Logged in successfully.
     """
@@ -50,6 +56,11 @@ class Api:
     def from_env(cls, skip_login: bool = False) -> Api:
         """
         Creates an instance of Api using environment variables for credentials.
+
+        This method reads the XUI host URL, username, and password from environment variables:
+        - XUI_HOST
+        - XUI_USERNAME
+        - XUI_PASSWORD
 
         Args:
             skip_login (bool, optional): If True, skips the login process. Defaults to False.

@@ -1,5 +1,5 @@
 import json
-from typing import Any
+from typing import Any, List
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.client.client import Client
@@ -25,13 +25,13 @@ class ClientApi(BaseApi):
 
         Examples::
             
+            
             import py3xui
 
             api = py3xui.Api.from_env()
             client: py3xui.Client = api.client.get_by_email("email")
             
-        """  # pylint: disable=line-too-long
-
+        """
         endpoint = f"panel/api/inbounds/getClientTraffics/{email}"
         headers = {"Accept": "application/json"}
 
@@ -60,12 +60,13 @@ class ClientApi(BaseApi):
 
         Examples::
             
+            
             import py3xui
 
             api = py3xui.Api.from_env()
             ips = api.client.get_ips("email")
             
-        """  # pylint: disable=line-too-long
+        """
         endpoint = f"panel/api/inbounds/clientIps/{email}"
         headers = {"Accept": "application/json"}
 
@@ -77,15 +78,19 @@ class ClientApi(BaseApi):
         ips_json = response.json().get(ApiFields.OBJ)
         return ips_json if ips_json != ApiFields.NO_IP_RECORD else None
 
-    def add(self, inbound_id: int, clients: list[Client]) -> None:
+    def add(self, inbound_id: int, clients: List[Client]) -> None:
         """
         Add clients to a specific inbound.
 
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
-            clients (list[Client]): A list of Client objects to add.
+            clients (List[Client]): A list of Client objects to add.
+
+        Returns:
+            None
 
         Examples::
+            
             
             import py3xui
 
@@ -117,7 +122,11 @@ class ClientApi(BaseApi):
             client_uuid (str): The UUID of the client to update.
             client (Client): The updated Client object.
 
+        Returns:
+            None
+
         Examples::
+            
             
             import py3xui
 
@@ -144,7 +153,11 @@ class ClientApi(BaseApi):
         Args:
             email (str): The email of the client whose IPs will be reset.
 
+        Returns:
+            None
+
         Examples::
+            
             
             import py3xui
 
@@ -170,7 +183,11 @@ class ClientApi(BaseApi):
             inbound_id (int): The ID of the inbound.
             email (str): The email of the client whose stats will be reset.
 
+        Returns:
+            None
+
         Examples::
+            
             
             import py3xui
 
@@ -188,28 +205,32 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Client stats reset successfully.")
 
-    def delete(self, inbound_id: int, client_uuid: str) -> None:
+    def delete(self, inbound_id: int, client_id: int) -> None:
         """
         Delete a specific client from an inbound.
 
         Args:
             inbound_id (int): The ID of the inbound.
-            client_uuid (str): The UUID of the client to delete.
+            client_id (int): The ID of the client to delete.
+
+        Returns:
+            None
 
         Examples::
+            
             
             import py3xui
 
             api = py3xui.Api.from_env()
-            api.client.delete(1, "client-uuid")
+            api.client.delete(1, 1)
             
         """
-        endpoint = f"panel/api/inbounds/{inbound_id}/delClient/{client_uuid}"
+        endpoint = f"panel/api/inbounds/{inbound_id}/delClient/{client_id}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        logger.info("Deleting client with UUID: %s", client_uuid)
+        logger.info("Deleting client with ID: %s", client_id)
 
         self._post(url, headers, data)
         logger.info("Client deleted successfully.")
@@ -221,7 +242,11 @@ class ClientApi(BaseApi):
         Args:
             inbound_id (int): The ID of the inbound.
 
+        Returns:
+            None
+
         Examples::
+            
             
             import py3xui
 
@@ -239,14 +264,15 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> list[str]:
+    def online(self) -> List[str]:
         """
         Retrieve a list of online clients.
 
         Returns:
-            list[str]: A list of online client UUIDs.
+            List[str]: A list of online client IDs.
 
         Examples::
+            
             
             import py3xui
 

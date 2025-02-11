@@ -18,7 +18,7 @@ class ClientApi(BaseApi):
         `Source documentation <https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#9d0e5cd5-e6ac-4d72-abca-76cf75af5f00>`_
 
         Args:
-            email (str): The email of the client to retrieve.
+            email (str): The email address of the client to retrieve.
 
         Returns:
             Client | None: The client object if found, otherwise None.
@@ -36,7 +36,7 @@ class ClientApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        logger.info("Getting client stats for email: %s", email)
+        logger.info("Retrieving client stats for email: %s", email)
 
         response = self._get(url, headers)
 
@@ -53,7 +53,7 @@ class ClientApi(BaseApi):
         `Source documentation <https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#06f1214c-dbb0-49f2-81b5-8e924abd19a9>`_
 
         Args:
-            email (str): The email of the client to retrieve.
+            email (str): The email address of the client to retrieve.
 
         Returns:
             str | None: The client IPs if found, otherwise None.
@@ -70,7 +70,7 @@ class ClientApi(BaseApi):
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
-        logger.info("Getting client IPs for email: %s", email)
+        logger.info("Retrieving client IPs for email: %s", email)
 
         response = self._post(url, headers, {})
 
@@ -84,6 +84,9 @@ class ClientApi(BaseApi):
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
             clients (list[Client]): A list of Client objects to add.
+
+        Returns:
+            None
 
         Examples:
             .. code-block:: python
@@ -117,6 +120,9 @@ class ClientApi(BaseApi):
             client_uuid (str): The UUID of the client to update.
             client (Client): The updated Client object.
 
+        Returns:
+            None
+
         Examples:
             .. code-block:: python
 
@@ -142,7 +148,10 @@ class ClientApi(BaseApi):
         Reset the IP records for a specific client.
 
         Args:
-            email (str): The email of the client whose IPs will be reset.
+            email (str): The email address of the client whose IPs will be reset.
+
+        Returns:
+            None
 
         Examples:
             .. code-block:: python
@@ -168,7 +177,10 @@ class ClientApi(BaseApi):
 
         Args:
             inbound_id (int): The ID of the inbound.
-            email (str): The email of the client whose stats will be reset.
+            email (str): The email address of the client whose stats will be reset.
+
+        Returns:
+            None
 
         Examples:
             .. code-block:: python
@@ -196,6 +208,9 @@ class ClientApi(BaseApi):
             inbound_id (int): The ID of the inbound.
             client_uuid (str): The UUID of the client to delete.
 
+        Returns:
+            None
+
         Examples:
             .. code-block:: python
 
@@ -220,6 +235,9 @@ class ClientApi(BaseApi):
 
         Args:
             inbound_id (int): The ID of the inbound.
+
+        Returns:
+            None
 
         Examples:
             .. code-block:: python
@@ -259,7 +277,7 @@ class ClientApi(BaseApi):
 
         url = self._url(endpoint)
         data: dict[str, Any] = {}
-        logger.info("Getting online clients")
+        logger.info("Retrieving online clients")
 
         response = self._post(url, headers, data)
         online = response.json().get(ApiFields.OBJ)

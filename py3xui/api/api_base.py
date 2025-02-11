@@ -123,7 +123,7 @@ class BaseApi:
         If the login is successful, the session cookie is stored for future requests.
 
         Raises:
-            ValueError: If no session cookie is found after login.
+            ValueError: If no session cookie is received from the server.
         """
         endpoint = "login"
         headers: dict[str, str] = {}

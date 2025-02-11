@@ -59,22 +59,22 @@ class Inbound(BaseModel):
     port: int
     protocol: str
     settings: Settings
-    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)  # type: ignore
+    stream_settings: StreamSettings = Field(alias=InboundFields.STREAM_SETTINGS)
     sniffing: Sniffing
 
-    listen: str = ""
-    remark: str = ""
-    id: int = 0
+    listen: str = Field(default="", alias=InboundFields.LISTEN)
+    remark: str = Field(default="", alias=InboundFields.REMARK)
+    id: int = Field(default=0, alias=InboundFields.ID)
 
-    up: int = 0
-    down: int = 0
+    up: int = Field(default=0, alias=InboundFields.UP)
+    down: int = Field(default=0, alias=InboundFields.DOWN)
 
-    total: int = 0
+    total: int = Field(default=0, alias=InboundFields.TOTAL)
 
-    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: Optional[List[Client]] = Field(default=None, alias=InboundFields.CLIENT_STATS)  # type: ignore
+    expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)
+    client_stats: Optional[List[Client]] = Field(default=[], alias=InboundFields.CLIENT_STATS)
 
-    tag: str = ""
+    tag: str = Field(default="", alias=InboundFields.TAG)
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,9 +101,7 @@ class Inbound(BaseModel):
         result.update(
             {
                 InboundFields.SETTINGS: self.settings.model_dump_json(by_alias=True),
-                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(
-                    by_alias=True
-                ),  # pylint: disable=no-member
+                InboundFields.STREAM_SETTINGS: self.stream_settings.model_dump_json(by_alias=True),
                 InboundFields.SNIFFING: self.sniffing.model_dump_json(by_alias=True),
             }
         )
@@ -134,7 +132,7 @@ class Inbound(BaseModel):
             ... }
             >>> inbound = Inbound.from_api_response(api_response)
             >>> inbound
-            Inbound(enable=True, port=8080, protocol='vmess', settings=Settings(...), stream_settings=StreamSettings(...), sniffing=Sniffing(...), listen='127.0.0.1', remark='My Inbound', id=0, up=0, down=0, total=0, expiry_time=1672531200, client_stats=None, tag='')
+            Inbound(enable=True, port=8080, protocol='vmess', settings=Settings(...), stream_settings=StreamSettings(...), sniffing=Sniffing(...), listen='127.0.0.1', remark='My Inbound', id=0, up=0, down=0, total=0, expiry_time=1672531200, client_stats=[], tag='')
         """
         settings = Settings.model_validate_json(data[InboundFields.SETTINGS])
         stream_settings = StreamSettings.model_validate_json(data[InboundFields.STREAM_SETTINGS])
@@ -150,6 +148,6 @@ class Inbound(BaseModel):
             listen=data.get(InboundFields.LISTEN, ""),
             remark=data.get(InboundFields.REMARK, ""),
             expiry_time=data.get(InboundFields.EXPIRY_TIME, 0),
-            client_stats=[Client.model_validate(item) for item in data.get(InboundFields.CLIENT_STATS, [])] if data.get(InboundFields.CLIENT_STATS) else None,
+            client_stats=[Client.model_validate(item) for item in data.get(InboundFields.CLIENT_STATS, [])],
             tag=data.get(InboundFields.TAG, "")
         )

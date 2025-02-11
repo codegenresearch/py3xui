@@ -28,7 +28,7 @@ class ApiFields:
 class BaseApi:
     """Base class for interacting with the XUI API.
 
-    This class handles authentication and request management for the XUI API.
+    This class provides methods for logging in, sending requests, and handling responses from the XUI API.
 
     Args:
         host (str): The XUI host URL.
@@ -41,6 +41,21 @@ class BaseApi:
         password (str): The XUI password.
         max_retries (int): Maximum number of retries for API requests.
         session (str | None): Session cookie for API requests.
+
+    Public Methods:
+        login: Logs into the XUI API and sets the session cookie.
+        _check_response: Checks the API response for success.
+        _url: Constructs the full URL for an API endpoint.
+        _request_with_retry: Sends a request with retry logic.
+        _post: Sends a POST request to the API.
+        _get: Sends a GET request to the API.
+
+    Private Methods:
+        _check_response: Checks the API response for success.
+        _url: Constructs the full URL for an API endpoint.
+        _request_with_retry: Sends a request with retry logic.
+        _post: Sends a POST request to the API.
+        _get: Sends a GET request to the API.
     """
 
     def __init__(self, host: str, username: str, password: str):
@@ -147,7 +162,7 @@ class BaseApi:
         status = response_json.get(ApiFields.SUCCESS)
         message = response_json.get(ApiFields.MSG)
         if not status:
-            raise ValueError(f"API request failed with message: {message}")
+            raise ValueError(f"API request failed with message: {message}.")
 
     def _url(self, endpoint: str) -> str:
         """Constructs the full URL for an API endpoint.
@@ -198,13 +213,13 @@ class BaseApi:
                 if retry == self.max_retries:
                     raise e
                 logger.warning(
-                    "Request to %s failed: %s, retry %s of %s", url, e, retry, self.max_retries
+                    "Request to %s failed: %s, retry %s of %s.", url, e, retry, self.max_retries
                 )
                 sleep(1 * (retry + 1))
             except requests.exceptions.RequestException as e:
                 raise e
         raise requests.exceptions.RetryError(
-            f"Max retries exceeded with no successful response to {url}"
+            f"Max retries exceeded with no successful response to {url}."
         )
 
     def _post(

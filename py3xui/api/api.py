@@ -1,5 +1,7 @@
 """
-This module provides classes to interact with the XUI API.
+This module provides a high-level interface to interact with the XUI API.
+
+The `Api` class provides methods to interact with the XUI API, including logging in and managing sessions for different API components.
 
 Classes:
 - `Api`: A class to manage interactions with the XUI API, including login and session management.
@@ -14,7 +16,7 @@ logger = Logger(__name__)
 
 class Api:
     """
-    A class to manage interactions with the XUI API.
+    A high-level interface to interact with the XUI API.
 
     The `Api` class provides methods to interact with the XUI API, including logging in and managing sessions for different API components.
 
@@ -24,14 +26,14 @@ class Api:
     - password (str): The password for authentication.
     - skip_login (bool, optional): If True, skips the login process. Defaults to False.
 
-    Attributes and Properties:
+    Attributes:
     - client (ClientApi): An instance of ClientApi for handling client-related API calls.
     - inbound (InboundApi): An instance of InboundApi for handling inbound-related API calls.
     - database (DatabaseApi): An instance of DatabaseApi for handling database-related API calls.
 
-    Public Methods:
+    Methods:
     - `from_env(skip_login: bool = False) -> Api`: Class method to create an instance of Api using environment variables.
-    - `login() -> None`: Logs in to the XUI API and sets the session for inbound and database API calls.
+    - `login() -> None`: Logs in to the XUI API and sets the session for client, inbound, and database API calls.
 
     Examples:
     
@@ -67,6 +69,11 @@ class Api:
         """
         Creates an instance of Api using environment variables.
 
+        The required environment variables are:
+        - `XUI_HOST`: The host URL of the XUI API.
+        - `XUI_USERNAME`: The username for authentication.
+        - `XUI_PASSWORD`: The password for authentication.
+
         Args:
         - skip_login (bool, optional): If True, skips the login process. Defaults to False.
 
@@ -86,7 +93,9 @@ class Api:
 
     def login(self) -> None:
         """
-        Logs in to the XUI API and sets the session for inbound and database API calls.
+        Logs in to the XUI API and sets the session for client, inbound, and database API calls.
+
+        This method logs in to the XUI API using the provided credentials and sets the session cookie for the client, inbound, and database APIs.
 
         Examples:
         

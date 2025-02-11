@@ -1,7 +1,7 @@
 """This module contains the AsyncInboundApi class which provides methods to interact with the
 clients in the XUI API asynchronously."""
 
-from typing import Any, Optional
+from typing import Any
 
 from py3xui.api.api_base import ApiFields
 from py3xui.async_api.async_api_base import AsyncBaseApi
@@ -32,6 +32,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
     Examples:
     
+    
     import py3xui
 
     api = py3xui.AsyncApi.from_env()
@@ -52,6 +53,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -71,11 +73,11 @@ class AsyncInboundApi(AsyncBaseApi):
         inbounds = [Inbound.model_validate(data) for data in inbounds_json]
         return inbounds
 
-    async def get_by_id(self, inbound_id: int) -> Optional[Inbound]:
+    async def get_by_id(self, inbound_id: int) -> Inbound:
         """This route is used to retrieve statistics and details for a specific inbound connection
         identified by specified ID. This includes information about the inbound itself, its
         statistics, and the clients connected to it.
-        If the inbound is not found, the method will return None.
+        If the inbound is not found, the method will raise an exception.
 
         [Source documentation](https://www.postman.com/hsanaei/3x-ui/request/uu7wm1k/inbound)
 
@@ -83,9 +85,13 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to retrieve.
 
         Returns:
-            Inbound | None: The inbound object if found, otherwise None.
+            Inbound: The inbound object if found.
+
+        Raises:
+            Exception: If the inbound is not found.
 
         Examples:
+        
         
         import py3xui
 
@@ -110,8 +116,7 @@ class AsyncInboundApi(AsyncBaseApi):
         if inbound_json:
             inbound = Inbound.model_validate(inbound_json)
             return inbound
-        self.logger.info("Inbound with ID %s not found.", inbound_id)
-        return None
+        raise Exception(f"Inbound with ID {inbound_id} not found.")
 
     async def add(self, inbound: Inbound) -> None:
         """This route is used to add a new inbound configuration.
@@ -122,6 +127,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound (Inbound): The inbound object to add.
 
         Examples:
+        
         
         import py3xui
 
@@ -170,6 +176,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -202,6 +209,7 @@ class AsyncInboundApi(AsyncBaseApi):
 
         Examples:
         
+        
         import py3xui
 
         api = py3xui.AsyncApi.from_env()
@@ -228,6 +236,7 @@ class AsyncInboundApi(AsyncBaseApi):
         [Source documentation](https://documenter.getpostman.com/view/16802678/2s9YkgD5jm#6749f362-dc81-4769-8f45-37dc9e99f5e9)
 
         Examples:
+        
         
         import py3xui
 
@@ -256,6 +265,7 @@ class AsyncInboundApi(AsyncBaseApi):
             inbound_id (int): The ID of the inbound to reset the client stats.
 
         Examples:
+        
         
         import py3xui
 

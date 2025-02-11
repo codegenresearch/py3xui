@@ -22,16 +22,15 @@ class Api:
     - skip_login (bool, optional): If True, skips the login process. Defaults to False.
 
     Attributes:
-    - client (ClientApi): An instance of `ClientApi` for handling client-related API calls.
-    - inbound (InboundApi): An instance of `InboundApi` for handling inbound-related API calls.
-    - database (DatabaseApi): An instance of `DatabaseApi` for handling database-related API calls.
+    - client (ClientApi): Manages client-related API calls.
+    - inbound (InboundApi): Manages inbound-related API calls.
+    - database (DatabaseApi): Manages database-related API calls.
 
     Methods:
-    - `from_env(skip_login: bool = False) -> Api`: Class method to create an instance of `Api` using environment variables.
+    - `from_env(skip_login: bool = False) -> Api`: Creates an instance of `Api` using environment variables.
     - `login() -> None`: Logs in to the XUI API and sets the session for client, inbound, and database API calls.
 
     Examples:
-    
     
     # Import the Api class
     from py3xui.api.api import Api
@@ -44,7 +43,6 @@ class Api:
 
     # Log in to the API
     api.login()
-    
     
     """
 
@@ -82,10 +80,8 @@ class Api:
 
         Examples:
         
-        
         # Initialize the Api class using environment variables
         api = Api.from_env()
-        
         
         """
         host = env.xui_host()
@@ -97,12 +93,12 @@ class Api:
         """
         Logs in to the XUI API and sets the session for client, inbound, and database API calls.
 
+        This method authenticates the user and ensures that subsequent API calls are made with a valid session.
+
         Examples:
-        
         
         # Log in to the API
         api.login()
-        
         
         """
         self.client.login()

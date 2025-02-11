@@ -1,6 +1,6 @@
 # pylint: disable=missing-function-docstring
 import json
-from typing import Any
+from typing import Any, List
 
 from py3xui.api.api_base import ApiFields, BaseApi
 from py3xui.client.client import Client
@@ -10,6 +10,16 @@ logger = Logger(__name__)
 
 
 class ClientApi(BaseApi):
+    ENDPOINT_GET_CLIENT_TRAFFICS = "panel/api/inbounds/getClientTraffics"
+    ENDPOINT_CLIENT_IPS = "panel/api/inbounds/clientIps"
+    ENDPOINT_ADD_CLIENT = "panel/api/inbounds/addClient"
+    ENDPOINT_UPDATE_CLIENT = "panel/api/inbounds/updateClient"
+    ENDPOINT_CLEAR_CLIENT_IPS = "panel/api/inbounds/clearClientIps"
+    ENDPOINT_RESET_CLIENT_TRAFFIC = "panel/api/inbounds/resetClientTraffic"
+    ENDPOINT_DEL_CLIENT = "panel/api/inbounds/delClient"
+    ENDPOINT_DEL_DEPLETED_CLIENTS = "panel/api/inbounds/delDepletedClients"
+    ENDPOINT_ONLINES = "panel/api/inbounds/onlines"
+
     def get_by_email(self, email: str) -> Client | None:
         """Retrieve information about a specific client based on their email.
 
@@ -32,7 +42,7 @@ class ClientApi(BaseApi):
                 api = py3xui.Api.from_env()
                 client: py3xui.Client = api.client.get_by_email("email@example.com")
         """  # pylint: disable=line-too-long
-        endpoint = f"panel/api/inbounds/getClientTraffics/{email}"
+        endpoint = f"{self.ENDPOINT_GET_CLIENT_TRAFFICS}/{email}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -65,7 +75,7 @@ class ClientApi(BaseApi):
                 api = py3xui.Api.from_env()
                 ips = api.client.get_ips("email@example.com")
         """  # pylint: disable=line-too-long
-        endpoint = f"panel/api/inbounds/clientIps/{email}"
+        endpoint = f"{self.ENDPOINT_CLIENT_IPS}/{email}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -76,14 +86,14 @@ class ClientApi(BaseApi):
         ips_json = response.json().get(ApiFields.OBJ)
         return ips_json if ips_json != ApiFields.NO_IP_RECORD else None
 
-    def add(self, inbound_id: int, clients: list[Client]) -> None:
+    def add(self, inbound_id: int, clients: List[Client]) -> None:
         """Add clients to a specific inbound.
 
         Args:
             inbound_id (int): The ID of the inbound to which clients will be added.
-            clients (list[Client]): A list of Client objects to add.
+            clients (List[Client]): A list of Client objects to add.
         """
-        endpoint = "panel/api/inbounds/addClient"
+        endpoint = self.ENDPOINT_ADD_CLIENT
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -105,7 +115,7 @@ class ClientApi(BaseApi):
             client_uuid (str): The UUID of the client to update.
             client (Client): The updated Client object.
         """
-        endpoint = f"panel/api/inbounds/updateClient/{client_uuid}"
+        endpoint = f"{self.ENDPOINT_UPDATE_CLIENT}/{client_uuid}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -122,7 +132,7 @@ class ClientApi(BaseApi):
         Args:
             email (str): The email of the client whose IPs will be reset.
         """
-        endpoint = f"panel/api/inbounds/clearClientIps/{email}"
+        endpoint = f"{self.ENDPOINT_CLEAR_CLIENT_IPS}/{email}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -139,7 +149,7 @@ class ClientApi(BaseApi):
             inbound_id (int): The ID of the inbound.
             email (str): The email of the client whose stats will be reset.
         """
-        endpoint = f"panel/api/inbounds/{inbound_id}/resetClientTraffic/{email}"
+        endpoint = f"{self.ENDPOINT_RESET_CLIENT_TRAFFIC}/{inbound_id}/{email}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -156,7 +166,7 @@ class ClientApi(BaseApi):
             inbound_id (int): The ID of the inbound.
             client_uuid (str): The UUID of the client to delete.
         """
-        endpoint = f"panel/api/inbounds/{inbound_id}/delClient/{client_uuid}"
+        endpoint = f"{self.ENDPOINT_DEL_CLIENT}/{inbound_id}/{client_uuid}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -172,7 +182,7 @@ class ClientApi(BaseApi):
         Args:
             inbound_id (int): The ID of the inbound.
         """
-        endpoint = f"panel/api/inbounds/delDepletedClients/{inbound_id}"
+        endpoint = f"{self.ENDPOINT_DEL_DEPLETED_CLIENTS}/{inbound_id}"
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)
@@ -182,13 +192,13 @@ class ClientApi(BaseApi):
         self._post(url, headers, data)
         logger.info("Depleted clients deleted successfully.")
 
-    def online(self) -> list[str]:
+    def online(self) -> List[str]:
         """Retrieve a list of online clients.
 
         Returns:
-            list[str]: A list of online client IDs.
+            List[str]: A list of online client IDs.
         """
-        endpoint = "panel/api/inbounds/onlines"
+        endpoint = self.ENDPOINT_ONLINES
         headers = {"Accept": "application/json"}
 
         url = self._url(endpoint)

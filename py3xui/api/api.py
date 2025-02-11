@@ -1,27 +1,25 @@
-from __future__ import annotations
 from py3xui.api import ClientApi, DatabaseApi, InboundApi
 from py3xui.utils import Logger, env
-import os
 
 logger = Logger(__name__)
 
 
 class Api:
     """
-    A class to interact with the XUI API.
+    Provides a high-level interface to interact with the XUI API.
 
-    This class provides methods to initialize the API with credentials, log in to the API,
-    and create instances using environment variables. It manages sessions for client, inbound,
-    and database API interactions.
+    This class initializes and manages interactions with the XUI API through
+    client, inbound, and database APIs. It supports both direct initialization
+    with credentials and initialization using environment variables.
 
     Attributes:
-        client (ClientApi): An instance of ClientApi for handling client-related API calls.
-        inbound (InboundApi): An instance of InboundApi for handling inbound-related API calls.
-        database (DatabaseApi): An instance of DatabaseApi for handling database-related API calls.
+        client (ClientApi): Manages client-related API calls.
+        inbound (InboundApi): Manages inbound-related API calls.
+        database (DatabaseApi): Manages database-related API calls.
 
     Methods:
-        login(): Logs in to the XUI API and sets the session for inbound and database API instances.
-        from_env(skip_login=False): Creates an instance of Api using environment variables for credentials.
+        login(): Authenticates with the XUI API and sets up sessions.
+        from_env(skip_login=False): Initializes the API using environment variables.
 
     Examples:
         Directly using credentials:
@@ -44,7 +42,7 @@ class Api:
 
     def __init__(self, host: str, username: str, password: str, skip_login: bool = False):
         """
-        Initializes the Api class with the provided credentials and optionally logs in.
+        Initializes the Api class with the provided credentials.
 
         Args:
             host (str): The XUI host URL.
@@ -66,9 +64,9 @@ class Api:
     @classmethod
     def from_env(cls, skip_login: bool = False) -> Api:
         """
-        Creates an instance of Api using environment variables for credentials.
+        Initializes the Api class using environment variables.
 
-        This method reads the XUI host URL, username, and password from environment variables:
+        Reads the XUI host URL, username, and password from environment variables:
         - XUI_HOST
         - XUI_USERNAME
         - XUI_PASSWORD
@@ -95,10 +93,7 @@ class Api:
 
     def login(self) -> None:
         """
-        Logs in to the XUI API and sets the session for inbound and database API instances.
-
-        This method authenticates the user with the provided credentials and shares the session
-        across the client, inbound, and database API instances to maintain a consistent session state.
+        Logs in to the XUI API and sets up sessions for client, inbound, and database APIs.
 
         Example:
             

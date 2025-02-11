@@ -1,5 +1,5 @@
 """
-Module for parsing the JSON response from the XUI API to handle inbound connection settings.
+Module containing the Settings class for parsing the JSON response from the XUI API.
 """
 
 from py3xui.client.client import Client

@@ -5,8 +5,7 @@ from pydantic import BaseModel, model_validator
 
 class JsonStringModel(BaseModel):
     """
-    Base class for Pydantic models that include a JSON string as a field.
-    This class provides a validator to convert a JSON string into a dictionary.
+    Base model for Pydantic that validates and converts a JSON string into a dictionary.
     """
 
     @model_validator(mode="before")
@@ -16,7 +15,7 @@ class JsonStringModel(BaseModel):
     ):  # pylint: disable=no-self-argument, arguments-differ
         """
         Validates and converts a JSON string into a dictionary.
-        If parsing fails, the original input is returned.
+        Returns the original input if parsing fails.
         """
         if isinstance(values, str):
             try:

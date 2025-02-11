@@ -25,30 +25,23 @@ class StreamSettings(JsonStringModel):
     """Represents the stream settings for an inbound connection.
 
     Attributes:
-        security (str): The security protocol for the stream.
-        network (str): The network type for the stream.
-        tcp_settings (dict): The TCP settings for the stream.
-        external_proxy (list): The external proxy settings for the stream. Optional.
-        reality_settings (dict): The Reality settings for the stream. Optional.
-        xtls_settings (dict): The xTLS settings for the stream. Optional.
-        tls_settings (dict): The TLS settings for the stream. Optional.
+        security (str): The security protocol for the inbound connection.
+        network (str): The network type for the inbound connection.
+        tcp_settings (dict): The TCP settings for the inbound connection.
+        external_proxy (list): The external proxy settings for the inbound connection. Optional.
+        reality_settings (dict): The Reality settings for the inbound connection. Optional.
+        xtls_settings (dict): The xTLS settings for the inbound connection. Optional.
+        tls_settings (dict): The TLS settings for the inbound connection. Optional.
     """
 
     security: str
     network: str
-    tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS)  # type: ignore
+    tcp_settings: dict = Field(alias=StreamSettingsFields.TCP_SETTINGS)
 
-    external_proxy: list = Field(  # type: ignore
-        default=[], alias=StreamSettingsFields.EXTERNAL_PROXY
-    )
-
-    reality_settings: dict = Field(  # type: ignore
-        default={}, alias=StreamSettingsFields.REALITY_SETTINGS
-    )
-    xtls_settings: dict = Field(  # type: ignore
-        default={}, alias=StreamSettingsFields.XTLS_SETTINGS
-    )
-    tls_settings: dict = Field(default={}, alias=StreamSettingsFields.TLS_SETTINGS)  # type: ignore
+    external_proxy: list = Field(default=[], alias=StreamSettingsFields.EXTERNAL_PROXY)
+    reality_settings: dict = Field(default={}, alias=StreamSettingsFields.REALITY_SETTINGS)
+    xtls_settings: dict = Field(default={}, alias=StreamSettingsFields.XTLS_SETTINGS)
+    tls_settings: dict = Field(default={}, alias=StreamSettingsFields.TLS_SETTINGS)
 
     model_config = ConfigDict(
         populate_by_name=True,

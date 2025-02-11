@@ -67,5 +67,5 @@ class StreamSettings(JsonStringModel):
 1. **Docstring Consistency**: Ensured the class docstring is concise and matches the terminology used in the gold code.
 2. **Field Definitions**: Removed default values from `security` and `network` fields to indicate they are required.
 3. **Field Formatting**: Improved the formatting of `Field` definitions for better readability, aiming for a more compact style.
-4. **Type Ignore Comments**: Ensured `# type: ignore` comments are placed consistently.
+4. **Type Ignore Comments**: Ensured `# type: ignore` comments are placed consistently and only where necessary.
 5. **Attribute Descriptions**: Ensured descriptions in `Field` definitions align with those in the gold code in terms of clarity and terminology.

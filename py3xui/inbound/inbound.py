@@ -35,25 +35,7 @@ class InboundFields:
 
 
 class Inbound(BaseModel):
-    """Represents an inbound connection in the XUI API.
-
-    Attributes:
-        enable (bool): Whether the inbound connection is enabled. Required.
-        port (int): The port number for the inbound connection. Required.
-        protocol (str): The protocol for the inbound connection. Required.
-        settings (Settings): The settings for the inbound connection. Required.
-        stream_settings (StreamSettings): The stream settings for the inbound connection. Required.
-        sniffing (Sniffing): The sniffing settings for the inbound connection. Required.
-        listen (str): The listen address for the inbound connection. Optional.
-        remark (str): The remark for the inbound connection. Optional.
-        id (int): The ID of the inbound connection. Optional.
-        up (int): The up value for the inbound connection. Optional.
-        down (int): The down value for the inbound connection. Optional.
-        total (int): The total value for the inbound connection. Optional.
-        expiry_time (int): The expiry time for the inbound connection. Optional.
-        client_stats (list[Client]): The client stats for the inbound connection. Optional.
-        tag (str): The tag for the inbound connection. Optional.
-    """
+    """Represents an inbound connection in the XUI API.\n\n    Attributes:\n        enable (bool): Whether the inbound connection is enabled. Required.\n        port (int): The port number for the inbound connection. Required.\n        protocol (str): The protocol for the inbound connection. Required.\n        settings (Settings): The settings for the inbound connection. Required.\n        stream_settings (StreamSettings): The stream settings for the inbound connection. Required.\n        sniffing (Sniffing): The sniffing settings for the inbound connection. Required.\n        listen (str): The listen address for the inbound connection. Optional.\n        remark (str): The remark for the inbound connection. Optional.\n        id (int): The ID of the inbound connection. Optional.\n        up (int): The up value for the inbound connection. Optional.\n        down (int): The down value for the inbound connection. Optional.\n        total (int): The total value for the inbound connection. Optional.\n        expiry_time (int): The expiry time for the inbound connection. Optional.\n        client_stats (list[Client]): The client stats for the inbound connection. Optional.\n        tag (str): The tag for the inbound connection. Optional.\n    """
 
     enable: bool
     port: int
@@ -72,9 +54,7 @@ class Inbound(BaseModel):
     total: int = 0
 
     expiry_time: int = Field(default=0, alias=InboundFields.EXPIRY_TIME)  # type: ignore
-    client_stats: list[Client] | None = Field(  # type: ignore
-        default=[], alias=InboundFields.CLIENT_STATS
-    )
+    client_stats: list[Client] = Field(default=[], alias=InboundFields.CLIENT_STATS)  # type: ignore
 
     tag: str = ""
 
@@ -83,11 +63,7 @@ class Inbound(BaseModel):
     )
 
     def to_json(self) -> dict[str, Any]:
-        """Converts the Inbound instance to a JSON-compatible dictionary for the XUI API.
-
-        Returns:
-            dict[str, Any]: The JSON-compatible dictionary.
-        """
+        """Converts the Inbound instance to a JSON-compatible dictionary for the XUI API.\n\n        Returns:\n            dict[str, Any]: The JSON-compatible dictionary.\n        """
 
         include = {
             InboundFields.REMARK,
